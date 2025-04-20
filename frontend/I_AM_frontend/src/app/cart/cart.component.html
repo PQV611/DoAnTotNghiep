@@ -1,0 +1,107 @@
+<div class="container">
+    <!-- method="post" action enctype="application/x-www-form-urlencoded" -->
+    <form class="frm_cart" id="frm_cart">
+        <div class="cartPage">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="cart-list">
+                        <h2 class="cart-title">
+                            Giỏ hàng của bạn 
+                            <b>
+                                <span class="cart-total"> 5</span> Sản Phẩm
+                            </b>
+                        </h2>
+                        <table class="cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>SẢN PHẨM</th>
+                                    <th>CHIẾT KHẤU</th>
+                                    <th>SỐ LƯỢNG</th>
+                                    <th>TỔNG TIỀN</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="cart_product_item">
+                                            <div class="cart_product_item_img">
+                                                <a href="#!">
+                                                    <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2025/03/28/97561bebaf6664520be747cb36f427c1.webp" alt="Mystic Veil Blouse - Áo sơ mi tay ngắn">
+                                                </a>
+                                            </div>
+                                            <div class="cart_product_item_content">
+                                                <a href="#!" style="text-decoration: none;">
+                                                    <h3 class="cart_product-item_title" style="font-size: 20px; width: 220px;">Mystic Veil Blouse - Áo sơ mi tay ngắn</h3>
+                                                </a>
+                                                <div class="cart_product_item_properties">
+                                                    <p>Màu sắc: <span> trắng</span></p>
+                                                    <p style="padding-left: 15px;">Size: <span>L</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart-sale-price">
+                                        <p style="color:#6c6d70">-1.600.000đ</p>
+                                        <p class="cart-sale-item" style="color: red; font-weight: bold;">(-50%)</p>
+                                    </td>
+                                    <td class="cot4">
+                                        <div class="product-detail_quantity-input">
+                                            <input type="number" [value]="quantity" min="0" title="tăng giảm" class="inputNumber">
+                                            <div class="product-detail_quantity-decrease" (click)="decrease()"> - </div>
+                                            <div class="product-detail_quantity-increase" (click)="increase()"> + </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="cart_product_item_price">
+                                            3.600.000đ
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#!" title="trash">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-4 cart-page_col-sumary">
+                    <div class="cart-sumary" id="cart-page-sumary">
+                        <div class="cart-summary_overview">
+                            <h3>Tổng tiền giỏ hàng</h3>
+                            <div class="cart-sumary_overview-item">
+                                <p>Tổng sản phẩm</p>
+                                <div class="total-product">3</div>
+                            </div>
+                            <div class="cart-sumary_overview-item">
+                                <p>Tổng tiền hàng</p>
+                                <div class="total-not-discount">7.000.000đ</div>
+                            </div>
+                            <div class="cart-sumary_overview-item">
+                                <p>Thành tiền</p>
+                                <p>
+                                    <b class="order-price-total">5.600.000đ</b>
+                                </p>
+                            </div>
+                            <div class="cart-sumary_overview-item"></div>
+                        </div>
+                        <div class="cart-sumary_note">
+                            <div class="left-inner-note">
+                                <i class="bi bi-exclamation-circle"></i>
+                            </div>
+                            <div class="content-inner-note">
+                                Sản phẩm nằm trong chương trình đồng giá, giảm giá trên 50% không hỗ trợ đổi trả
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-sumary-button">
+                        <a href="#!" class="btn btn--large">ĐẶT HÀNG</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

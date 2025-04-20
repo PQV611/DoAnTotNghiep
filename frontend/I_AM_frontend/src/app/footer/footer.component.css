@@ -18,3 +18,16 @@
 .icon h6 {
     padding: 10px;
 }
+
+.container{
+    margin-top: 50px;
+}
+
+.container ul {
+    list-style: none;
+}
+
+.container ul a {
+    text-decoration: none;
+    color: black
+}

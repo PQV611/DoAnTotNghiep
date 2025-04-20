@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-root',
@@ -11,5 +12,13 @@ export class AppComponent implements OnInit {
       $('#myButton').click(function() {
         alert('Bootstrap và jQuery đã hoạt động thành công!');
       });
+  }
+
+  isLoginPage: boolean = false;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(() => {
+      this.isLoginPage = this.router.url.includes('/login'); 
+    });
   }
 }

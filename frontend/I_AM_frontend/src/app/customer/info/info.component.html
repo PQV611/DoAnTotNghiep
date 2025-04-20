@@ -1,0 +1,220 @@
+<div class="container">
+    <div class="order-wrapper mt-40 my-account">
+        <div class="row">
+            <div class="col-lg-4 col-xl-auto">
+                <div class="order-sidemenu block-border">
+                    <div class="order-sidemenu_user">
+                        <div class="order-sidemenu_user-avatar">
+                            <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt>
+                        </div>
+                        <div class="order-sidemenu_user-name">
+                            <p>Phạm Quốc Việt</p>
+                        </div>
+                    </div>
+                    <div class="order-sidemenu_menu">
+                        <ul>
+                            <li class="active">
+                                <a href="#!">
+                                    <i class="bi bi-person"></i>&nbsp;Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!">
+                                    <i class="bi bi-arrow-repeat"></i>&nbsp;Quản lý đơn hàng
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!">
+                                    <i class="bi bi-heart"></i>&nbsp;Sản phẩm yêu thích
+                                </a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl">
+                <div class="order-block_title">
+                    <h2>TÀI KHOẢN CỦA TÔI</h2>
+                </div>
+                <div class="order-block myaccount-wrapper row">
+                    <div class="alert alert-primary">"Vì chính sách an toàn thẻ, bạn không thể thay đổi SĐT, Ngày sinh, Họ tên. Vui lòng liên hệ CSKH 0905898683 để được hỗ trợ"</div>
+                    <div class="col-md-7">
+                        <form action name="frm_register" method="post" enctype="application/x-www-form-urlencoded">
+                            <div class="row form-group">
+                                <div class="col col-label">
+                                    <label>Họ và tên</label>
+                                </div>
+                                <div class="col col-input">
+                                    <input type="text" class="form-control" value="Phạm Quốc Việt" disabled="disabled" title="HoTen">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-label">
+                                    <label>Ngày sinh</label>
+                                </div>
+                                <div class="col col-input">
+                                    <input type="text" class="form-control" value="06/11/2003" disabled="disabled" title="ngaysinh">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-label">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col col-input has-button">
+                                    <input type="text" class="form-control" value="quocviet@gmail.com" id="customer_email" disabled="disabled" name="customer_email" title="email">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-label">
+                                    <label>Số điện thoại</label>
+                                </div>
+                                <div class="col col-input has-button">
+                                    <input type="text" class="form-control" value="0123456789" id="customer_phone" disabled="disabled" title="SDT">
+                                </div>
+                            </div>
+                            <div class="row form-group form-radio-checkbox">
+                                <div class="col col-label">
+                                    <label>Giới tính</label>
+                                </div>
+                                <div class="col col-input">
+                                    <div class="row">
+                                        <div class="form-group col-12">
+                                            <label class="form-radio">
+                                                <input class="form-radio-input" type="radio" name="customer_sex" value="1" checked title="Nam">
+                                                <span class="form-radio-label">Nam</span>
+                                            </label>
+
+                                            <label class="form-radio" style="padding-left: 25px;">
+                                                <input class="form-radio-input" type="radio" name="customer_sex" value="0" title="Nu">
+                                                <span class="form-radio-label">Nữ</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-label">
+                                    <label>Địa chỉ</label>
+                                </div>
+                                <div class="col col-input">
+                                    <input type="text" class="form-control" value="Kim Thiều" id="customer_address" disabled="disabled" title="DiaChi">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-label"></div>
+                                <div class="col-12 col-input form-buttons">
+                                    <button class="btn btn--large" (click)="openEditModal()">Chỉnh sửa</button>
+                                    <a href="javascript:void(0)" class="btn btn--large btn--outline" (click)="openModal()">Đổi mật khẩu</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <p>Giá trị showModal: {{ showModal }}</p> -->
+
+<!-- Modal ĐỔI MẬT KHẨU -->
+<div *ngIf="showModal" class="custom-modal-overlay">
+    <div class="custom-modal">
+      <h3>Đổi mật khẩu</h3>
+  
+      <form (ngSubmit)="changePassword()" #passwordForm="ngForm">
+        <div>
+          <label>Mật khẩu hiện tại</label>
+          <input placeholder="Vui lòng nhập ..." type="password" name="currentPassword" [(ngModel)]="currentPassword" required>
+        </div>
+  
+        <div>
+          <label>Mật khẩu mới</label>
+          <input placeholder="Vui lòng nhập ..." type="password" name="newPassword" [(ngModel)]="newPassword" required>
+        </div>
+  
+        <div>
+          <label>Nhập lại mật khẩu mới</label>
+          <input placeholder="Vui lòng nhập ..." type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+        </div>
+  
+        <div class="modal-buttons">
+          <button type="submit">Xác nhận</button>
+          <button type="button" (click)="closeModal()">Hủy</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Modal CHỈNH SỬA -->
+  <div *ngIf="showEditModal" class="custom-modal-overlay">
+    <div class="custom-modal">
+      <h3>Chỉnh sửa thông tin cá nhân</h3>
+  
+      <form (ngSubmit)="saveChanges()" #editForm="ngForm">
+        <div>
+          <label>Họ và tên</label>
+          <input title="fullname" type="text" [(ngModel)]="editUser.fullName" name="fullName" required />
+        </div>
+  
+        <div>
+          <label>Ngày sinh</label>
+          <input title="birth" type="date" [(ngModel)]="editUser.birthDate" name="birthDate" required />
+        </div>
+  
+        <div>
+          <label>Email</label>
+          <input title="email" type="email" [(ngModel)]="editUser.email" name="email" required />
+        </div>
+  
+        <div>
+          <label>Số điện thoại</label>
+          <input title="numberphone" type="text" [(ngModel)]="editUser.phone" name="phone" required />
+        </div>
+  
+        <div class="form-group">
+            <label>Giới tính</label>
+            <div class="gender-options">
+              <label>
+                <input type="radio" [(ngModel)]="editUser.gender" name="gender" value="Nam" />
+                Nam
+              </label>
+              <label>
+                <input type="radio" [(ngModel)]="editUser.gender" name="gender" value="Nữ" />
+                Nữ
+              </label>
+            </div>
+          </div>
+  
+        <div>
+          <label>Địa chỉ</label>
+          <input title="address" type="text" [(ngModel)]="editUser.address" name="address" />
+        </div>
+
+        <div class="form-group">
+            <label>Ảnh đại diện</label>
+            <div style="display: flex; justify-content: space-around">
+                <div>
+                    <p><b>Ảnh ban đầu</b></p>
+                    <img th:src="'data:image/jpeg;base64,' + ${user.avatar}" style="width: 100px; height: 100px;" alt="avatar">
+                </div>
+                <div style="line-height: 130px">
+                    <i class="bi bi-arrow-left-right"></i>
+                </div>
+                <div>
+                    <p><b>Ảnh thay đổi</b></p>
+                    <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; width: 100px; height: 100px;"/>
+                </div>
+            </div>
+        </div>
+  
+        <div class="modal-buttons">
+          <button type="submit">Lưu</button>
+          <button type="button" (click)="closeEditModal()">Hủy</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
