@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="order-wrapper mt-40 my-account">
+        <div class="row">
+            <div class="col-lg-4 col-xl-auto">
+                <div class="order-sidemenu block-border">
+                    <div class="order-sidemenu_user">
+                        <div class="order-sidemenu_user-avatar">
+                            <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt>
+                        </div>
+                        <div class="order-sidemenu_user-name">
+                            <p>Phạm Quốc Việt</p>
+                        </div>
+                    </div>
+                    <div class="order-sidemenu_menu">
+                        <ul>
+                            <li >
+                                <a href="#!">
+                                    <i class="bi bi-person"></i>&nbsp;Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="#!">
+                                    <i class="bi bi-arrow-repeat"></i>&nbsp;Quản lý đơn hàng
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!">
+                                    <i class="bi bi-heart"></i>&nbsp;Sản phẩm yêu thích
+                                </a>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl col-account-content">
+                <div class="order-block__title">
+                    <h2>QUẢN LÝ ĐƠN HÀNG</h2>
+                    <div class="form-group">
+                        <label>Trạng thái đơn hàng:</label>
+                        <select title="selectabc" class="form-control rounded ng-pristine ng-untouched ng-valid ng-empty" >
+                            <option value selected="selected">Tất cả</option>
+                            <option value="tao_don_hang">Đặt hàng thành công</option>
+                            <option value="dang_phe_duyet">Chờ phê duyệt</option>
+                            <option value="giao_hang">Đang giao hàng</option>
+                            <option value="giao_hang_thanh_cong">Giao hàng thành công</option>
+                            <option value="da_huy">Đã hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="order-block">
+                    <div class="order-block__table">
+                        <thead>
+                            <tr>
+                                <th>MÃ ĐƠN HÀNG</th>
+                                <th>NGÀY</th>
+                                <th style="width: 210px;">TRẠNG THÁI</th>
+                                <th>SẢN PHẨM</th>
+                                <th>TỔNG TIỀN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="ng-scope">
+                                <td>
+                                    <a href="javascript:void(0)" class="ng-binding"> IVM8587019</a>
+                                </td>
+                                <td class="ng-binding">
+                                    03/04/2025 01:15:23
+                                </td>
+                                <td>
+                                    <div class="order__status">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                        <span class="ng-binding">Giao hàng thành công</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="ng-binding ng-scope">1x Đầm lụa phối bèo - xếp ly, Trắng</p>
+                                    <p class="ng-binding ng-scope">1x Butterfly Flare Dress - Đầm lụa họa tiết, Họa tiết Xanh tím </p>
+                                </td>
+                                <td class="price ng-binding">1,495,000 ₫</td>
+                            </tr>
+                        </tbody>
+                    </div>
+                    <div class="product-rating__list-pagination">
+                        <ul class="list-inline-pagination">
+                            <!-- dùng ng-repeat="item in pages" -->
+                            <li class="ng-scope">
+                                <!-- dùng ng-class="item.id == page? 'current' : ''" và ng-click="pages_click(item.id)" -->
+                                <a href="javascript:void(0)" class="ng-binding current">1</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  

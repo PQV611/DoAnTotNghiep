@@ -1,1 +1,1153 @@
-<p>homepage works!</p>
+<!-- Banner -->
+<div class="slide-show">
+  <div class="list-image" #slider>
+    <img #image src="assets/images/banner1.webp" alt="" />
+    <img src="assets/images/banner2.webp" alt="" />
+    <img src="assets/images/banner3.webp" alt="" />
+    <img src="assets/images/banner4.webp" alt="" />
+  </div>
+
+  <div class="btns">
+    <div class="btn-left btn" (click)="handlePrev()">
+      <i class="bi bi-arrow-left"></i>
+    </div>
+    <div class="btn-right btn" (click)="handleNext()">
+      <i class="bi bi-arrow-right"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="home-new-prod">
+  <div class="title-section">SẢN PHẨM MỚI</div>
+  <div class="exclusive-tabs">
+    <div class="exclusive-head">
+      <ul>
+        <li class="exclusive-tab arrival-tab" [class.active]="activeTab === 'women'" (click)="showTab('women')">IAM Women</li>
+        <li class="exclusive-tab arrival-tab" [class.active]="activeTab === 'men'" (click)="showTab('men')">IAM Men</li>
+      </ul>
+    </div>
+    <div class="exclusive-content">
+      <div class="exclusive-inner" id="tab-women" [class.active]="activeTab === 'women'" (click)="showTab('women')">
+        <div class="list-products new-prod-slider owl-carousel owl-loaded" [class.owl-hidden]="activeTab !== 'women'">
+          <div class="owl-stage-outer">
+            <div class="owl-stage" #productSliderWomen style="display: flex; transition: transform 0.5s; width: 2760px;">
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/vay_test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="owl-nav">
+            <div class="owl-prev" [class.disabled]="currentIndex === 0" (click)="scrollPrev()">
+              <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="owl-next" [class.disabled]="currentIndex + visibleCount >= totalItems" (click)="scrollNext()">
+              <i class="bi bi-arrow-right"></i>
+            </div>
+          </div>
+          <div class="owl-dots disabled"></div>
+        </div>
+        <div class="link-product">
+          <a href="javascript:void(0)" class="all-product">Xem tất cả</a>
+        </div>
+      </div>
+      <div class="exclusive-inner" id="tab-men" [class.active]="activeTab === 'men'" (click)="showTab('men')">
+        <div class="list-products new-prod-slider owl-carousel owl-loaded owl-hidden" [class.owl-hidden]="activeTab !== 'men'">
+          <div class="owl-stage-outer">
+            <div class="owl-stage" #productSliderMen style="display: flex; transition: transform 0.5s; width: 2760px;">
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test2.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/vay_test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item active" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="owl-item" style="width: 236px; margin-right: 30px;">
+                <div class="item-new-prod">
+                  <div class="product">
+                    <div class="info-ticket ticket-news">NEW</div>
+                    <div class="thumb-product">
+                      <a href="javascript:void(0)">
+                        <img class="owl-lazy" alt="test" style="opacity: 1;" src="../../assets/images/homepage-test.webp">
+
+                        <img alt="test" src="../../assets/images/homepage-test2.webp" class="hover-img owl-lazy" style="opacity: 1;">
+                      </a>
+                    </div>
+                    <div class="info-product">
+                      <div class="list-color">
+                        <!-- <ul></ul> -->
+                      </div>
+                      <div class="name-product">
+                        <h3 class="title-product">
+                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                        </h3>
+                        <!-- (click)="toggleFavorite()" -->
+                        <div class="favourite" (click)="toggleFavorite()">
+                          <!-- [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" -->
+                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                        </div>
+                      </div>
+                      <div class="price-product">
+                        <ins>
+                            <span>209.700đ</span>
+                        </ins>
+                      </div>
+                    </div>
+                    <div class="add-to-cart" (click)="toggleSizeList()">
+                      <a href="javascript:void(0)">
+                          <i class="bi bi-bag"></i>
+                      </a>
+                    </div>
+                    <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
+                      <label>Màu sắc</label>
+                      <div class="list-color" style="display: flex;">
+                          <p>Đỏ</p>
+                          <p>Đen</p>
+                          <p>Xanh</p>
+                      </div>
+                      <label>Kích cỡ</label>
+                      <div class="size" style="display: flex;">
+                          <p>S</p>
+                          <p>X</p>
+                          <p>M</p>
+                          <p>L</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="owl-nav">
+            <div class="owl-prev" [class.disabled]="currentIndex === 0" (click)="scrollPrev2()">
+              <i class="bi bi-arrow-left"></i>
+            </div>
+            <div class="owl-next" [class.disabled]="currentIndex + visibleCount >= totalItems" (click)="scrollNext2()">
+              <i class="bi bi-arrow-right"></i>
+            </div>
+          </div>
+          <div class="owl-dots disabled"></div>
+        </div>
+        <div class="link-product">
+          <a href="javascript:void(0)" class="all-product">Xem tất cả</a>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>

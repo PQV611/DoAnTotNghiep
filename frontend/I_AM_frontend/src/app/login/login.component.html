@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | Đăng ký</title>
+    <link rel="stylesheet" href="./login.component.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form>
+                <h1>Tạo tài khoản</h1>
+                <!-- <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div> -->
+                <!-- <span>or use your email for registeration</span> -->
+                <input type="text" placeholder="Họ và tên">
+                <!-- <input type="date" placeholder="Ngày sinh"> -->
+                <!-- <div class="form-group">
+                    <div class="gender-options">
+                        <input type="radio" id="male" name="gender" value="Nam">
+                        <label for="male">Nam</label>
+                
+                        <input type="radio" id="female" name="gender" value="Nữ">
+                        <label for="female">Nữ</label>
+                    </div>
+                </div> -->
+                <input type="text" placeholder="Tên đăng nhập">
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Mật khẩu">
+                <input type="password" placeholder="Xác nhận mật khẩu">
+                <button>Đăng ký</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form>
+                <h1>Đăng nhập</h1>
+                <!-- <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div> -->
+                <!-- <span>or use your email password</span> -->
+                <input type="text" placeholder="Tên đăng nhập">
+                <input type="password" placeholder="Mật khẩu">
+                <a href="#">Quên mật khẩu?</a>
+                <button>Đăng nhập</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Chào mừng đã quay lại!</h1>
+                    <p>Hãy đăng nhập để sử dụng các chức năng của chúng tôi.</p>
+                    <button class="hidden" id="login">Đăng nhập</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Xin chào!</h1>
+                    <p>Hãy đăng ký bằng thông tin cá nhân của bạn để sử dụng các tính năng của chúng tôi.</p>
+                    <button class="hidden" id="register">Đăng ký</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="./app/login/loginScript.js"></script> -->
+
+</body>
+</html>
