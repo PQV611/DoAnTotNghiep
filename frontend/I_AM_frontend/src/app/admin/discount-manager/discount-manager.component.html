@@ -1,0 +1,96 @@
+<div class="discount">
+  <h2>Quản lý mã giảm giá</h2>
+
+  <!-- Bộ lọc + tìm kiếm -->
+  <div class="discount-controls">
+    <input
+      type="text"
+      placeholder="Tìm theo mã sản phẩm hoặc tên sản phẩm..."
+      [(ngModel)]="searchTerm"
+    />
+
+    <select title="123" [(ngModel)]="selectedStatus">
+      <option value="all">Tất cả trạng thái</option>
+      <option value="valid">Còn hiệu lực</option>
+      <option value="expired">Hết hạn</option>
+    </select>
+
+    <button class="btn btn-add" (click)="openAddModal()">Thêm mới mã giảm giá</button>
+  </div>
+
+  <!-- Bảng -->
+  <table class="discount-table">
+    <thead>
+      <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên sản phẩm</th>
+        <th>Mã giảm giá</th>
+        <th>Ngày hết hạn</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredDiscounts">
+        <td>{{ item.productId }}</td>
+        <td>{{ item.productName }}</td>
+        <td>{{ item.discountCode || '0' }}</td>
+        <td>{{ item.toDate }}</td>
+        <td>
+          <span [ngClass]="getStatusClass(item)">
+            {{ getStatus(item) }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-edit" (click)="editDiscount(item)">Sửa</button>
+          <button class="btn btn-delete" (click)="confirmRemoveDiscount(item)">Xoá</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal thêm/sửa -->
+  <div class="modal-overlay" *ngIf="isModalOpen">
+    <div class="modal">
+      <h3>{{ modalMode === 'add' ? 'Thêm mã giảm giá' : 'Sửa mã giảm giá' }}</h3>
+
+      <input type="text"
+        [(ngModel)]="modalProductId"
+        placeholder="Mã sản phẩm"
+        [readonly]="modalMode === 'edit'" />
+    <div *ngIf="errors.productId" class="error" style="color: red;">{{ errors.productId }}</div>
+
+
+      <!-- <input type="text" [(ngModel)]="modalProductName" placeholder="Tên sản phẩm" />
+      <div *ngIf="errors.productName" class="error" style="color: red;">{{ errors.productName }}</div> -->
+
+      <input type="text" [(ngModel)]="modalDiscountCode" placeholder="Mã giảm giá" />
+      <div *ngIf="errors.discountCode" class="error" style="color: red;">{{ errors.discountCode }}</div>
+
+      <label>Ngày hết hạn:
+        <input type="date" [(ngModel)]="modalToDate" />
+      </label>
+      <div *ngIf="errors.toDate" class="error" style="color: red;">{{ errors.toDate }}</div>
+
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="saveDiscount()">Lưu</button>
+        <button class="btn btn-cancel" (click)="closeModal()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal xoá -->
+  <div class="modal-overlay" *ngIf="isDeleteModalOpen">
+    <div class="modal">
+      <h3>Xác nhận xoá mã giảm giá</h3>
+      <p>
+        Bạn có chắc muốn xoá mã giảm giá cho sản phẩm
+        <strong>{{ itemToDelete?.productName }}</strong> không?
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="removeDiscount()">Đồng ý</button>
+        <button class="btn btn-cancel" (click)="cancelRemoveDiscount()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,8 +4,14 @@
             <div class="col-md-6">
                 <div class="image-wrapper d-flex">
                     <!-- Ảnh chính -->
-                    <div class="main-image">
-                        <img [src]="mainImage" alt="Main Product" />
+                    <div class="main-image zoom-container"
+                    (mousemove)="onMouseMove($event)"
+                    (mouseleave)="onMouseLeave()"
+                    [style.background-image]="'url(' + mainImage + ')'"
+                    [style.background-size]="backgroundSize"
+                    [style.background-position]="backgroundPosition"
+                    >
+                        <img [src]="mainImage" alt="Main Product" class="zoom-hidden-img"/>
                     </div>
                     <!-- Ảnh con (thumbnail) -->
                     <div class="thumb-images me-3">

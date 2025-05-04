@@ -1,0 +1,102 @@
+<div class="order-manager">
+    <h2>Quản lý đơn hàng</h2>
+  
+    <!-- Filter ngày -->
+    <div class="date-filter">
+      <label>Từ ngày: <input type="date" [(ngModel)]="fromDate" /></label>
+      <label>Đến ngày: <input type="date" [(ngModel)]="toDate" /></label>
+    </div>
+  
+    <!-- Tabs trạng thái -->
+    <ul class="order-tabs">
+      <li [class.active]="activeTab === 'pending'" (click)="changeTab('pending')">
+        Chờ phê duyệt <span *ngIf="countPendding > 0">({{ countPendding }})</span>
+      </li>
+      <li [class.active]="activeTab === 'shipping'" (click)="changeTab('shipping')">
+        Đang giao hàng <span *ngIf="countShipping > 0">({{ countShipping }})</span>
+      </li>
+      <li [class.active]="activeTab === 'completed'" (click)="changeTab('completed')">
+        Hoàn thành <span *ngIf="countCompleted > 0">({{ countCompleted }})</span>
+      </li>
+      <li [class.active]="activeTab === 'cancelled'" (click)="changeTab('cancelled')">
+        Đã huỷ
+      </li>
+    </ul>
+  
+    <!-- Bảng danh sách đơn hàng -->
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>Mã đơn</th>
+          <th>Mã KH</th>
+          <th>Chi tiết</th>
+          <th>Địa chỉ</th>
+          <th>Tổng tiền</th>
+          <th>Phương thức</th>
+          <th>Ngày tạo</th>
+          <th>Trạng thái</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of filteredOrders">
+          <td>{{ order.id }}</td>
+          <td>{{ order.customerId }}</td>
+          <td><i class="bi bi-eye-fill" style="cursor: pointer;" (click)="viewDetail(order)"></i></td>
+          <td>{{ order.address }}</td>
+          <td>{{ order.total | number }}đ</td>
+          <td>{{ order.method }}</td>
+          <td>{{ order.createdAt }}</td>
+          <td>
+            <span [ngClass]="{ 'text-danger': order.status === 'pending' || order.status === 'cancelled', 'text-success': order.status === 'shipping' || order.status === 'completed' }">
+                {{ order.statusText }}
+              </span>
+          </td>
+          <td>
+            <ng-container [ngSwitch]="order.status">
+              <ng-container *ngSwitchCase="'pending'">
+                <button (click)="approveOrder(order)" class="btn btn-success">Phê duyệt</button>
+                &nbsp;
+                <button (click)="rejectOrder(order)" class="btn btn-danger">Không phê duyệt</button>
+              </ng-container>
+              <ng-container *ngSwitchCase="'shipping'">
+                <button (click)="markAsDelivered(order)" class="btn btn-success">Giao thành công</button>
+              </ng-container>
+              <ng-container *ngSwitchDefault> - </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Modal xem chi tiết -->
+<div class="modal-overlay" *ngIf="isDetailModalOpen">
+    <div class="modal modal-large">
+      <h3>Chi tiết đơn hàng - {{ selectedOrder?.id }}</h3>
+  
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th>Ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of selectedOrder?.products">
+            <td><img title="123" [src]="item.imageUrl" width="80" height="100" /></td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price | number }}đ</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="modal-actions">
+        <button class="btn btn-cancel" (click)="closeDetailModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+  
+  

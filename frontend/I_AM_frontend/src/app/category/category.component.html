@@ -1,0 +1,132 @@
+<div class="container">
+    <form name="frm_cat" id="frm_cat" enctype="application/x-www-form-urlencoded" method="get" action data-slug="">
+        <div class="row" id="products">
+            <div class="container">
+                <section class="section-list-products">
+                    <div class="box-products d-flex">
+                        <div class="sidebar-prod sidebar-prod-pc">
+                            <div class="filter-by-side">
+                                <ul class="list-side">
+                                    <li class="item-side item-side-size">
+                                        <p class="item-side-title " (click)="toggleSizeDisplay()">
+                                            Size <span class="bi bi-plus"></span>
+                                        </p>
+                                        <div class="sub-list-side" [ngClass]="{ 'show': isSizeVisible, 'hide': !isSizeVisible }">
+                                            <label class="item-sub-list po-relative" *ngFor="let size of sizeList">
+                                              <span class="item-sub-title item-sub-pr">{{ size }}</span>
+                                            </label>
+                                        </div>
+                                          
+                                    </li>
+                                    <li class="item-side item-side-color">
+                                        <p class="item-side-title " (click)="toggleColorDisplay()">
+                                            Color <span class="bi bi-plus"></span>
+                                        </p>
+                                        <div class="sub-list-side" [ngClass]="{ 'showColor': isColorVisible, 'hideColor': !isColorVisible }">
+                                            <label class="item-sub-list po-relative" *ngFor="let color of colorList">
+                                                <!-- item-sub-title item-sub-pr -->
+                                              <span class="color-circle" [style.background-color]="color" (click)="selectColor(color)">
+                                                <span *ngIf="selectedColor === color" class="tick-mark"><i class="bi bi-check-lg"></i></span>
+                                              </span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="item-side item-side-price">
+                                        <p class="item-side-title" (click)="togglePriceDisplay()">
+                                            Mức giá <span class="bi bi-plus"></span>
+                                        </p>
+                                      
+                                        <div class="sub-list-side" [ngClass]="{ 'showPrice': isPriceVisible, 'hidePrice': !isPriceVisible }">
+                                            <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
+                                                <div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 0%; width: 100%;"></div>
+                                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 0%;"></span>
+                                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 100%;"></span>
+                                            </div>
+                                            <div class="value-range">
+                                                <input type="hidden" name="product_price_from">
+                                                <input type="hidden" name="product_price_to">   
+                                                <div id="amout-from">0đ</div>
+                                                <div id="amout-to">10.000.000đ</div>
+                                            </div>
+                                        </div>
+                                    </li> 
+                                </ul>
+                                <div class="col-md-12 p-0" style="margin-top: 30px;">
+                                    <div class="row m-0 p-0">
+                                        
+                                        <div class="col-6">
+                                            <button type="button" class="btn btn--large but_filter_product" style="font-size: 13px; padding: 10px 20px;">Lọc</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-prod">
+                            <h1 class="sub-title-main">Áo sơ mi nữ</h1>
+                            <div class="sub-main-prod">
+                                <div class="list-products list-products-cat d-flex">
+                                    <div class="item-cat-product">
+                                        <div class="product">
+                                            <span class="badget">
+                                                -20 <span>%</span>
+                                            </span>
+                                            <div class="thumb-product">
+                                                <a href="javascript:void(0)">
+                                                    <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Leafline Muse - Áo sơ mi lụa cổ V" class="lazy">
+                                                    <img data-original="" alt="Leafline Muse - Áo sơ mi lụa cổ V" class="hover-img lazy" src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" style="display: block;">
+                                                </a>
+                                            </div>
+                                            <div class="info-product">
+                                                <div class="name-product">
+                                                    <h3 class="title-product">
+                                                        <a href="https://ivymoda.com/sanpham/leafline-muse-ao-so-mi-lua-co-v-ms-16b0154-42380">Leafline Muse - Áo sơ mi lụa cổ V</a>
+                                                    </h3>
+                                                    <div class="favourite" data-id="42380">
+                                                        <span class="bi bi-heart"></span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="price-product">
+                                                    <ins>
+                                                        <span>760.000đ</span>
+                                                    </ins>
+                                                    <del>
+                                                        <span>950.000đ</span>
+                                                    </del>
+                                                </div>
+                                            </div>
+                                            <div class="add-to-cart">
+                                                <a href="javascript:void(0)" (click)="toggleSizeListClick()">
+                                                    <span class="bi bi-bag"></span>
+                                                </a>
+                                            </div>
+                                            <div class="list-size" [ngClass]="{ 'open': isSizeListOpenClick }" *ngIf="isSizeListOpenClick">
+                                                <label>Màu sắc</label>
+                                                <div class="list-color" style="display: flex;">
+                                                    <p>Đỏ</p>
+                                                    <p>Đen</p>
+                                                    <p>Xanh</p>
+                                                </div>
+                                                <label>Kích cỡ</label>
+                                                <div class="size" style="display: flex;">
+                                                    <p>S</p>
+                                                    <p>X</p>
+                                                    <p>M</p>
+                                                    <p>L</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-inline-pagination">
+                                    còn phân trang
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-prod ml-auto mt-5"></div>
+                </section>
+            </div>
+        </div>
+    </form>
+</div>

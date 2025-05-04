@@ -15,6 +15,14 @@ import { OrderManageComponent } from './customer/order-manage/order-manage.compo
 import { FavouriteProductComponent } from './customer/favourite-product/favourite-product.component';
 import { DetailProductComponent } from './customer/detail-product/detail-product.component';
 import { DetailOrderComponent } from './customer/detail-order/detail-order.component';
+import { CategoryComponent } from './category/category.component';
+import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
+import { CategoryManagerComponent } from './admin/category-manager/category-manager.component';
+import { ProductManagerComponent } from './admin/product-manager/product-manager.component';
+import { DiscountManagerComponent } from './admin/discount-manager/discount-manager.component';
+import { OrderComponent } from './admin/order/order.component';
+import { AccountComponent } from './admin/account/account.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +36,15 @@ import { DetailOrderComponent } from './customer/detail-order/detail-order.compo
     OrderManageComponent,
     FavouriteProductComponent,
     DetailProductComponent,
-    DetailOrderComponent
+    DetailOrderComponent,
+    CategoryComponent,
+    AdminLayoutComponent,
+    CategoryManagerComponent,
+    ProductManagerComponent,
+    DiscountManagerComponent,
+    OrderComponent,
+    AccountComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

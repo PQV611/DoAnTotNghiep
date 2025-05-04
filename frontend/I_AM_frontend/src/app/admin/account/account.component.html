@@ -1,0 +1,130 @@
+<div class="account-manager">
+    <h2>Quản lý tài khoản</h2>
+  
+    <div class="account-controls">
+      <input type="text" placeholder="Tìm theo họ tên hoặc tên tài khoản..." [(ngModel)]="searchTerm" />
+  
+      <select title="123" [(ngModel)]="selectedRole">
+        <option value="">Tất cả quyền</option>
+        <option value="admin">Quản trị viên</option>
+        <option value="staff">Nhân viên</option>
+        <option value="user">Người dùng</option>
+      </select>
+  
+      <button class="btn btn-add" (click)="openAddModal()">Thêm tài khoản</button>
+    </div>
+  
+    <table class="account-table">
+      <thead>
+        <tr>
+          <th>Mã TK</th>
+          <th>Họ tên</th>
+          <th>Email</th>
+          <th>Tên đăng nhập</th>
+          <th>Ngày tạo</th>
+          <th>Quyền hạn</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let account of filteredAccounts">
+          <td>{{ account.id }}</td>
+          <td>{{ account.fullName }}</td>
+          <td>{{ account.email }}</td>
+          <td>{{ account.username }}</td>
+          <td>{{ account.createdAt }}</td>
+          <td>{{ account.role }}</td>
+          <td>
+            <button class="btn btn-edit" (click)="editAccount(account)"><i class="bi bi-pencil-square"></i> Sửa</button>
+            &nbsp;
+            <button class="btn btn-delete" (click)="confirmDelete(account)"><i class="bi bi-trash3"></i> Xoá</button>
+            &nbsp;
+            <button class="btn btn-password" (click)="openChangePasswordModal(account)"><i class="bi bi-wrench-adjustable-circle"></i> Đổi mật khẩu</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+<!-- Modal Thêm/Sửa tài khoản -->
+<div class="modal-overlay" *ngIf="isModalOpen">
+    <div class="modal">
+      <h3>{{ isEditMode ? 'Chỉnh sửa tài khoản' : 'Thêm tài khoản mới' }}</h3>
+  
+      <input type="text" [(ngModel)]="modalFullName" placeholder="Họ tên">
+      <div class="error" *ngIf="errors.fullName">{{ errors.fullName }}</div>
+  
+      <input type="email" [(ngModel)]="modalEmail" placeholder="Email" [readonly]="isEditMode">
+    <div class="error" *ngIf="errors.email">{{ errors.email }}</div>
+
+    <input type="text" [(ngModel)]="modalUsername" placeholder="Tên đăng nhập" [readonly]="isEditMode">
+    <div class="error" *ngIf="errors.username">{{ errors.username }}</div>
+  
+      <input *ngIf="!isEditMode" type="password" [(ngModel)]="modalPassword" placeholder="Mật khẩu">
+      <div class="error" *ngIf="!isEditMode && errors.password">{{ errors.password }}</div>
+  
+      <input *ngIf="!isEditMode" type="password" [(ngModel)]="modalConfirmPassword" placeholder="Nhập lại mật khẩu">
+      <div class="error" *ngIf="!isEditMode && errors.confirm">{{ errors.confirm }}</div>
+  
+      <!-- Khi sửa tài khoản -->
+      <div *ngIf="isEditMode">
+        <select title="123" [(ngModel)]="modalRole">
+          <option value="admin">Quản trị viên</option>
+          <option value="staff">Nhân viên</option>
+          <option value="user">Người dùng</option>
+        </select>
+        <div class="error" *ngIf="errors.role">{{ errors.role }}</div>
+  
+        <!-- <input type="password" [(ngModel)]="oldPassword" placeholder="Mật khẩu cũ">
+        <div class="error" *ngIf="errors.oldPassword">{{ errors.oldPassword }}</div>
+  
+        <input type="password" [(ngModel)]="newPassword" placeholder="Mật khẩu mới">
+        <div class="error" *ngIf="errors.newPassword">{{ errors.newPassword }}</div>
+  
+        <input type="password" [(ngModel)]="confirmNewPassword" placeholder="Nhập lại mật khẩu mới">
+        <div class="error" *ngIf="errors.confirmNewPassword">{{ errors.confirmNewPassword }}</div> -->
+      </div>
+  
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="saveAccount()">Lưu</button>
+        <button class="btn btn-cancel" (click)="closeModal()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal xoá -->
+<div class="modal-overlay" *ngIf="isDeleteModalOpen">
+    <div class="modal">
+      <h3>Xác nhận xoá tài khoản</h3>
+      <p>
+        Bạn có chắc chắn muốn xoá tài khoản
+        <strong>{{ accountToDelete?.fullName }}</strong> ({{ accountToDelete?.username }}) không?
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="deleteAccount()">Đồng ý</button>
+        <button class="btn btn-cancel" (click)="cancelDelete()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Modal Đổi mật khẩu -->
+<div class="modal-overlay" *ngIf="isChangePasswordModalOpen">
+    <div class="modal">
+      <h3>Đổi mật khẩu cho {{ accountToChangePassword?.username }}</h3>
+  
+      <input type="password" [(ngModel)]="newPassword" placeholder="Mật khẩu mới">
+      <div class="error" *ngIf="changePasswordErrors.newPassword">{{ changePasswordErrors.newPassword }}</div>
+  
+      <input type="password" [(ngModel)]="confirmNewPassword" placeholder="Nhập lại mật khẩu">
+      <div class="error" *ngIf="changePasswordErrors.confirm">{{ changePasswordErrors.confirm }}</div>
+  
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="changePassword()">Lưu</button>
+        <button class="btn btn-cancel" (click)="isChangePasswordModalOpen = false">Huỷ</button>
+      </div>
+    </div>
+  </div>
+  
+  

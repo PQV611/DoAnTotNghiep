@@ -367,3 +367,25 @@ input[type=text], input[type=email], input[type=tel], input[type=password], inpu
     border: 1px solid #221f20;
     color: #221f20;
 }
+
+/* ZOOM IN */
+
+.main-image {
+    position: relative;
+    overflow: hidden;
+    width: 498px;
+    height: 700px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(28, 204, 119, 0.1);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    cursor: crosshair;
+  }
+  
+  .zoom-hidden-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0; /* Ẩn img đi nhưng giữ layout */
+  }

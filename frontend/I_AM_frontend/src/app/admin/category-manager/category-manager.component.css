@@ -1,0 +1,111 @@
+.category {
+    background-color: white;
+    padding: 15px 25px;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .category-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  input[type="text"] {
+    padding: 8px;
+    width: 40%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-add {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .btn-edit {
+    background-color: #007bff;
+    color: white;
+    margin-right: 5px;
+  }
+  
+  .btn-delete {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .category-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .category-table th,
+  .category-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  /* Modal styles */
+  .modal-overlay {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2 !important; /* rất cao để đảm bảo nổi trên layout */
+  }
+  
+  .modal {
+    display: block !important;
+    background-color: white !important;
+    color: black !important;
+    width: 400px !important;
+    height: auto;
+    padding: 20px !important;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 3 !important;
+    position: relative;
+  }
+  
+  .modal h3 {
+    margin-top: 0;
+  }
+  
+  .modal input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .modal-actions {
+    text-align: right;
+  }
+  
+  .btn-save {
+    background-color: #28a745;
+    color: white;
+    margin-right: 5px;
+  }
+  
+  .btn-cancel {
+    background-color: #ccc;
+  }
+  
