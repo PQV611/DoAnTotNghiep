@@ -15,10 +15,13 @@ export class AppComponent implements OnInit {
   }
 
   isLoginPage: boolean = false;
+  isAdminPage: boolean = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(() => {
-      this.isLoginPage = this.router.url.includes('/login'); 
+      // this.isLoginPage = this.router.url.includes('/login'); 
+      this.isLoginPage = this.router.url.startsWith('/login');
+      this.isAdminPage = this.router.url.startsWith('/admin');
     });
   }
 }

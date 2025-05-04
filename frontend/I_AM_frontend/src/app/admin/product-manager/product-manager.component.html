@@ -1,0 +1,101 @@
+<div class="product-manager">
+    <h2>Quản lý sản phẩm</h2>
+  
+    <div class="product-controls">
+      <input type="text" placeholder="Tìm theo mã hoặc tên sản phẩm..." [(ngModel)]="searchTerm" />
+  
+      <select title="filter" [(ngModel)]="selectedFilter">
+        <option value="all">Tất cả</option>
+        <option value="top-rated">Sản phẩm nhiều sao nhất</option>
+        <option value="best-seller">Sản phẩm bán chạy nhất</option>
+      </select>
+  
+      <button class="btn btn-add" (click)="openAddModal()">Thêm mới sản phẩm</button>
+    </div>
+  
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Mã SP</th>
+          <th>Tên sản phẩm</th>
+          <th>Mô tả</th>
+          <th>Số lượng</th>
+          <th>Đã bán</th>
+          <th>Chất lượng</th>
+          <th>Giá &nbsp; <i class="bi bi-arrow-down-up" (click)="togglePriceSort()" style="cursor: pointer;"></i></th>
+          <th>Hình ảnh</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of filteredProducts">
+          <td>{{ product.productId }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.sold }}</td>
+          <td>{{ product.rating }} ★</td>
+          <td>{{ product.price | number }}đ</td>
+          <td><img title="image" [src]="product.imageUrl" width="100" height="150" /></td>
+          <td>
+            <button class="btn btn-edit" (click)="editProduct(product)"><i class="bi bi-pencil-square"></i> Sửa</button>
+            &nbsp;
+            <button class="btn btn-delete" (click)="confirmDelete(product)"><i class="bi bi-trash3"></i> Xoá</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Modal Thêm Sản phẩm -->
+  <div class="modal-overlay" *ngIf="isModalOpen">
+    <div class="modal">
+        <h3>{{ isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới' }}</h3>
+  
+      <input type="text" [(ngModel)]="modalName" placeholder="Tên sản phẩm" />
+      <div *ngIf="errors.name" class="error">{{ errors.name }}</div>
+  
+      <textarea [(ngModel)]="modalDescription" placeholder="Mô tả sản phẩm"></textarea>
+      <div *ngIf="errors.description" class="error">{{ errors.description }}</div>
+  
+      <input type="number" [(ngModel)]="modalQuantity" placeholder="Số lượng" />
+      <div *ngIf="errors.quantity" class="error">{{ errors.quantity }}</div>
+  
+      <input type="number" [(ngModel)]="modalPrice" placeholder="Giá" />
+      <div *ngIf="errors.price" class="error">{{ errors.price }}</div>
+  
+      <select title="select" [(ngModel)]="modalCategoryId">
+        <option value="">Chọn loại sản phẩm</option>
+        <option *ngFor="let cat of categoryList" [value]="cat.id">{{ cat.name }}</option>
+      </select>
+      <div *ngIf="errors.categoryId" class="error">{{ errors.categoryId }}</div>
+  
+      <input title="input" type="file" multiple (change)="onFileSelect($event)" accept="image/*" />
+      <div *ngIf="errors.images" class="error">{{ errors.images }}</div>
+      <p *ngIf="selectedImages.length > 0">Đã chọn {{ selectedImages.length }} ảnh</p>
+  
+      <div class="image-preview">
+        <div class="preview-box" *ngFor="let img of selectedImages">
+          <img title="image" [src]="getImagePreview(img)" width="80" height="120" />
+        </div>
+      </div>
+  
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="saveProduct()">Lưu</button>
+        <button class="btn btn-cancel" (click)="closeModal()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Xoá sản phẩm -->
+<div class="modal-overlay" *ngIf="isDeleteModalOpen">
+    <div class="modal">
+      <h3>Xác nhận xoá sản phẩm</h3>
+      <p>Bạn có chắc muốn xoá sản phẩm <strong>{{ productToDelete?.name }}</strong> không?</p>
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="deleteProduct()">Đồng ý</button>
+        <button class="btn btn-cancel" (click)="cancelDelete()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,64 @@
+<div class="category">
+    <h2>Quản lý danh mục</h2>
+
+    <div class="category-controls">
+        <button class="btn btn-add" (click)="addCategory()">Thêm mới</button>
+        <input type="text" placeholder="Tìm kiếm..." [(ngModel)]="searchTerm">
+    </div>
+
+    <table class="category-table">
+    <thead>
+        <tr>
+        <th>Mã danh mục</th>
+        <th>Tên danh mục</th>
+        <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let category of filteredCategories">
+        <td>{{ category.id }}</td>
+        <td>{{ category.name }}</td>
+        <td>
+            <button class="btn btn-edit" (click)="editCategory(category.id)">
+                <i class="bi bi-pencil-square"></i> Sửa
+            </button>
+            <button class="btn btn-delete" (click)="confirmDelete(category.id)">
+                <i class="bi bi-trash3"></i> Xoá
+            </button>
+        </td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+<!-- Modal chung -->
+<div class="modal-overlay" *ngIf="isModalOpen">
+    <div class="modal">
+      <h3>{{ modalMode === 'add' ? 'Thêm danh mục' : 'Sửa danh mục' }}</h3>
+      
+      <input type="text" [(ngModel)]="modalCategoryName" placeholder="Tên danh mục...">
+  
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="saveCategory()">Lưu</button>
+        <button class="btn btn-cancel" (click)="closeModal()">Huỷ</button>
+      </div>
+    </div>
+</div>
+
+<!-- Modal xác nhận xoá -->
+<div class="modal-overlay" *ngIf="isDeleteModalOpen">
+    <div class="modal">
+      <h3>Xác nhận xoá</h3>
+      <p>Bạn có chắc muốn xoá danh mục này không?</p>
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="deleteCategory2()">Xác nhận</button>
+        <button class="btn btn-cancel" (click)="cancelDelete()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Debug - xem modal có render không -->
+<!-- <p *ngIf="isModalOpen" style="position: fixed; top: 10px; right: 10px; background: red; color: white; z-index: 99999;">MODAL ĐANG MỞ</p> -->
+
+  

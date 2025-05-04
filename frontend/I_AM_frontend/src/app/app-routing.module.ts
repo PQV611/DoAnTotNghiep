@@ -8,6 +8,14 @@ import { OrderManageComponent } from './customer/order-manage/order-manage.compo
 import { FavouriteProductComponent } from './customer/favourite-product/favourite-product.component';
 import { DetailProductComponent } from './customer/detail-product/detail-product.component';
 import { DetailOrderComponent } from './customer/detail-order/detail-order.component';
+import { CategoryComponent } from './category/category.component';
+import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
+import { CategoryManagerComponent } from './admin/category-manager/category-manager.component';
+import { ProductManagerComponent } from './admin/product-manager/product-manager.component';
+import { DiscountManagerComponent } from './admin/discount-manager/discount-manager.component';
+import { AccountComponent } from './admin/account/account.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { OrderComponent } from './admin/order/order.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: 'homepage', pathMatch: 'full'},
@@ -18,8 +26,20 @@ const routes: Routes = [
   {path: 'customer/order_manage', component: OrderManageComponent},
   {path: 'customer/favourite_product', component: FavouriteProductComponent},
   {path: 'customer/detailProduct', component: DetailProductComponent},
-  {path: 'customer/detailOrder', component:DetailOrderComponent}
+  {path: 'customer/detailOrder', component:DetailOrderComponent},
+  {path:'category', component: CategoryComponent},
+  { path: 'admin', component: AdminLayoutComponent, children: [
+    { path: 'categories', component: CategoryManagerComponent },
+    { path: 'products', component: ProductManagerComponent },
+    { path: 'discounts', component: DiscountManagerComponent },
+    {path : 'order', component: OrderComponent},
+    {path : 'account', component: AccountComponent},
+    {path : 'dashboard', component: DashboardComponent},
+    {path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+]}
 ];
+
+// cẩn thận các order, product vì có thể import nhầm bên frontend
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

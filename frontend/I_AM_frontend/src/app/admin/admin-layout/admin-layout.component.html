@@ -1,0 +1,44 @@
+<div class="allElement">
+    <div class="headerAdmin">
+        <div class="logo">
+            <a href="javascript:void(0)">
+              <div class="logo1">
+                <span class="letter letter-I">I</span>
+                <span class="letter letter-A">A</span>
+                <span class="letter letter-M">M</span>
+              </div>
+              
+            </a>
+          </div>
+        <div class="user">
+            Username <i class="bi bi-box-arrow-right"></i>
+        </div>
+    </div>
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+          <ul>
+            <li><a routerLink="/admin/dashboard" routerLinkActive="active"><i class="bi bi-speedometer2"></i> DASHBOARD</a></li>
+            <!-- routerLink="/admin/categories" routerLinkActive="active" -->
+            <li (click)="toggleSubmenu()">
+                <a style="cursor: pointer;"><i class="bi bi-kanban" ></i> Quản lý <i [class]="isSubmenuOpen ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i></a>
+                <ul class="submenu"
+                    [ngClass]="{ 'open': isSubmenuOpen }" 
+                    [style.maxHeight]="isSubmenuOpen ? '500px' : '0px'" 
+                    [style.overflow]="'hidden'" 
+                    [style.transition]="'max-height 0.3s ease'">
+                    <li><a routerLink="/admin/categories" routerLinkActive="active"><i class="bi bi-tags"></i> Danh mục</a></li>
+                    <li><a routerLink="/admin/discounts" routerLinkActive="active"><i class="bi bi-ticket-perforated"></i> Mã giảm giá</a></li>
+                </ul>
+            </li>
+            <li><a routerLink="/admin/products" routerLinkActive="active"><i class="bi bi-box-seam"></i> Kho</a></li>
+            <li><a routerLink="/admin/order" routerLinkActive="active"><i class="bi bi-truck"></i> Đơn hàng</a></li>
+            <li><a routerLink="/admin/account" routerLinkActive="active"><i class="bi bi-person-vcard"></i> Tài khoản</a></li>
+          </ul>
+        </aside>
+      
+        <main class="admin-content">
+          <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>
+  
