@@ -17,22 +17,22 @@ import java.util.Objects;
 @Setter
 public class FavouriteKey implements Serializable {
     @Column(name = "id_product")
-    private Long id_product;
+    private Long idProduct;
 
     @Column(name = "id_user")
-    private Long id_user;
+    private Long idUser;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof FavouriteKey)) return false;
         FavouriteKey that = (FavouriteKey) o;
-        return Objects.equals(id_product, that.id_product) &&
-                Objects.equals(id_user, that.id_user);
+        return Objects.equals(idProduct, that.idProduct) &&
+                Objects.equals(idUser, that.idUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_product, id_user);
+        return Objects.hash(idProduct, idUser);
     }
 }

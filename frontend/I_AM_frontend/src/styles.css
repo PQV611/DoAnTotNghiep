@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+.toast {
+    font-size: 16px !important;
+    padding: 15px !important;
+  }
+  .toast-success {
+    background-color: #4de16f !important;
+    font-weight: bold;
+    color: white !important;
+    padding: 20px !important;
+  }
+    
+  .toast-bottom-center {
+    bottom: 800px !important; /* hoặc 0 nếu muốn sát đáy hoàn toàn */
+    left: 90% !important;
+    transform: translateX(-50%);
+  }
+  

@@ -16,11 +16,15 @@ public class Colors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_color")
-    private Long id_color ;
+    private Long idColor ;
 
     @Column(name = "name_color")
-    private String name_color ;
+    private String nameColor ;
 
     @Column(name = "hex_code")
-    private String hex_code ;
+    private String hexCode ;
+
+    public Colors(Long idColor) {
+        this.idColor = idColor;
+    }
 }

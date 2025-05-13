@@ -5,19 +5,30 @@
   <div class="discount-controls">
     <input
       type="text"
-      placeholder="Tìm theo mã sản phẩm hoặc tên sản phẩm..."
       [(ngModel)]="searchTerm"
-    />
+      (ngModelChange)="onSearchChange()"
+      placeholder="Tìm theo mã hoặc tên sản phẩm" />
 
-    <select title="123" [(ngModel)]="selectedStatus">
-      <option value="all">Tất cả trạng thái</option>
+    <select title="123" [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+      <option value="all">Tất cả</option>
       <option value="valid">Còn hiệu lực</option>
       <option value="expired">Hết hạn</option>
     </select>
 
+    <!-- chọn số lượng sản phẩm / trang -->
+    <select [(ngModel)]="pageSize" (change)="loadDiscounts(0)">
+      <option [value]="6">6 / trang</option>
+      <option [value]="10">10 / trang</option>
+      <option [value]="20">20 / trang</option>
+      <option [value]="50">50 / trang</option>
+    </select>
+
     <button class="btn btn-add" (click)="openAddModal()">Thêm mới mã giảm giá</button>
   </div>
-
+  <div class="alert-bar" *ngIf="alertMessage">
+    {{ alertMessage }}
+  </div>
+  
   <!-- Bảng -->
   <table class="discount-table">
     <thead>
@@ -31,23 +42,41 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of filteredDiscounts">
-        <td>{{ item.productId }}</td>
-        <td>{{ item.productName }}</td>
-        <td>{{ item.discountCode || '0' }}</td>
-        <td>{{ item.toDate }}</td>
+      <tr *ngFor="let item of discounts">
+        <td>{{ item.id_product }}</td>
+        <td>{{ item.name_product }}</td>
+        <td>{{ item.numberDiscount }}</td>
+        <td>{{ item.endDate | date: 'dd-MM-yyyy' }}</td>
         <td>
           <span [ngClass]="getStatusClass(item)">
             {{ getStatus(item) }}
           </span>
         </td>
         <td>
-          <button class="btn btn-edit" (click)="editDiscount(item)">Sửa</button>
-          <button class="btn btn-delete" (click)="confirmRemoveDiscount(item)">Xoá</button>
+          <button class="btn btn-edit" (click)="editDiscount(item)" *ngIf="getStatus(item) !== 'Hết hạn'"><i class="bi bi-pencil-square"></i> Sửa</button>
+          <button class="btn btn-delete" (click)="confirmRemoveDiscount(item)"><i  class="bi bi-trash3"></i> Xoá</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- PHÂN TRANG -->
+  <div class="pagination">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 0">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <button
+      *ngFor="let page of pageNumbers"
+      [class.active]="page === currentPage"
+      (click)="changePage(page)">
+      {{ page + 1 }}
+    </button>
+
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage + 1 >= totalPages">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
 
   <!-- Modal thêm/sửa -->
   <div class="modal-overlay" *ngIf="isModalOpen">
@@ -58,11 +87,7 @@
         [(ngModel)]="modalProductId"
         placeholder="Mã sản phẩm"
         [readonly]="modalMode === 'edit'" />
-    <div *ngIf="errors.productId" class="error" style="color: red;">{{ errors.productId }}</div>
-
-
-      <!-- <input type="text" [(ngModel)]="modalProductName" placeholder="Tên sản phẩm" />
-      <div *ngIf="errors.productName" class="error" style="color: red;">{{ errors.productName }}</div> -->
+      <div *ngIf="errors.productId" class="error" style="color: red;">{{ errors.productId }}</div>
 
       <input type="text" [(ngModel)]="modalDiscountCode" placeholder="Mã giảm giá" />
       <div *ngIf="errors.discountCode" class="error" style="color: red;">{{ errors.discountCode }}</div>
@@ -85,7 +110,7 @@
       <h3>Xác nhận xoá mã giảm giá</h3>
       <p>
         Bạn có chắc muốn xoá mã giảm giá cho sản phẩm
-        <strong>{{ itemToDelete?.productName }}</strong> không?
+        <strong>{{ itemToDelete?.name_product }}</strong> không?
       </p>
       <div class="modal-actions">
         <button class="btn btn-save" (click)="removeDiscount()">Đồng ý</button>

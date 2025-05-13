@@ -1,161 +1,218 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AdminAccountService, UserDTO, UserUpdateDTO, ChangePasswordDTO, PageResponse } from 'src/app/services/admin-account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css']
 })
-export class AccountComponent {
-  searchTerm: string = '';
-  selectedRole: string = '';
-  isModalOpen: boolean = false;
-  accountToEdit: any = null;
+export class AccountComponent implements OnInit {
+  accounts: UserDTO[] = [];
+  currentPage = 0;
+  totalPages = 0;
+  searchTerm = '';
+  selectedRole = 'all';
+  pageSize = 6;
+  isModalOpen = false;
+  isEditMode = false;
 
-  isEditMode: boolean = false;
   modalFullName = '';
   modalEmail = '';
   modalUsername = '';
   modalPassword = '';
   modalConfirmPassword = '';
   modalRole = 'user';
-  oldPassword = '';
-  newPassword = '';
-  confirmNewPassword = '';
   errors: any = {};
 
-  isDeleteModalOpen: boolean = false;
-  accountToDelete: any = null;
+  accountToEdit: UserDTO | null = null;
 
-  isChangePasswordModalOpen: boolean = false;
-  accountToChangePassword: any = null;
+  // Delete
+  isDeleteModalOpen = false;
+  accountToDelete: UserDTO | null = null;
+
+  // Password
+  isChangePasswordModalOpen = false;
+  accountToChangePassword: UserDTO | null = null;
+  newPassword = '';
+  confirmNewPassword = '';
   changePasswordErrors: any = {};
 
-  openChangePasswordModal(account: any) {
-    this.accountToChangePassword = account;
-    this.newPassword = '';
-    this.confirmNewPassword = '';
-    this.changePasswordErrors = {};
-    this.isChangePasswordModalOpen = true;
+  constructor(private accountService: AdminAccountService, private toastr: ToastrService) { }
+
+  ngOnInit(): void {
+    this.loadAccounts();
   }
+
+  alertMessage: string = '';
+
+showAlert(message: string) {
+  this.alertMessage = message;
+  setTimeout(() => {
+    this.alertMessage = '';
+  }, 4000); // 4 giây tự ẩn
+}
+
   
-  changePassword() {
-    this.changePasswordErrors = {};
-  
-    if (!this.newPassword) {
-      this.changePasswordErrors.newPassword = 'Vui lòng nhập mật khẩu mới';
+
+  getRoleLabel(role: string): string {
+    switch (role) {
+      case 'user':
+        return 'Khách hàng';
+      case 'staff':
+        return 'Nhân viên';
+      case 'admin':
+        return 'Quản trị viên';
+      default:
+        return role;
     }
+  }
   
-    if (this.newPassword !== this.confirmNewPassword) {
-      this.changePasswordErrors.confirm = 'Mật khẩu không khớp';
+
+  loadAccounts(page = 0): void {
+    this.accountService.getAccounts(this.searchTerm, this.selectedRole, page, this.pageSize).subscribe({
+      next: res => {
+        this.accounts = res.content;
+        this.currentPage = res.number;
+        this.totalPages = res.totalPages;
+      },
+      error: () => {
+        this.showAlert('Lỗi tải danh sách tài khoản');
+      }
+    });
+  }
+
+  get pageNumbers(): number[] {
+    return Array(this.totalPages).fill(0).map((_, i) => i);
+  }
+
+  changePage(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.loadAccounts(page);
     }
-  
-    if (Object.keys(this.changePasswordErrors).length > 0) return;
-  
-    // Giả lập thay đổi mật khẩu
-    console.log(`Đã đổi mật khẩu cho ${this.accountToChangePassword.username}: ${this.newPassword}`);
-  
-    this.isChangePasswordModalOpen = false;
-  }
-  
-
-  accounts = [
-    { id: 'TK01', fullName: 'Nguyễn Văn A', email: 'a@gmail.com', username: 'nguyena', createdAt: '2024-05-01', role: 'admin' },
-    { id: 'TK02', fullName: 'Trần Thị B', email: 'b@gmail.com', username: 'tranb', createdAt: '2024-05-03', role: 'staff' },
-    { id: 'TK03', fullName: 'Lê Văn C', email: 'c@gmail.com', username: 'lec', createdAt: '2024-04-21', role: 'user' },
-  ];
-
-  get filteredAccounts() {
-    return this.accounts.filter(acc =>
-      (acc.fullName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-       acc.username.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
-      (this.selectedRole === '' || acc.role === this.selectedRole)
-    );
   }
 
-  openAddModal() {
+  onSearchChange(): void {
+    this.loadAccounts(0);
+  }
+
+  onRoleChange(): void {
+    this.loadAccounts(0);
+  }
+
+  openAddModal(): void {
     this.isEditMode = false;
-    this.accountToEdit = null;
-
     this.modalFullName = '';
     this.modalEmail = '';
     this.modalUsername = '';
     this.modalPassword = '';
     this.modalConfirmPassword = '';
     this.errors = {};
-
     this.isModalOpen = true;
   }
 
-  closeModal() {
-    this.isModalOpen = false;
-    this.errors = {};
-  }
-
-  editAccount(account: any) {
+  editAccount(account: UserDTO): void {
     this.isEditMode = true;
     this.accountToEdit = account;
-  
     this.modalFullName = account.fullName;
     this.modalEmail = account.email;
     this.modalUsername = account.username;
-    this.modalRole = account.role;
-  
+    this.modalRole = account.nameRole?.toLowerCase() || 'user';
     this.errors = {};
     this.isModalOpen = true;
   }
-  
 
-  confirmDelete(account: any) {
-    this.accountToDelete = account;
-    this.isDeleteModalOpen = true;
-  }
-  
-  cancelDelete() {
-    this.accountToDelete = null;
-    this.isDeleteModalOpen = false;
-  }
-  
-  deleteAccount() {
-    this.accounts = this.accounts.filter(acc => acc !== this.accountToDelete);
-    this.isDeleteModalOpen = false;
-  }
-  
-
-  saveAccount() {
+  saveAccount(): void {
     this.errors = {};
-  
     if (!this.modalFullName) this.errors.fullName = 'Vui lòng nhập họ tên';
     if (!this.modalEmail) this.errors.email = 'Vui lòng nhập email';
     if (!this.modalUsername) this.errors.username = 'Vui lòng nhập tên đăng nhập';
-  
+
     if (!this.isEditMode) {
       if (!this.modalPassword) this.errors.password = 'Vui lòng nhập mật khẩu';
       if (this.modalPassword !== this.modalConfirmPassword)
         this.errors.confirm = 'Mật khẩu không khớp';
     }
-  
+
     if (Object.keys(this.errors).length > 0) return;
-  
-    if (this.isEditMode) {
-      this.accountToEdit.fullName = this.modalFullName;
-      this.accountToEdit.email = this.modalEmail;
-      this.accountToEdit.username = this.modalUsername;
-      this.accountToEdit.role = this.modalRole;
+
+    if (this.isEditMode && this.accountToEdit) {
+      const payload: UserUpdateDTO = {
+        fullName: this.modalFullName,
+        nameRole: this.modalRole
+      };
+      this.accountService.updateAccount(this.accountToEdit.idUser!, payload).subscribe(() => {
+        this.showAlert('Cập nhật tài khoản thành công');
+        this.closeModal();
+        this.loadAccounts(this.currentPage);
+      });
     } else {
-      const newAccount = {
-        id: 'TK' + (this.accounts.length + 1).toString().padStart(2, '0'),
+      const newUser: UserDTO = {
         fullName: this.modalFullName,
         email: this.modalEmail,
         username: this.modalUsername,
-        createdAt: new Date().toISOString().split('T')[0],
-        role: 'user'
+        password: this.modalPassword,
+        createAt: '',
+        nameRole: 'user'
       };
-      this.accounts.push(newAccount);
+      this.accountService.createAccount(newUser).subscribe(() => {
+        this.showAlert('Tạo tài khoản thành công');
+        this.closeModal();
+        this.loadAccounts(this.currentPage);
+      });
     }
-  
-    this.isModalOpen = false;
   }
-  
 
-  
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.errors = {};
+  }
+
+  confirmDelete(account: UserDTO): void {
+    this.accountToDelete = account;
+    this.isDeleteModalOpen = true;
+  }
+
+  deleteAccount(): void {
+    if (this.accountToDelete) {
+      this.accountService.deleteAccount(this.accountToDelete.idUser!).subscribe(() => {
+        this.showAlert('Xoá tài khoản thành công');
+        this.loadAccounts(this.currentPage);
+        this.isDeleteModalOpen = false;
+      });
+    }
+  }
+
+  cancelDelete(): void {
+    this.isDeleteModalOpen = false;
+    this.accountToDelete = null;
+  }
+
+  openChangePasswordModal(account: UserDTO): void {
+    this.accountToChangePassword = account;
+    this.newPassword = '';
+    this.confirmNewPassword = '';
+    this.changePasswordErrors = {};
+    this.isChangePasswordModalOpen = true;
+  }
+
+  changePassword(): void {
+    this.changePasswordErrors = {};
+    if (!this.newPassword) this.changePasswordErrors.newPassword = 'Vui lòng nhập mật khẩu mới';
+    if (this.newPassword !== this.confirmNewPassword)
+      this.changePasswordErrors.confirm = 'Mật khẩu không khớp';
+    if (Object.keys(this.changePasswordErrors).length > 0) return;
+
+    const dto: ChangePasswordDTO = {
+      newPassword: this.newPassword,
+      confirmPassword: this.confirmNewPassword
+    };
+    if (this.accountToChangePassword) {
+      this.accountService.changePassword(this.accountToChangePassword.idUser!, dto).subscribe(() => {
+        this.showAlert('Đổi mật khẩu thành công');
+        this.isChangePasswordModalOpen = false;
+      });
+    }
+  }
+
 }

@@ -18,7 +18,7 @@ public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_productvariant")
-    private Long id_productvariant ;
+    private Long idProductvariant ;
 
     @ManyToOne
     @JoinColumn(name = "id_product", referencedColumnName = "id_product",

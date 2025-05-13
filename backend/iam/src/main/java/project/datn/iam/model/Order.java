@@ -19,7 +19,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
-    private Long id_order ;
+    private Long idOrder ;
 
     @ManyToOne
     @JoinColumn(name = "id_user", foreignKey = @ForeignKey(name = "fk_order_user"))
@@ -38,7 +38,7 @@ public class Order {
     private Integer totalCost;
 
     @Column(name = "status", nullable = false)
-    private Integer status = 1; // 1: pending mặc định
+    private Integer status ; // 1: pending mặc định
 
     @Column(name = "payment_method", nullable = false)
     private Integer paymentMethod = 1; // 1: COD mặc định

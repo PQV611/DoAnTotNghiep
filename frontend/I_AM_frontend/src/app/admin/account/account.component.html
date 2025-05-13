@@ -2,18 +2,27 @@
     <h2>Quản lý tài khoản</h2>
   
     <div class="account-controls">
-      <input type="text" placeholder="Tìm theo họ tên hoặc tên tài khoản..." [(ngModel)]="searchTerm" />
+      <input type="text" placeholder="Tìm theo họ tên hoặc tên tài khoản..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()"/>
   
-      <select title="123" [(ngModel)]="selectedRole">
-        <option value="">Tất cả quyền</option>
+      <select title="123" [(ngModel)]="selectedRole" (change)="onRoleChange()">
+        <option value="all">Tất cả quyền</option>
         <option value="admin">Quản trị viên</option>
         <option value="staff">Nhân viên</option>
-        <option value="user">Người dùng</option>
+        <option value="user">Khách hàng</option>
       </select>
-  
+      <!-- chọn số lượng sản phẩm / trang -->
+    <select [(ngModel)]="pageSize" (change)="loadAccounts(0)">
+      <option [value]="6">6 / trang</option>
+      <option [value]="10">10 / trang</option>
+      <option [value]="20">20 / trang</option>
+      <option [value]="50">50 / trang</option>
+    </select>
       <button class="btn btn-add" (click)="openAddModal()">Thêm tài khoản</button>
     </div>
-  
+    <div class="alert-bar" *ngIf="alertMessage">
+      {{ alertMessage }}
+    </div>
+    
     <table class="account-table">
       <thead>
         <tr>
@@ -27,13 +36,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let account of filteredAccounts">
-          <td>{{ account.id }}</td>
+        <tr *ngFor="let account of accounts">
+          <td>{{ account.idUser }}</td>
           <td>{{ account.fullName }}</td>
           <td>{{ account.email }}</td>
           <td>{{ account.username }}</td>
-          <td>{{ account.createdAt }}</td>
-          <td>{{ account.role }}</td>
+          <td>{{ account.createAt | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ getRoleLabel(account.nameRole) }}</td>
           <td>
             <button class="btn btn-edit" (click)="editAccount(account)"><i class="bi bi-pencil-square"></i> Sửa</button>
             &nbsp;
@@ -45,6 +54,23 @@
       </tbody>
     </table>
   </div>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button [disabled]="currentPage === 0" (click)="changePage(currentPage - 1)">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="i === currentPage"
+      (click)="changePage(i)">
+      {{ i + 1 }}
+    </button>
+    <button [disabled]="currentPage === totalPages - 1" (click)="changePage(currentPage + 1)">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+  
+
 
 
 <!-- Modal Thêm/Sửa tài khoản -->
@@ -72,7 +98,7 @@
         <select title="123" [(ngModel)]="modalRole">
           <option value="admin">Quản trị viên</option>
           <option value="staff">Nhân viên</option>
-          <option value="user">Người dùng</option>
+          <option value="user">Khách hàng</option>
         </select>
         <div class="error" *ngIf="errors.role">{{ errors.role }}</div>
   
@@ -87,8 +113,9 @@
       </div>
   
       <div class="modal-actions">
-        <button class="btn btn-save" (click)="saveAccount()">Lưu</button>
-        <button class="btn btn-cancel" (click)="closeModal()">Huỷ</button>
+        <button class="btn btn-save btn-success" (click)="saveAccount()">Lưu</button>
+        &nbsp;
+        <button class="btn btn-cancel  btn-danger" (click)="closeModal()">Huỷ</button>
       </div>
     </div>
   </div>
@@ -102,8 +129,9 @@
         <strong>{{ accountToDelete?.fullName }}</strong> ({{ accountToDelete?.username }}) không?
       </p>
       <div class="modal-actions">
-        <button class="btn btn-save" (click)="deleteAccount()">Đồng ý</button>
-        <button class="btn btn-cancel" (click)="cancelDelete()">Huỷ</button>
+        <button class="btn btn-save btn-success" (click)="deleteAccount()">Đồng ý</button>
+        &nbsp;
+        <button class="btn btn-cancel btn-danger" (click)="cancelDelete()">Huỷ</button>
       </div>
     </div>
   </div>
@@ -121,8 +149,9 @@
       <div class="error" *ngIf="changePasswordErrors.confirm">{{ changePasswordErrors.confirm }}</div>
   
       <div class="modal-actions">
-        <button class="btn btn-save" (click)="changePassword()">Lưu</button>
-        <button class="btn btn-cancel" (click)="isChangePasswordModalOpen = false">Huỷ</button>
+        <button class="btn btn-save btn-success" (click)="changePassword()">Lưu</button>
+        &nbsp;
+        <button class="btn btn-cancel btn-danger" (click)="isChangePasswordModalOpen = false">Huỷ</button>
       </div>
     </div>
   </div>

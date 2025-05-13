@@ -96,9 +96,31 @@
                                 Sản phẩm nằm trong chương trình đồng giá, giảm giá trên 50% không hỗ trợ đổi trả
                             </div>
                         </div>
+                        <div class="info-customer">
+                            <h3>Thông tin giao hàng</h3>
+                            <div class="info-customer-item info--name">
+                                <label for="name">Họ và tên: </label>
+                                <input type="text" id="name" name="name" placeholder="Nguyễn Văn A" style="margin-left: 60px; width: 200px;" required>
+                            </div>
+                            <div class="info-customer-item info--name">
+                                <label for="phone">Số điện thoại: </label>
+                                <input type="tel" id="phone" name="phone" placeholder="0123456789" style="margin-left: 36px; width: 200px;" required>
+                            </div>
+                            <div class="info-customer-item info--name">
+                                <label for="address">Địa chỉ giao hàng: </label>
+                                <input type="text" id="address" name="address" style="margin-left:8px; width: 200px;" placeholder="Số nhà, đường, phường, quận, tỉnh/thành phố" required>
+                            </div>
+                            <div class="info-methodpay info--name">
+                                <label for="method">Phương thức thanh toán: </label>
+                                <select id="method" name="method" required>
+                                    <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                                    <option value="bank">Chuyển khoản ngân hàng VNPay</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="cart-sumary-button">
-                        <a href="#!" class="btn btn--large">ĐẶT HÀNG</a>
+                        <a href="#!" class="btn btn--large">THANH TOÁN</a>
                     </div>
                 </div>
             </div>
