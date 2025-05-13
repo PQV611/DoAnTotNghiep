@@ -6,7 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.datn.iam.DTO.OrderDTO;
+import project.datn.iam.DTO.response.OrderResponse;
 import project.datn.iam.service.OrderService;
+import project.datn.iam.service.base.OrderServiceBase;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService orderService;
+    private final OrderServiceBase serviceBase;
 
     @GetMapping("/{status}")
     public ResponseEntity<Page<OrderDTO>> getOrdersByStatus(
@@ -52,5 +55,9 @@ public class OrderController {
     @GetMapping("/{id}/detail")
     public ResponseEntity<OrderDTO> getOrderDetail(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderDetail(id));
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> getOrderByID(@PathVariable Long id) {
+        return ResponseEntity.ok(serviceBase.getById(id));
     }
 }
