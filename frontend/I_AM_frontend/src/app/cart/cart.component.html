@@ -6,9 +6,9 @@
                 <div class="col-lg-8">
                     <div class="cart-list">
                         <h2 class="cart-title">
-                            Giỏ hàng của bạn 
+                            Giỏ hàng của bạn có
                             <b>
-                                <span class="cart-total"> 5</span> Sản Phẩm
+                                <span class="cart-total"> {{totalQuantity}}</span> Sản Phẩm
                             </b>
                         </h2>
                         <table class="cart-table table">
@@ -22,43 +22,53 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let item of cartItems">
                                     <td>
                                         <div class="cart_product_item">
                                             <div class="cart_product_item_img">
                                                 <a href="#!">
-                                                    <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2025/03/28/97561bebaf6664520be747cb36f427c1.webp" alt="Mystic Veil Blouse - Áo sơ mi tay ngắn">
+                                                    <!-- https://pubcdn.ivymoda.com/files/product/thumab/400/2025/03/28/97561bebaf6664520be747cb36f427c1.webp -->
+                                                    <img title="123" [src]="'/assets/imageProduct/' + item.image" [alt]="item.productName">
                                                 </a>
                                             </div>
                                             <div class="cart_product_item_content">
                                                 <a href="#!" style="text-decoration: none;">
-                                                    <h3 class="cart_product-item_title" style="font-size: 20px; width: 220px;">Mystic Veil Blouse - Áo sơ mi tay ngắn</h3>
+                                                    <h3 class="cart_product-item_title" style="font-size: 20px; width: 220px;">{{item.productName}}</h3>
                                                 </a>
                                                 <div class="cart_product_item_properties">
-                                                    <p>Màu sắc: <span> trắng</span></p>
-                                                    <p style="padding-left: 15px;">Size: <span>L</span></p>
+                                                    <p>Màu sắc: <span>{{item.color}}</span></p>
+                                                    <p style="padding-left: 15px;">Size: <span>{{item.size}}</span></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="cart-sale-price">
-                                        <p style="color:#6c6d70">-1.600.000đ</p>
-                                        <p class="cart-sale-item" style="color: red; font-weight: bold;">(-50%)</p>
+                                        <p style="color:#6c6d70" *ngIf="item.numberDiscount > 0">-{{item.discountAmount | number:'1.0-0'}}đ</p>
+                                        <p class="cart-sale-item" style="color: red; font-weight: bold;" *ngIf="item.numberDiscount > 0">(-{{item.numberDiscount}}%)</p>
                                     </td>
                                     <td class="cot4">
                                         <div class="product-detail_quantity-input">
-                                            <input type="number" [value]="quantity" min="0" title="tăng giảm" class="inputNumber">
-                                            <div class="product-detail_quantity-decrease" (click)="decrease()"> - </div>
-                                            <div class="product-detail_quantity-increase" (click)="increase()"> + </div>
+                                            <input type="number" 
+                                                [(ngModel)]="item.quantity" 
+                                                [value]="item.quantity" 
+                                                name="quantity-{{ item.productCode }}" 
+                                                min="0" title="tăng giảm" class="inputNumber"
+                                                (change)="updateQuantity(item)"
+                                                [ngModelOptions]="{standalone: true}"
+                                            >
+                                            <!-- (click)="item.quantity > 1 && item.quantity--" -->
+                                            <div class="product-detail_quantity-decrease" (click)="decrease(item)"> - </div>
+                                            <!-- (click)="item.quantity++" -->
+                                            <div class="product-detail_quantity-increase" (click)="increase(item)"> + </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="cart_product_item_price">
-                                            3.600.000đ
+                                            {{item.total | number}}đ
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="#!" title="trash">
+                                        <a href="javascript:void(0)" title="trash" (click)="removeItem(item)">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </td>
@@ -74,16 +84,16 @@
                             <h3>Tổng tiền giỏ hàng</h3>
                             <div class="cart-sumary_overview-item">
                                 <p>Tổng sản phẩm</p>
-                                <div class="total-product">3</div>
+                                <div class="total-product">{{totalItems}}</div>
                             </div>
                             <div class="cart-sumary_overview-item">
                                 <p>Tổng tiền hàng</p>
-                                <div class="total-not-discount">7.000.000đ</div>
+                                <div class="total-not-discount">{{TongTienHang | number}}đ</div>
                             </div>
                             <div class="cart-sumary_overview-item">
                                 <p>Thành tiền</p>
                                 <p>
-                                    <b class="order-price-total">5.600.000đ</b>
+                                    <b class="order-price-total">{{totalCost | number}}đ</b>
                                 </p>
                             </div>
                             <div class="cart-sumary_overview-item"></div>
@@ -100,27 +110,28 @@
                             <h3>Thông tin giao hàng</h3>
                             <div class="info-customer-item info--name">
                                 <label for="name">Họ và tên: </label>
-                                <input type="text" id="name" name="name" placeholder="Nguyễn Văn A" style="margin-left: 60px; width: 200px;" required>
+                                <input type="text" id="name" name="name" [(ngModel)] = "fullname" placeholder="Nguyễn Văn A" style="margin-left: 60px; width: 200px;" required>
                             </div>
                             <div class="info-customer-item info--name">
                                 <label for="phone">Số điện thoại: </label>
-                                <input type="tel" id="phone" name="phone" placeholder="0123456789" style="margin-left: 36px; width: 200px;" required>
+                                <input type="tel" id="phone" name="phone" [(ngModel)]="phone" placeholder="Số điện thoại" style="margin-left: 36px; width: 200px;" required>
                             </div>
                             <div class="info-customer-item info--name">
                                 <label for="address">Địa chỉ giao hàng: </label>
-                                <input type="text" id="address" name="address" style="margin-left:8px; width: 200px;" placeholder="Số nhà, đường, phường, quận, tỉnh/thành phố" required>
+                                <input type="text" id="address" name="address" [(ngModel)]="address" style="margin-left:8px; width: 200px;" placeholder="Số nhà, đường, phường, quận, tỉnh/thành phố" required>
                             </div>
                             <div class="info-methodpay info--name">
                                 <label for="method">Phương thức thanh toán: </label>
-                                <select id="method" name="method" required>
-                                    <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                                    <option value="bank">Chuyển khoản ngân hàng VNPay</option>
+                                <select id="method" name="method" [(ngModel)]="paymentMethod" required>
+                                    <option value="1">Thanh toán khi nhận hàng (COD)</option>
+                                    <option value="2">Chuyển khoản ngân hàng VNPay</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="cart-sumary-button">
-                        <a href="#!" class="btn btn--large">THANH TOÁN</a>
+                        <a href="javascript:void(0)" class="btn btn--large" (click)="checkout()">THANH TOÁN</a>
+                        <p *ngIf="showCheckoutWarning" style="color: red; margin-top: 5px;">Vui lòng nhập đầy đủ thông tin giao hàng.</p>
                     </div>
                 </div>
             </div>

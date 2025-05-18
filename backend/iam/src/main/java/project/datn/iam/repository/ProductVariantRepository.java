@@ -7,6 +7,7 @@ import project.datn.iam.model.ProductVariant;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductVariantRepository extends JpaRepository<ProductVariant, Long> {
     @Query("SELECT SUM(pv.quantity) FROM ProductVariant pv WHERE pv.product.id = :productId")
@@ -24,4 +25,8 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
     List<ProductVariant> findByProductId(Long productId);
 
     void deleteByProduct_Id(Long productId);
+
+    Optional<ProductVariant> findByProduct_IdAndColor_IdColorAndSize_IdSize(Long productId, Long colorId, Long sizeId);
+
+    List<ProductVariant> findByProduct_IdAndColor_IdColor(Long productId, Long colorId) ;
 }

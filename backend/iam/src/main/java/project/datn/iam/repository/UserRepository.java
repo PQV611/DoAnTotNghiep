@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.datn.iam.model.User;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("""
         SELECT u FROM User u
@@ -19,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> searchUsers(@Param("keyword") String keyword,
                            @Param("role") String role,
                            Pageable pageable);
+
+    Optional<User> findByUsername(String username);
 }

@@ -1,25 +1,27 @@
 <header id="header" class="site-header">
   <div class="container d-flex">
     <nav class="main-menu">
+      <a [routerLink]="['/category']" [queryParams]="{ categoryId: 0 }">Tất cả</a>
       <div class="item-main-menu">
-        <a href="javascrip:void(0)" class="pe-0">Nữ</a>
+        
+        <a href="javascript:void(0)" class="">Nữ</a>
         <ul class="sub-menu">
           <div class="cat-sub-menu">
             <div>
-              <a href="#!">SẢN PHẨM MỚI</a>
+              <a href="javascript:void(0)">SẢN PHẨM MỚI</a>
             </div>
             <div>
-              <a href="#!" style="color: #ff0000;">Săn deal giảm tới 70%</a>
+              <a href="javascript:void(0)" style="color: #ff0000;">Săn deal giảm tới 70%</a>
             </div>
           </div>
           <div class="list-submenu d-flex">
             <div class="item-list-submenu">
               <h3>
-                <a href="#!">SET BỘ</a>
+                <a href="javascript:void(0)">SET BỘ</a>
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Set công sở</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 10 }">Set công sở</a>
                 </li>
                 <!-- <li>
                   <a href="#!">Áo dạ/măng tô</a>
@@ -29,48 +31,48 @@
 
             <div class="item-list-submenu">
               <h3>
-                <a href="#!">QUẦN & JUMPSUIT</a>
+                <a href="javascript:void(0)">QUẦN & JUMPSUIT</a>
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Quần dài</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 7 }">Quần dài</a>
                 </li>
                 <li>
-                  <a href="#!">Quần Jeans</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 8 }">Quần Jeans</a>
                 </li>
                 <li>
-                  <a href="#!">Quần short</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 9 }">Quần short</a>
                 </li>
               </ul>
             </div>
 
             <div class="item-list-submenu">
               <h3>
-                <a href="#!">ÁO</a>
+                <a href="javascript:void(0)">ÁO</a>
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Áo sơ mi</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 3 }">Áo sơ mi</a>
                 </li>
                 <li>
-                  <a href="#!">Áo thun</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 2 }">Áo thun</a>
                 </li>
               </ul>
             </div>
 
             <div class="item-list-submenu">
               <h3>
-                <a href="#!">CHÂN VÁY</a>
+                <a href="javascript:void(0)">CHÂN VÁY</a>
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Chân váy bút chì</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 6 }">Chân váy bút chì</a>
                 </li>
                 <li>
-                  <a href="#!">Chân váy chữ A</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 5 }">Chân váy chữ A</a>
                 </li>
                 <li>
-                  <a href="#!">Chân váy jeans</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 4 }">Chân váy jeans</a>
                 </li>
               </ul>
             </div>
@@ -92,17 +94,17 @@
           <div class="list-submenu d-flex">
             <div class="item-list-submenu">
               <h3>
-                <a href="#!">ÁO</a>
+                <a href="javascript:void(0)">ÁO</a>
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Áo thun</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 12 }">Áo thun</a>
                 </li>
                 <li>
-                  <a href="#!">Áo sơ mi</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 13 }">Áo sơ mi</a>
                 </li>
                 <li>
-                  <a href="#!">Áo polo</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 11 }">Áo polo</a>
                 </li>
                 <li>
               </ul>
@@ -110,20 +112,20 @@
 
             <div class="item-list-submenu">
               <h3>
-                <a href="#!">QUẦN NAM</a>
+                <a href="javascript:void(0)">QUẦN NAM</a>
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Quần dài</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 14 }">Quần dài</a>
                 </li>
                 <li>
-                  <a href="#!">Quần Jeans</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 15 }">Quần Jeans</a>
                 </li>
                 <li>
-                  <a href="#!">Quần short</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 16 }">Quần short</a>
                 </li>
                 <li>
-                  <a href="#!">Quần Kaki</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 17 }">Quần Kaki</a>
                 </li>
               </ul>
             </div>
@@ -148,22 +150,22 @@
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Công chúa</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 40 }">Công chúa</a>
                 </li>
                 <li>
-                  <a href="#!">Người lịch sự</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 41 }">Người lịch sự</a>
                 </li>
                 <li>
-                  <a href="#!">Người thư giãn</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 43 }">Người thư giãn</a>
                 </li>
                 <li>
-                  <a href="#!">Nhân viên xuất sắc</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 44 }">Nhân viên xuất sắc</a>
                 </li>
                 <li>
-                  <a href="#!">Chủ tịch</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 45 }">Chủ tịch</a>
                 </li>
                 <li>
-                  <a href="#!">Người bình thường</a>
+                  <a href="javascript:void(0)">Người bình thường</a>
                 </li>
               </ul>
             </div>
@@ -174,16 +176,16 @@
               </h3>
               <ul>
                 <li>
-                  <a href="#!">Hoàng tử</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 42 }">Hoàng tử</a>
                 </li>
                 <li>
-                  <a href="#!">Chàng trai thư giãn</a>
+                  <a href="javascript:void(0)">Chàng trai thư giãn</a>
                 </li>
                 <li>
-                  <a href="#!">Tổng tài</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 46 }">Tổng tài</a>
                 </li>
                 <li>
-                  <a href="#!">Người thành công</a>
+                  <a [routerLink]="['/category']" [queryParams]="{ categoryId: 47 }">Người thành công</a>
                 </li>
               </ul>
             </div>
@@ -206,79 +208,84 @@
       </a>
     </div>
     <div class="right-header">
-      <form class="search-form" name="frm_search">
-        <button
-          type="submit"
-          class="submit"
-          title="Search"
-          name="btn_search_menu"
-        >
+      <form class="search-form" name="frm_search" (submit)="onSubmitSearch(); $event.preventDefault()">
+        <button type="submit" class="submit" title="Search" name="btn_search_menu">
           <i class="bi bi-search"></i>
         </button>
         <input
           id="search_quick"
           type="text"
           name="q"
+          [(ngModel)]="searchKeyword"
           placeholder="tìm kiếm sản phẩm"
           autocomplete="off"
           minlength="1"
+          ngModel
         />
       </form>
-      <div class="header-actions">
-        <div class="item info">
-          <a href="#!" aria-label="Thông tin" class="text-black">
+      
+      <ng-template #loginButton>
+        <a routerLink="/login">Đăng nhập</a>
+      </ng-template>
+      <div class="header-actions" *ngIf="authService.isLoggedIn(); else loginButton">
+        
+        <div class="item info" >
+          <a href="javascript:void(0)" aria-label="Thông tin" class="text-black">
             <i class="bi bi-person text-black"></i>
           </a>
           <ul class="dropdown-menu1">
             <li>
-              <a class="#!"><i class="bi bi-person"></i>&nbsp;Thông tin cá nhân</a>
+              <a routerLink="/customer/info"><i class="bi bi-person"></i>&nbsp;Thông tin cá nhân</a>
             </li>
             <li>
-              <a class="#!"><i class="bi bi-arrow-repeat"></i>&nbsp;Quản lý đơn hàng</a>
+              <a routerLink="/customer/order_manage"><i class="bi bi-arrow-repeat"></i>&nbsp;Quản lý đơn hàng</a>
             </li>
-            <li>
+            <!-- <li>
               <a class="#!"><i class="bi bi-truck"></i>&nbsp;Theo dõi đơn</a>
-            </li>
+            </li> -->
             <li>
-              <a class="#!"><i class="bi bi-heart-fill"></i>&nbsp;Yêu thích</a>
+              <a routerLink="/customer/favourite_product"><i class="bi bi-heart-fill"></i>&nbsp;Yêu thích</a>
             </li>
-            <li>
-              <a class="#!"><i class="bi bi-box-arrow-right"></i> &nbsp;Đăng xuất</a>
+            <li (click)="logout()">
+              <a class="#!" ><i class="bi bi-box-arrow-right"></i> &nbsp;Đăng xuất</a>
             </li>
           </ul>
         </div>
         <div class="item cart">
           <a href="javascript:void(0)" aria-label="Giỏ hàng" class="text-black icon" >
             <i class="bi bi-bag" (click)="toggleCart()"></i>
-            <span class="count">10</span>
+            <span class="count">{{totalQuantity}}</span>
           </a>
           <div [class.open]="isCartOpen" class="sub-action sub-action-cart">
             <div class="top-action">
               <h3>
                 Giỏ hàng
-                <span class="count">4</span>
+                <span class="count">{{totalQuantity}}</span>
               </h3>
               
             </div>
             <div class="main-action">
-              <div class="item-product-cart d-flex">
+              <div class="item-product-cart d-flex" *ngFor="let item of cartItems">
                 <div class="thumb-product-cart">
-                  <img src="../../assets/images/vay_test.webp" alt="Áo vest Sophia Elegance" class="lazy">
+                  <img [src]="'/assets/imageProduct/' + item.imageUrl" alt="Áo vest Sophia Elegance" class="lazy">
                 </div>
                 <div class="info-product-cart">
                   <h3>
-                    <a href="#!">Áo vest Sophia Elegance</a>
+                    <a [routerLink]="['/customer/detailProduct', item.id]">{{item.productName}}</a>
                   </h3>
                   <div class="info-properties d-flex">
                     <p class="properties-color">
-                      Màu sắc: <strong>Đen</strong>
+                      Màu sắc: <strong>{{item.color}}</strong>
                     </p>
                     <p>
-                      Size: <strong style="text-transform: uppercase;">L</strong>
+                      Size: <strong style="text-transform: uppercase;">{{item.size}}</strong>
+                    </p>
+                    <p>
+                      Số lượng: <strong>{{item.quantity}}</strong>
                     </p>
                   </div>
                   <div class="info-price-mini d-flex">
-                    <div class="info-price-quantity d-flex">
+                    <!-- <div class="info-price-quantity d-flex">
                       <div class="price-quantity-minus price-quantity">
                         <i class="bi bi-dash"></i>
                       </div>
@@ -288,10 +295,10 @@
                       <div class="price-quantity-plus price-quantity">
                         <i class="bi bi-plus"></i>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="price-cart-mini">
                       <ins>
-                        <span>845.000đ</span>
+                        <span>{{item.price | number}}đ</span>
                       </ins>
                     </div>
                   </div>
@@ -302,10 +309,10 @@
               <!-- <input type="hidden" name="total_price_not_format" value="5670000"> -->
               <div class="total-price">
                 Tổng cộng: 
-                <strong>5.670.000đ</strong>
+                <strong>{{totalCost | number}}đ</strong>
               </div>
               <div class="box-action">
-                <a href="#!" class="action-view-cart">Xem giỏ hàng</a>
+                <a routerLink="/pay/cart" class="action-view-cart">Xem giỏ hàng</a>
               </div>
             </div>
             <div class="action-close" (click)="closeCart()">

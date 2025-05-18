@@ -1,21 +1,20 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
-export class OrderComponent {
-  fromDate = '';
-  toDate = '';
-  searchTerm = '';
-  activeTab: 'pending' | 'shipping' | 'completed' | 'cancelled' = 'pending';
-
-  isDetailModalOpen = false;
-  selectedOrder: any = null;
-
+export class OrderComponent implements OnInit {
   orders: any[] = [];
+  selectedOrder: any = null;
+  isDetailModalOpen = false;
+
+  selectedStatus = 0; // 0 = tất cả
+  pageSize = 6;
+  currentPage = 0;
+  totalPages = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -23,79 +22,90 @@ export class OrderComponent {
     this.loadOrders();
   }
 
-  changeTab(tab: 'pending' | 'shipping' | 'completed' | 'cancelled') {
-    this.activeTab = tab;
-    this.loadOrders();
+  get pageNumbers(): number[] {
+    return Array(this.totalPages).fill(0).map((_, i) => i);
   }
 
-  loadOrders() {
-    const endpointMap = {
-      pending: '/admin/order/pending',
-      shipping: '/admin/order/shipping',
-      completed: '/admin/order/completed',
-      cancelled: '/admin/order/cancelled'
-    };
-    const url = endpointMap[this.activeTab];
-    this.http.get<any[]>(url).subscribe(data => {
-      this.orders = data;
+  alertMessage: string = '';
+
+showAlert(message: string) {
+  this.alertMessage = message;
+  setTimeout(() => {
+    this.alertMessage = '';
+  }, 4000); // 4 giây tự ẩn
+}
+
+  loadOrders(): void {
+    const params = new HttpParams()
+      .set('status', this.selectedStatus.toString())
+      .set('page', this.currentPage.toString())
+      .set('size', this.pageSize.toString());
+
+    this.http.get<any>('http://localhost:8080/admin/order', { params }).subscribe(res => {
+      this.orders = res.content;
+      this.totalPages = res.totalPages;
+      this.currentPage = res.number;
     });
   }
 
-  approveOrder(order: any) {
-    this.http.put(`/admin/order/${order.id}/approve`, {}).subscribe(() => this.loadOrders());
+  changeStatus(status: number): void {
+    this.selectedStatus = status;
+    this.currentPage = 0;
+    this.loadOrders();
   }
 
-  rejectOrder(order: any) {
-    this.http.put(`/admin/order/${order.id}/cancel`, {}).subscribe(() => this.loadOrders());
+  changePage(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      this.loadOrders();
+    }
   }
 
-  markAsDelivered(order: any) {
-    this.http.put(`/admin/order/${order.id}/deliver`, {}).subscribe(() => this.loadOrders());
+  changePageSize(size: number): void {
+    this.pageSize = size;
+    this.currentPage = 0;
+    this.loadOrders();
   }
 
-  viewDetail(order: any) {
+  approveOrder(order: any): void {
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/approve`, {}).subscribe(() => {
+      this.showAlert('Phê duyệt đơn hàng thành công');
+      this.loadOrders();
+    });
+  }
+
+  rejectOrder(order: any): void {
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/cancel`, {}).subscribe(() => {
+      this.showAlert('Huỷ đơn hàng thành công');
+      this.loadOrders();
+    });
+  }
+
+  markAsDelivered(order: any): void {
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/deliver`, {}).subscribe(() => {
+      this.showAlert('Đánh dấu đã giao hàng thành công');
+      this.loadOrders();
+    });
+  }
+
+  viewDetail(order: any): void {
     this.selectedOrder = order;
     this.isDetailModalOpen = true;
   }
 
-  closeDetailModal() {
-    this.isDetailModalOpen = false;
+  closeDetailModal(): void {
     this.selectedOrder = null;
+    this.isDetailModalOpen = false;
   }
 
-  get filteredOrders() {
-    let result = this.orders;
+  statusTextMap: { [key: number]: string } = {
+    1: 'Chờ phê duyệt',
+    2: 'Đang giao hàng',
+    3: 'Giao hàng thành công',
+    4: 'Đã huỷ'
+  };
 
-    if (this.fromDate) {
-      const from = new Date(this.fromDate);
-      result = result.filter(order => new Date(order.createdAt) >= from);
-    }
-
-    if (this.toDate) {
-      const to = new Date(this.toDate);
-      result = result.filter(order => new Date(order.createdAt) <= to);
-    }
-
-    if (this.searchTerm.trim()) {
-      const keyword = this.searchTerm.toLowerCase();
-      result = result.filter(order =>
-        order.id.toLowerCase().includes(keyword) ||
-        order.customerId.toLowerCase().includes(keyword)
-      );
-    }
-
-    return result;
-  }
-
-  get countPendding() {
-    return this.orders.filter(o => o.status === 'pending').length;
-  }
-
-  get countShipping() {
-    return this.orders.filter(o => o.status === 'shipping').length;
-  }
-
-  get countCompleted() {
-    return this.orders.filter(o => o.status === 'completed').length;
+  getStatusText(status: number): string {
+    return this.statusTextMap[status] || 'Không xác định';
   }
 }

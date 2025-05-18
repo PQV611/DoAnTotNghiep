@@ -8,49 +8,70 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+    <div style="text-align: center; background-color: rgba(40, 14, 110, 0.568); padding: 10px; margin-bottom: 50px; border-radius: 23px; cursor: pointer;">
+        <a href="/homepage" style="color: white; text-decoration: none;"> <i class="bi bi-house-door"></i> Về trang chủ</a>
+    </div>
     <div class="container" id="container">
+        
         <div class="form-container sign-up">
-            <form>
+            <!-- <form>
                 <h1>Tạo tài khoản</h1>
-                <!-- <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div> -->
-                <!-- <span>or use your email for registeration</span> -->
-                <input type="text" placeholder="Họ và tên">
-                <!-- <input type="date" placeholder="Ngày sinh"> -->
-                <!-- <div class="form-group">
-                    <div class="gender-options">
-                        <input type="radio" id="male" name="gender" value="Nam">
-                        <label for="male">Nam</label>
-                
-                        <input type="radio" id="female" name="gender" value="Nữ">
-                        <label for="female">Nữ</label>
-                    </div>
-                </div> -->
-                <input type="text" placeholder="Tên đăng nhập">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Mật khẩu">
-                <input type="password" placeholder="Xác nhận mật khẩu">
-                <button>Đăng ký</button>
-            </form>
+                <input type="text" placeholder="Họ và tên" [(ngModel)]="registerData.fullName" name="fullname">
+                <input type="text" placeholder="Tên đăng nhập" [(ngModel)]="registerData.username" name="username">
+                <input type="email" placeholder="Email" [(ngModel)]="registerData.email" name="email">
+                <input type="password" placeholder="Mật khẩu" [(ngModel)]="registerData.password" name="password">
+                <input type="password" placeholder="Xác nhận mật khẩu" [(ngModel)]="registerData.confirmPassword" name="confirmPassword">
+                <button (click)="onRegister()" type="button">Đăng ký</button>
+            </form> -->
+            <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+                <h1>Tạo tài khoản</h1>
+                <input name="fullName" [(ngModel)]="registerData.fullName" required #fullNameRef="ngModel" placeholder="Họ và tên" />
+                <div *ngIf="fullNameRef.invalid && fullNameRef.touched" class="error" style="font-size: 12px; color: red;">Họ tên không được để trống</div>
+
+                <input name="username" [(ngModel)]="registerData.username" required #usernameRef="ngModel" placeholder="Tên đăng nhập" />
+                <div *ngIf="usernameRef.invalid && usernameRef.touched" class="error" style="font-size: 12px; color: red;">Tên đăng nhập không được để trống</div>
+
+                <input type="email" name="email" [(ngModel)]="registerData.email" required email #emailRef="ngModel" placeholder="Email" />
+                <div *ngIf="emailRef.invalid && emailRef.touched" class="error">
+                    <span *ngIf="emailRef.errors?.['required']" style="font-size: 12px; color: red;">Email không được để trống</span>
+                    <span *ngIf="emailRef.errors?.['email']" style="font-size: 12px; color: red;">Email không đúng định dạng</span>
+                </div>
+
+                <input type="password" name="password" [(ngModel)]="registerData.password" required #passwordRef="ngModel" placeholder="Mật khẩu" />
+                <div *ngIf="passwordRef.invalid && passwordRef.touched" class="error" style="font-size: 12px; color: red;">Mật khẩu không được để trống</div>
+
+                <input type="password" name="confirmPassword" [(ngModel)]="registerData.confirmPassword" required #confirmRef="ngModel" placeholder="Xác nhận mật khẩu" />
+                <div *ngIf="confirmRef.invalid && confirmRef.touched" class="error" style="font-size: 12px; color: red;">Xác nhận mật khẩu không được để trống</div>
+
+                <div *ngIf="passwordMismatch" class="error" style="font-size: 12px; color: red;">Mật khẩu xác nhận không khớp!</div>
+
+                <button [disabled]="registerForm.invalid">Đăng ký</button>
+                </form>
+
         </div>
         <div class="form-container sign-in">
             <form>
                 <h1>Đăng nhập</h1>
-                <!-- <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div> -->
+                <div class="social-icons" style="text-align: center;">
+                    <!-- <a href="javascript:void(0)" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="javascript:void(0)" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="javascript:void(0)" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="javascript:void(0)" class="icon"><i class="fa-brands fa-linkedin-in"></i></a> -->
+                    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+                    <input name="username" [(ngModel)]="loginData.username" required #usernameLoginRef="ngModel" placeholder="Tên đăng nhập" />
+                        <div *ngIf="usernameLoginRef.invalid && usernameLoginRef.touched" class="error" style="font-size: 12px; color: red;">Tên đăng nhập không được để trống</div>
+
+                        <input type="password" name="password" [(ngModel)]="loginData.password" required #passwordLoginRef="ngModel" placeholder="Mật khẩu" />
+                        <div *ngIf="passwordLoginRef.invalid && passwordLoginRef.touched" class="error" style="font-size: 12px; color: red;">Mật khẩu không được để trống</div>
+
+                    <button [disabled]="loginForm.invalid">Đăng nhập</button>
+                </form>
+                </div>
                 <!-- <span>or use your email password</span> -->
-                <input type="text" placeholder="Tên đăng nhập">
-                <input type="password" placeholder="Mật khẩu">
-                <a href="#">Quên mật khẩu?</a>
-                <button>Đăng nhập</button>
+                <!-- <input type="text" placeholder="Tên đăng nhập" [(ngModel)]="loginData.username" name="loginUsername">
+                <input type="password" placeholder="Mật khẩu" [(ngModel)]="loginData.password" name="loginPassword">
+                <a href="javascript:void(0)">Quên mật khẩu?</a>
+                <button (click)="onLogin()" type="button">Đăng nhập</button> -->
             </form>
         </div>
         <div class="toggle-container">

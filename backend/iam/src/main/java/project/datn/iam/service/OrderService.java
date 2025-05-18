@@ -1,10 +1,8 @@
 package project.datn.iam.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import project.datn.iam.DTO.OrderDTO;
 import project.datn.iam.mapper.OrderMapper;
@@ -18,6 +16,7 @@ import project.datn.iam.repository.OrderRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,19 +28,64 @@ public class OrderService {
     private final ImageRepository imageRepository;
     private final OrderMapper orderMapper;
 
-    public Page<OrderDTO> getOrdersByStatus(int status, LocalDateTime fromDate, LocalDateTime toDate, int page, int size) {
+//    public Page<OrderDTO> getOrdersByStatus(int status, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size, Sort.by("createAt").descending());
+//        Page<Order> orders = orderRepository.findByStatus(status, pageable);
+//        List<OrderDTO> dtoList = orders.stream().map(order -> {
+//            List<OrderDetail> items = orderDetailRepository.findByOrderIdOrder(order.getIdOrder());
+//            List<Image> images = imageRepository.findAllByOrderId(order.getIdOrder());
+//            return orderMapper.toDTO(order, items);
+//        }).collect(Collectors.toList());
+//        return new PageImpl<>(dtoList, pageable, orders.getTotalElements());
+//    }
+
+    public Page<OrderDTO> getOrders(Integer status, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Order> orders = orderRepository.findByStatusAndDateRange(status, fromDate, toDate, pageable);
-        long total = orderRepository.countByStatusAndDateRange(status, fromDate, toDate);
+//        Page<Order> orderPage = orderRepository.findByStatus(status, pageable);
 
-        List<OrderDTO> dtoList = orders.stream().map(order -> {
-            List<OrderDetail> items = orderDetailRepository.findByOrderIdOrder(order.getIdOrder());
-            List<Image> images = imageRepository.findAllByOrderId(order.getIdOrder());
-            return orderMapper.toDTO(order, items, images);
-        }).collect(Collectors.toList());
+        if (status == null || status == 0){
+            Page<Order> orderPage = orderRepository.findAll(pageable);
+            List<OrderDTO> dtos = orderPage.getContent().stream().map(order -> {
+                List<OrderDetail> details = orderDetailRepository.findByOrder(order);
+                return orderMapper.toDTO(order, details);
+            }).collect(Collectors.toList());
 
-        return new PageImpl<>(dtoList, pageable, total);
+            return new PageImpl<>(dtos, pageable, orderPage.getTotalElements());
+        }else {
+            Page<Order> orderPage = orderRepository.findByStatus(status, pageable);
+            List<OrderDTO> dtos = orderPage.getContent().stream().map(order -> {
+                List<OrderDetail> details = orderDetailRepository.findByOrder(order);
+                return orderMapper.toDTO(order, details);
+            }).collect(Collectors.toList());
+
+            return new PageImpl<>(dtos, pageable, orderPage.getTotalElements());
+        }
     }
+
+//    public OrderDTO getOrderDetail(Long id) {
+//        Order order = orderRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng với id = " + id));
+//
+//        List<OrderDetail> details = orderDetailRepository.findByOrderId(order.getIdOrder());
+//        return orderMapper.toDTO(order, details);
+//    }
+
+
+
+
+//    public Page<OrderDTO> getOrdersByStatus(int status, LocalDateTime fromDate, LocalDateTime toDate, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<Order> orders = orderRepository.findByStatusAndDateRange(status, fromDate, toDate, pageable);
+//        long total = orderRepository.countByStatusAndDateRange(status, fromDate, toDate);
+//
+//        List<OrderDTO> dtoList = orders.stream().map(order -> {
+//            List<OrderDetail> items = orderDetailRepository.findByOrderIdOrder(order.getIdOrder());
+//            List<Image> images = imageRepository.findAllByOrderId(order.getIdOrder());
+//            return orderMapper.toDTO(order, items, images);
+//        }).collect(Collectors.toList());
+//
+//        return new PageImpl<>(dtoList, pageable, total);
+//    }
 
     public void updateStatus(Long id, int newStatus) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
@@ -49,10 +93,17 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public OrderDTO getOrderDetail(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
-        List<OrderDetail> items = orderDetailRepository.findByOrderIdOrder(order.getIdOrder());
-        List<Image> images = imageRepository.findAllByOrderId(order.getIdOrder());
-        return orderMapper.toDTO(order, items, images);
+    public void updateOrderStatus(Long orderId, int newStatus) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() ->
+                new NoSuchElementException("Không tìm thấy đơn hàng"));
+        order.setStatus(newStatus);
+        orderRepository.save(order);
     }
+
+//    public OrderDTO getOrderDetail(Long id) {
+//        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+//        List<OrderDetail> items = orderDetailRepository.findByOrderIdOrder(order.getIdOrder());
+//        List<Image> images = imageRepository.findAllByOrderId(order.getIdOrder());
+//        return orderMapper.toDTO(order, items, images);
+//    }
 }

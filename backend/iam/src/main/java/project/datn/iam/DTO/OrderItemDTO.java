@@ -14,4 +14,5 @@ public class OrderItemDTO {
     private String imageUrl;
     private Integer quantity;
     private Integer price;
+    private Integer total;
 }

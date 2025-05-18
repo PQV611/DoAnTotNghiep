@@ -3,11 +3,11 @@ package project.datn.iam.service.base;
 import org.springframework.stereotype.Service;
 import project.datn.iam.DTO.request.OrderRequest;
 import project.datn.iam.DTO.response.OrderResponse;
-import project.datn.iam.mapper.base.OrderMapper;
+import project.datn.iam.mapper.base.OrderMapperBase;
 import project.datn.iam.model.Order;
 import project.datn.iam.repository.OrderRepository;
 @Service
-public class OrderServiceBase extends BaseService<Order,Long, OrderRequest, OrderResponse, OrderRepository, OrderMapper>{
+public class OrderServiceBase extends BaseService<Order,Long, OrderRequest, OrderResponse, OrderRepository, OrderMapperBase>{
     @Override
     protected void validRequestCreate(OrderRequest request) {
         super.validRequestCreate(request);

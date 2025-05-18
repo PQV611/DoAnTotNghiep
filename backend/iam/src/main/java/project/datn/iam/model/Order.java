@@ -45,4 +45,7 @@ public class Order {
 
     @Column(name = "expected_delivery")
     private LocalDate expectedDelivery;
+
+    @Column(name = "fullname")
+    private String fullname;
 }

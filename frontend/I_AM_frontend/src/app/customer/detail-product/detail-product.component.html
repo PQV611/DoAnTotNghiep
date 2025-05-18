@@ -27,13 +27,15 @@
             </div>
             <div class="col-md-6">
                 <div class="product-detail__information">
-                    <h1 style="text-transform: uppercase;">Áo thun Regular Meta Supima</h1>
+                    <h1 style="text-transform: uppercase;">{{product?.nameProduct}}</h1>
                     <div class="product-detail__sub-info">
                         <p>
-                            CODE: <span>ABC123</span>
+                            CODE: <span>{{product?.code}}</span>
                         </p>
                         <div class="product-detail__rating">
+                            {{product?.rating}}
                             <div class="product-detail__rating-wrapper">
+                                
                                 <div class="product-detail__rating__background"></div>
                                 <div class="product-detail__rating__bar" style="width: 100%;"></div>
                             </div>
@@ -41,64 +43,52 @@
                         </div>
                     </div>
                     <div class="product-detail__price">
-                        <b>375.000đ</b>
-                        <del>750.000đ</del>
-                        <div class="product-detail__price-sale">-50 <span>%</span></div>
+                        <b>{{product?.salePrice | number}}đ</b>
+                        <del *ngIf="product.numberDiscount > 0">{{product?.originalPrice | number}}đ</del>
+                        <div class="product-detail__price-sale" *ngIf="product.numberDiscount > 0">-{{product?.numberDiscount}} <span>%</span></div>
                     </div>
                     <div class="product-detail__color">
-                        <p>Màu sắc: Trắng</p>
+                        <p>Màu sắc: </p>
                         <div class="product-detail__color__input">
-                            chưa hiển thị màu
-                            <label class="border-color-ccc">
-                                <input type="radio" name="color" checked title="white">
-                                <span>
-                                    <a href="javascript:void(0)"></a>
-                                </span>
-                            </label>
-                            <label class>
-                                <input type="radio" name="color" title="black">
-                                <span>
-                                    <a href="javascript:void(0)"></a>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="product-detail__size">
-                        <div class="product-detail__size__input">
                             
-                            <label>
-                                <input type="radio" name="size" value="S">
-                                <span class="text-uppercase">s</span>
-                            </label>
-                            <label>
-                                <input type="radio" name="size" value="M">
-                                <span class="text-uppercase">m</span>
-                            </label>
+                        <label *ngFor="let color of product?.colors" [ngClass]="{'label-active': selectedColor === color}">
+                            <input type="radio" name="color" [(ngModel)]="selectedColor" [value]="color" />
+                            <span>{{ color }}</span>
+                        </label>
                         </div>
-                        <a href="javascript:void(0)">
-                            <i class="bi bi-pencil"></i>
-                            &nbsp; Kiểm tra kích thước của bạn
-                        </a>
-
-                        <!-- Chưa làm -->
-                        <!-- <div class="table-size-product" style="display: none;">
-                            <div class="title-table-szie">BẢNG TƯ VẤN SIZE</div>
-                            <div class=""></div>
-                        </div> -->
                     </div>
+
+                    <!-- SIZE -->
+                    <div class="product-detail__size">
+                        <p>Kích thước:</p>
+                        <div class="product-detail__size__input">
+                        <label *ngFor="let size of product?.sizes" [ngClass]="{'label-active': selectedSize === size}">
+                            
+                            <input type="radio" name="size" [(ngModel)]="selectedSize" [value]="size"/>
+                            <span>{{ size }}</span>
+                        </label>
+                        </div>
+                    </div>
+                    <p class="text-danger" *ngIf="showWarning" style="color: red; margin-top: 5px; font-size: 14px;">Vui lòng chọn đầy đủ màu và size!</p>
+
                     <div class="product-detail__quantity">
                         <p style="font-size: 16px; font-weight: 500; line-height: 1.2; vertical-align: baseline; margin-bottom: 0">Số lượng: </p>
                         <div class="product-detail__quantity-input">
-                            <input type="number" value="1" name="quantity" title="quantity">
+                            <input type="number" name="quantity" title="quantity" [(ngModel)]="quantity" min="1"/>
                             <div class="product-quantity product-detail__quantity--increase ">+</div>
                             <div class="product-quantity product-detail__quantity--decrease">-</div>
                         </div>
                     </div>
-                    <div class="product-detail_actions">
-                        <button class="btn btn--large add-to-cart-detail">Thêm vào giỏ</button>
+                    <br>
+                    <ng-template #loginButton>
+                        <button style="background-color: black; color: white; padding: 10px 16px; border-radius: 16px 0px;" routerLink="/login">Đăng nhập</button>
+                    </ng-template>
+                    <div class="product-detail_actions" *ngIf="authService.isLoggedIn(); else loginButton">
+                        <button class="btn btn--large add-to-cart-detail" (click)="addToCart()" [disabled]="!product">Thêm vào giỏ</button>
+                        <!-- &nbsp;
                         <button class="btn btn--large btn--outline btn--wishlist" title="favourite">
                             <i class="bi bi-heart"></i>
-                        </button>
+                        </button> -->
                     </div>
                     <div class="product-detail-divider"></div>
 

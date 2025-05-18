@@ -11,13 +11,13 @@
         <option value="user">Khách hàng</option>
       </select>
       <!-- chọn số lượng sản phẩm / trang -->
-    <select [(ngModel)]="pageSize" (change)="loadAccounts(0)">
+    <select title="1" [(ngModel)]="pageSize" (change)="loadAccounts(0)">
       <option [value]="6">6 / trang</option>
       <option [value]="10">10 / trang</option>
       <option [value]="20">20 / trang</option>
       <option [value]="50">50 / trang</option>
     </select>
-      <button class="btn btn-add" (click)="openAddModal()">Thêm tài khoản</button>
+      <!-- <button class="btn btn-add" (click)="openAddModal()">Thêm tài khoản</button> -->
     </div>
     <div class="alert-bar" *ngIf="alertMessage">
       {{ alertMessage }}
@@ -48,7 +48,7 @@
             &nbsp;
             <button class="btn btn-delete" (click)="confirmDelete(account)"><i class="bi bi-trash3"></i> Xoá</button>
             &nbsp;
-            <button class="btn btn-password" (click)="openChangePasswordModal(account)"><i class="bi bi-wrench-adjustable-circle"></i> Đổi mật khẩu</button>
+            <!-- <button class="btn btn-password" (click)="openChangePasswordModal(account)"><i class="bi bi-wrench-adjustable-circle"></i> Đổi mật khẩu</button> -->
           </td>
         </tr>
       </tbody>

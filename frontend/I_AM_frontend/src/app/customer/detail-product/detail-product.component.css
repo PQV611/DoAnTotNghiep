@@ -221,7 +221,14 @@ input[type=checkbox], input[type=radio] {
     box-sizing: border-box;
     padding: 0;
 }
-
+/* .product-detail__color__input label span {
+    width: 48px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e7e8e9;
+} */
 .product-detail__size label span {
     width: 48px;
     height: 32px;
@@ -237,7 +244,7 @@ input[type=checkbox], input[type=radio] {
 
 .product-detail__size__input label span {
     border-radius: 4px;
-    margin-right: 8px;
+    /* margin-right: 8px; */
 }
 
 .product-detail__quantity {
@@ -389,3 +396,52 @@ input[type=text], input[type=email], input[type=tel], input[type=password], inpu
     object-fit: cover;
     opacity: 0; /* Ẩn img đi nhưng giữ layout */
   }
+
+  .product-detail__color__input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.product-detail__color__input label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 200px;
+  text-align: center;
+  position: relative;
+}
+
+.product-detail__color__input input[type="radio"] {
+  display: none;
+}
+
+.product-detail__color__input span {
+  display: inline-block;
+  /* width: 100%; */
+  /* height: 32px; */
+  border-radius: 50%;
+}
+
+.product-detail__color__input label.active {
+  border-color: #000;
+}
+
+.add-to-cart-detail{
+    background-color: #221f20;
+    color: white;
+    border-radius: 16px 0px;
+}
+
+.label-active {
+  background-color: #000;
+  color: #fff;
+  /* border-radius: 4px; */
+  /* padding: 4px 8px; */
+}
+

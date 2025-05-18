@@ -5,26 +5,26 @@
                 <div class="order-sidemenu block-border">
                     <div class="order-sidemenu_user">
                         <div class="order-sidemenu_user-avatar">
-                            <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt>
+                            <img [src]="'/assets/imageProduct/'+ avatar" alt>
                         </div>
                         <div class="order-sidemenu_user-name">
-                            <p>Phạm Quốc Việt</p>
+                            <p>{{fullName}}</p>
                         </div>
                     </div>
                     <div class="order-sidemenu_menu">
                         <ul>
                             <li >
-                                <a href="#!">
-                                    <i class="bi bi-person"></i>&nbsp;Thông tin cá nhân
+                                <a routerLink="/customer/info">
+                                    <i ></i>&nbsp;Thông tin cá nhân
                                 </a>
                             </li>
                             <li>
-                                <a href="#!">
+                                <a routerLink="/customer/order_manage">
                                     <i class="bi bi-arrow-repeat"></i>&nbsp;Quản lý đơn hàng
                                 </a>
                             </li>
                             <li class="active">
-                                <a href="#!">
+                                <a routerLink="/customer/favourite_product">
                                     <i class="bi bi-heart"></i>&nbsp;Sản phẩm yêu thích
                                 </a>
                             </li>
@@ -44,369 +44,43 @@
 
                <div class="sub-main-prod" id="products">
                     <div class="list-products list-products-cat d-flex">
-                        <div class="item-cat-product">
+                        <div class="item-cat-product" *ngFor="let item of favouriteProducts">
                             <div class="product">
-                                <span class="badget badget_03">
-                                    -70 <span>%</span>
+                                <span class="badget badget_03" *ngIf="item.numberDiscount > 0">
+                                    -{{item.numberDiscount}} <span>%</span>
                                 </span>
                                 <div class="thumb-product">
-                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-icy-summer-ms-57e3866-41107">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Áo thun trơn ICY Summer" class="lazy">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
+                                    <a [routerLink]="['/customer/detailProduct', item.idProduct]">
+                                        <img [src]="'/assets/imageProduct/' + item.image1" alt="Áo thun trơn ICY Summer" class="lazy">
+                                        <img [src]="'/assets/imageProduct/' + item.image2" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
                                     </a>
                                 </div>
                                 <div class="info-product">
                                     <div class="name-product">
                                         <h3 class="title-product">
-                                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
+                                            <a [routerLink]="['/customer/detailProduct', item.idProduct]">{{item.nameProduct}}</a>
                                         </h3>
-                                        <div class="favourite" (click)="toggleFavorite()">
-                                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                                        <div class="favourite" (click)="toggleFavourite(item.idProduct)" style="cursor: pointer;">
+                                            <i [ngClass]="item.isActive === 1 ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
                                         </div>
                                     </div>
                                     <div class="price-product">
                                         <ins>
-                                            <span>209.700đ</span>
+                                            <span>{{item.salePrice | number}}đ</span>
                                         </ins>
                                         <del style="margin-left: 4px;">
-                                            <span>699.000đ</span>
+                                            <span>{{item.originalPrice | number}}đ</span>
                                         </del>
                                     </div>
                                 </div>
-                                <div class="add-to-cart" (click)="toggleSizeList()">
-                                    <a href="javascript:void(0)">
+                                <!-- (click)="toggleSizeList()" -->
+                                <div class="add-to-cart" >
+                                    <a [routerLink]="['/customer/detailProduct', item.idProduct]">
                                         <i class="bi bi-bag"></i>
                                     </a>
-                                </div>
-                                <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
-                                    <label>Màu sắc</label>
-                                    <div class="list-color" style="display: flex;">
-                                        <p>Đỏ</p>
-                                        <p>Đen</p>
-                                        <p>Xanh</p>
-                                    </div>
-                                    <label>Kích cỡ</label>
-                                    <div class="size" style="display: flex;">
-                                        <p>S</p>
-                                        <p>X</p>
-                                        <p>M</p>
-                                        <p>L</p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="item-cat-product">
-                            <div class="product">
-                                <span class="badget badget_03">
-                                    -70 <span>%</span>
-                                </span>
-                                <div class="thumb-product">
-                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-icy-summer-ms-57e3866-41107">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Áo thun trơn ICY Summer" class="lazy">
-                                        <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
-                                    </a>
-                                </div>
-                                <div class="info-product">
-                                    <div class="name-product">
-                                        <h3 class="title-product">
-                                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
-                                        </h3>
-                                        <div class="favourite" (click)="toggleFavorite()">
-                                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-                                          </div>
-                                    </div>
-                                    <div class="price-product">
-                                        <ins>
-                                            <span>209.700đ</span>
-                                        </ins>
-                                        <del style="margin-left: 4px;">
-                                            <span>699.000đ</span>
-                                        </del>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart" (click)="toggleSizeList()">
-                                    <a href="javascript:void(0)">
-                                        <i class="bi bi-bag"></i>
-                                    </a>
-                                </div>
-                                <div class="list-size" [ngClass]="{ 'open': isSizeListOpen }" *ngIf="isSizeListOpen">
-                                    <label>Màu sắc</label>
-                                    <div class="list-color" style="display: flex;">
-                                        <p>Đỏ</p>
-                                        <p>Đen</p>
-                                        <p>Xanh</p>
-                                    </div>
-                                    <label>Kích cỡ</label>
-                                    <div class="size" style="display: flex;">
-                                        <p>S</p>
-                                        <p>X</p>
-                                        <p>M</p>
-                                        <p>L</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-cat-product">
-                            <div class="product">
-                                <span class="badget badget_03">
-                                    -70 <span>%</span>
-                                </span>
-                                <div class="thumb-product">
-                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-icy-summer-ms-57e3866-41107">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Áo thun trơn ICY Summer" class="lazy">
-                                        <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
-                                    </a>
-                                </div>
-                                <div class="info-product">
-                                    <div class="name-product">
-                                        <h3 class="title-product">
-                                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
-                                        </h3>
-                                        <div class="favourite" (click)="toggleFavorite()">
-                                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-                                          </div>
-                                    </div>
-                                    <div class="price-product">
-                                        <ins>
-                                            <span>209.700đ</span>
-                                        </ins>
-                                        <del style="margin-left: 4px;">
-                                            <span>699.000đ</span>
-                                        </del>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <a href="javascript:void(0)">
-                                        <i class="bi bi-bag"></i>
-                                    </a>
-                                </div>
-                                <div class="list-size">
-                                    <label>Màu sắc</label>
-                                    <div class="list-color" style="display: flex;">
-                                        <p>Đỏ</p>
-                                        <p>Đen</p>
-                                        <p>Xanh</p>
-                                    </div>
-                                    <label>Kích cỡ</label>
-                                    <div class="size" style="display: flex;">
-                                        <p>S</p>
-                                        <p>X</p>
-                                        <p>M</p>
-                                        <p>L</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-cat-product">
-                            <div class="product">
-                                <span class="badget badget_03">
-                                    -70 <span>%</span>
-                                </span>
-                                <div class="thumb-product">
-                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-icy-summer-ms-57e3866-41107">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Áo thun trơn ICY Summer" class="lazy">
-                                        <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
-                                    </a>
-                                </div>
-                                <div class="info-product">
-                                    <div class="name-product">
-                                        <h3 class="title-product">
-                                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
-                                        </h3>
-                                        <div class="favourite" (click)="toggleFavorite()">
-                                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-                                          </div>
-                                    </div>
-                                    <div class="price-product">
-                                        <ins>
-                                            <span>209.700đ</span>
-                                        </ins>
-                                        <del style="margin-left: 4px;">
-                                            <span>699.000đ</span>
-                                        </del>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <a href="javascript:void(0)">
-                                        <i class="bi bi-bag"></i>
-                                    </a>
-                                </div>
-                                <div class="list-size">
-                                    <label>Màu sắc</label>
-                                    <div class="list-color" style="display: flex;">
-                                        <p>Đỏ</p>
-                                        <p>Đen</p>
-                                        <p>Xanh</p>
-                                    </div>
-                                    <label>Kích cỡ</label>
-                                    <div class="size" style="display: flex;">
-                                        <p>S</p>
-                                        <p>X</p>
-                                        <p>M</p>
-                                        <p>L</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-cat-product">
-                            <div class="product">
-                                <span class="badget badget_03">
-                                    -70 <span>%</span>
-                                </span>
-                                <div class="thumb-product">
-                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-icy-summer-ms-57e3866-41107">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Áo thun trơn ICY Summer" class="lazy">
-                                        <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
-                                    </a>
-                                </div>
-                                <div class="info-product">
-                                    <div class="name-product">
-                                        <h3 class="title-product">
-                                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
-                                        </h3>
-                                        <div class="favourite" (click)="toggleFavorite()">
-                                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-                                          </div>
-                                    </div>
-                                    <div class="price-product">
-                                        <ins>
-                                            <span>209.700đ</span>
-                                        </ins>
-                                        <del style="margin-left: 4px;">
-                                            <span>699.000đ</span>
-                                        </del>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <a href="javascript:void(0)">
-                                        <i class="bi bi-bag"></i>
-                                    </a>
-                                </div>
-                                <div class="list-size">
-                                    <label>Màu sắc</label>
-                                    <div class="list-color" style="display: flex;">
-                                        <p>Đỏ</p>
-                                        <p>Đen</p>
-                                        <p>Xanh</p>
-                                    </div>
-                                    <label>Kích cỡ</label>
-                                    <div class="size" style="display: flex;">
-                                        <p>S</p>
-                                        <p>X</p>
-                                        <p>M</p>
-                                        <p>L</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-cat-product">
-                            <div class="product">
-                                <span class="badget badget_03">
-                                    -70 <span>%</span>
-                                </span>
-                                <div class="thumb-product">
-                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-icy-summer-ms-57e3866-41107">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Áo thun trơn ICY Summer" class="lazy">
-                                        <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
-                                    </a>
-                                </div>
-                                <div class="info-product">
-                                    <div class="name-product">
-                                        <h3 class="title-product">
-                                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
-                                        </h3>
-                                        <div class="favourite" (click)="toggleFavorite()">
-                                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-                                          </div>
-                                    </div>
-                                    <div class="price-product">
-                                        <ins>
-                                            <span>209.700đ</span>
-                                        </ins>
-                                        <del style="margin-left: 4px;">
-                                            <span>699.000đ</span>
-                                        </del>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <a href="javascript:void(0)">
-                                        <i class="bi bi-bag"></i>
-                                    </a>
-                                </div>
-                                <div class="list-size">
-                                    <label>Màu sắc</label>
-                                    <div class="list-color" style="display: flex;">
-                                        <p>Đỏ</p>
-                                        <p>Đen</p>
-                                        <p>Xanh</p>
-                                    </div>
-                                    <label>Kích cỡ</label>
-                                    <div class="size" style="display: flex;">
-                                        <p>S</p>
-                                        <p>X</p>
-                                        <p>M</p>
-                                        <p>L</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item-cat-product">
-                            <div class="product">
-                                <span class="badget badget_03">
-                                    -70 <span>%</span>
-                                </span>
-                                <div class="thumb-product">
-                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-icy-summer-ms-57e3866-41107">
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/798c141e2df4db66a2b203abb49f4102.JPG" alt="Áo thun trơn ICY Summer" class="lazy">
-                                        <img src="	https://pubcdn.ivymoda.com/files/product/thumab/400/2023/04/24/de6fd6ca02f3f9f57103c80145a0910f.JPG" alt="Áo thun trơn ICY Summer" class="hover-img lazy">
-                                    </a>
-                                </div>
-                                <div class="info-product">
-                                    <div class="name-product">
-                                        <h3 class="title-product">
-                                            <a href="javascript:void(0)">Áo thun trơn ICY Summer</a>
-                                        </h3>
-                                        <div class="favourite" (click)="toggleFavorite()">
-                                            <i [ngClass]="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
-                                          </div>
-                                    </div>
-                                    <div class="price-product">
-                                        <ins>
-                                            <span>209.700đ</span>
-                                        </ins>
-                                        <del style="margin-left: 4px;">
-                                            <span>699.000đ</span>
-                                        </del>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <a href="javascript:void(0)">
-                                        <i class="bi bi-bag"></i>
-                                    </a>
-                                </div>
-                                <div class="list-size">
-                                    <label>Màu sắc</label>
-                                    <div class="list-color" style="display: flex;">
-                                        <p>Đỏ</p>
-                                        <p>Đen</p>
-                                        <p>Xanh</p>
-                                    </div>
-                                    <label>Kích cỡ</label>
-                                    <div class="size" style="display: flex;">
-                                        <p>S</p>
-                                        <p>X</p>
-                                        <p>M</p>
-                                        <p>L</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                </div>
             </div>

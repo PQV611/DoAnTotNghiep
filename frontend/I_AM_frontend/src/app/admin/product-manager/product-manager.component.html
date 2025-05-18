@@ -4,13 +4,13 @@
   <div class="product-controls">
     <input type="text" placeholder="Tìm tên sản phẩm..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" />
 
-    <select [(ngModel)]="selectedFilter" (change)="onFilterChange()">
+    <select title="1" [(ngModel)]="selectedFilter" (change)="onFilterChange()">
       <option value="all">Tất cả</option>
       <option value="top-rated">Sản phẩm nhiều sao nhất</option>
       <option value="best-seller">Sản phẩm bán chạy nhất</option>
     </select>
 
-    <select [(ngModel)]="pageSize" (change)="loadProducts(0)">
+    <select title="1" [(ngModel)]="pageSize" (change)="loadProducts(0)">
       <option [value]="6">6 / trang</option>
       <option [value]="10">10 / trang</option>
       <option [value]="20">20 / trang</option>
@@ -30,7 +30,7 @@
         <th>Mô tả</th>
         <th>Số lượng</th>
         <th>Đã bán</th>
-        <th>Chất lượng</th>
+        <!-- <th>Chất lượng</th> -->
         <th>
           Giá
           <i class="bi bi-arrow-down-up" (click)="togglePriceSort()" style="cursor: pointer;"></i>
@@ -46,13 +46,13 @@
         <td>{{ product.description }}</td>
         <td>
           {{ product.totalQuantity }}
-          <i class="bi bi-eye-fill" (click)="confirmDetailQuantity(product)"></i>
+          <i class="bi bi-eye-fill" style="cursor: pointer;" (click)="confirmDetailQuantity(product)"></i>
         </td>
         <td>{{ product.totalSold }}</td>
-        <td>{{ product.averageRating }} ★</td>
+        <!-- <td>{{ product.averageRating }} ★</td> -->
         <td>{{ product.price | number }}đ</td>
         <td>
-          <img *ngIf="product.imageUrls?.length" [src]="'assets/imageProduct/' + product.imageUrls[0]" width="100" height="150" />
+          <img title="1" *ngIf="product.imageUrls?.length" [src]="'assets/imageProduct/' + product.imageUrls[0]" width="100" height="150" />
         </td>
         <td>
           <button class="btn btn-edit" (click)="editProduct(product)"><i class="bi bi-pencil-square"></i> Sửa</button>
@@ -80,21 +80,28 @@
 
     <label>Tên sản phẩm:</label>
     <input type="text" [(ngModel)]="modalName" placeholder="Tên sản phẩm" />
+    <div *ngIf="errors.name" class="error">{{ errors.name }}</div>
+
     <label>Mô tả:</label>
     <textarea [(ngModel)]="modalDescription" placeholder="Mô tả sản phẩm"></textarea>
+    <div *ngIf="errors.description" class="error">{{ errors.description }}</div>
+
     <label>Giá:</label>
     <input type="number" [(ngModel)]="modalPrice" placeholder="Giá" />
+    <div *ngIf="errors.price" class="error">{{ errors.price }}</div>
 
-    <select [(ngModel)]="modalCategoryId">
+    <select title="1" [(ngModel)]="modalCategoryId">
       <option value="">Chọn loại sản phẩm</option>
       <option *ngFor="let cat of categoryList" [value]="cat.id_category">{{ cat.nameCategory }}</option>
     </select>
+    <div *ngIf="errors.categoryId" class="error">{{ errors.categoryId }}</div>
 
-    <input type="file" multiple (change)="onFileSelect($event)" accept="image/*" />
+    <input title="1" type="file" multiple (change)="onFileSelect($event)" accept="image/*" />
     <div *ngIf="selectedImages.length > 0">
       <p>Hình ảnh bạn đã chọn:</p>
       <div class="image-preview">
-        <img *ngFor="let img of selectedImages" [src]="getImagePreview(img)" width="100" height="150" />
+        <!-- <img title="1" *ngFor="let img of selectedImages"  [src]="getImagePreview(img)" width="100" height="150" /> -->
+         <img title="1" *ngFor="let src of imagePreviews" [src]="src" width="100" height="150" />
       </div>
     </div>
 
@@ -111,22 +118,23 @@
       <tbody>
         <tr *ngFor="let variant of productVariants; let i = index">
           <td>
-            <select [(ngModel)]="variant.colorId">
+            <select title="1" [(ngModel)]="variant.colorId">
               <option *ngFor="let color of colorList" [value]="color.idColor">{{ color.nameColor }}</option>
             </select>
           </td>
           <td>
-            <select [(ngModel)]="variant.size">
+            <select title="1" [(ngModel)]="variant.sizeId">
               <option *ngFor="let size of sizeList" [value]="size.idSize">{{ size.nameSize }}</option>
             </select>
           </td>
           <td>
-            <input type="number" [(ngModel)]="variant.quantity" min="0" />
+            <input title="1" type="number" [(ngModel)]="variant.quantity" min="0" />
           </td>
           <td>
             <button type="button" class="btn-delete" (click)="removeVariant(i)"><i class="bi bi-trash3"></i></button>
           </td>
         </tr>
+        
       </tbody>
     </table>
     <button type="button" class="btn-add" (click)="addVariant()">+ Thêm dòng</button>
@@ -137,3 +145,55 @@
     </div>
   </div>
 </div>
+
+<div class="modal-overlay" *ngIf="isDeleteModalOpen">
+    <div class="modal1">
+      <h3>Xác nhận xoá sản phẩm</h3>
+      <p>Bạn có chắc muốn xoá sản phẩm <strong>{{ productToDelete?.name }}</strong> không?</p>
+      <div class="modal-actions">
+        <button class="btn btn-save" (click)="deleteProduct()">Đồng ý</button>
+        <button class="btn btn-cancel" (click)="cancelDelete()">Huỷ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VARIANT detail -->
+<div class="modal-overlay" *ngIf="isDetailQuantity">
+    <div class="modal2">
+      <h4>Biến thể sản phẩm</h4>
+    <table class="variant-table">
+      <thead>
+        <tr>
+          <th>Màu sắc</th>
+          <th>Size</th>
+          <th>Số lượng</th>
+          <!-- <th>Hành động</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let variant of productVariants; let i = index">
+          <td>
+            <select title="1" [(ngModel)]="variant.colorId">
+              <option *ngFor="let color of colorList" [value]="color.idColor" disabled>{{ color.nameColor }}</option>
+            </select>
+          </td>
+          <td>
+            <select title="1" [(ngModel)]="variant.sizeId">
+              <option *ngFor="let size of sizeList" [value]="size.idSize" disabled>{{ size.nameSize }}</option>
+            </select>
+          </td>
+          <td>
+            <input title="1" type="number" [(ngModel)]="variant.quantity" min="0" disabled=""/>
+          </td>
+          <!-- <td>
+            <button type="button" class="btn-delete" (click)="removeVariant(i)"><i class="bi bi-trash3"></i></button>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+    <div class="modal-actions">
+      <!-- <button class="btn btn-save" (click)="saveProduct()">Lưu</button> -->
+      <button class="btn btn-cancel" (click)="cancelDetailQuantity()">Huỷ</button>
+    </div>
+  </div>
+

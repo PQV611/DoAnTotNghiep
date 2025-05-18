@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiscountRepository extends JpaRepository<Discount, Long>, JpaSpecificationExecutor<Discount> {
+    Optional<Discount> findByProductId(Long productId);
     Optional<Discount> findFirstByProduct_IdAndIsActiveTrue(Long id);
     boolean existsByProduct_Id(Long productId);
 

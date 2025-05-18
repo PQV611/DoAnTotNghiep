@@ -40,5 +40,5 @@ public class Favourite {
     private LocalDateTime createAt;
 
     @Column(name = "isactive", nullable = false)
-    private Integer isActive = 1;
+    private Integer isActive;
 }

@@ -39,7 +39,7 @@ export class ProductManagerComponent {
   selectedFilter: 'all' | 'top-rated' | 'best-seller' = 'all';
   sortPriceAsc = true;
 
-  productVariants: { colorId: string, size: string, quantity: number }[] = [];
+  productVariants: { colorId: string, sizeId: string, quantity: number }[] = [];
 
 colorList: Color[] = [];
 sizeList: Size[] = [];
@@ -53,12 +53,13 @@ showAlert(message: string) {
 }
 
 addVariant() {
-  this.productVariants.push({ colorId: '', size: 'S', quantity: 0 });
+  this.productVariants.push({ colorId: '', sizeId: 'S', quantity: 0 });
 }
 
 removeVariant(index: number) {
   this.productVariants.splice(index, 1);
 }
+
 
 getColorHex(colorId: string): string {
   const color = this.colorList.find(c => c.idColor === +colorId);
@@ -66,8 +67,6 @@ getColorHex(colorId: string): string {
   return color ? color.hexCode : '#fff'; // mặc định là trắng nếu không tìm thấy
   
 }
-
-
 
 
   ngOnInit(): void {
@@ -144,25 +143,36 @@ getColorHex(colorId: string): string {
     this.isModalOpen = true;
   }
   
+  imagePreviews: string[] = [];
 
   closeModal() {
     this.isModalOpen = false;
+
+    // Cleanup blob URLs
+    this.imagePreviews.forEach(url => URL.revokeObjectURL(url));
+    this.imagePreviews = [];
   }
 
   onFileSelect(event: any) {
-    const files: FileList = event.target.files;
-    if (files.length > 4) {
-      this.errors.images = 'Chỉ được chọn tối đa 4 ảnh.';
-      this.selectedImages = [];
-      return;
-    }
-  
-    this.selectedImages = Array.from(files);
-    this.errors.images = null;
-  
-    // ✅ Gọi detectChanges để Angular update lại DOM ngay
-    this.cd.detectChanges();
+  const files: FileList = event.target.files;
+  if (files.length > 4) {
+    this.errors.images = 'Chỉ được chọn tối đa 4 ảnh.';
+    this.selectedImages = [];
+    this.imagePreviews = [];
+    return;
   }
+
+  const selected = Array.from(files);
+  
+  // Gán và tạo preview sau 1 chu kỳ tick để tránh lỗi ExpressionChanged...
+  setTimeout(() => {
+      this.selectedImages = selected;
+      this.imagePreviews = selected.map(file => URL.createObjectURL(file));
+      this.errors.images = null;
+      this.cd.detectChanges(); // đảm bảo update view
+    }, 0);
+  }
+
 
   getImagePreview(file: File): string {
     return file ? URL.createObjectURL(file) : '';
@@ -170,50 +180,78 @@ getColorHex(colorId: string): string {
   
 
   saveProduct() {
+    this.errors = {};
+    if (!this.modalName.trim()) this.errors.name = 'Tên sản phẩm không được bỏ trống';
+    if (!this.modalDescription.trim()) this.errors.description = 'Mô tả không được bỏ trống';
+    if (!this.modalPrice || this.modalPrice <= 0) this.errors.price = 'Giá phải lớn hơn 0';
+    if (!this.modalCategoryId) this.errors.categoryId = 'Vui lòng chọn loại sản phẩm';
+    // if (this.productVariants.length === 0) this.errors.variants = 'Cần có ít nhất 1 biến thể';
+
+    // Kiểm tra biến thể
+  // this.productVariants.forEach((variant, i) => {
+  //   if (!variant.colorId || !variant.sizeId || !variant.quantity || variant.quantity <= 0) {
+  //     this.errors[`variant-${i}`] = 'Biến thể chưa đủ thông tin (màu, size, số lượng)';
+  //   }
+  // });
+
+  // Nếu có lỗi, dừng lưu
+  if (Object.keys(this.errors).length > 0) {
+    this.showAlert('Vui lòng điền đầy đủ thông tin');
+    return;
+  }
     const formData = new FormData();
-    formData.append('nameProduct', this.modalName);
-    formData.append('description', this.modalDescription);
-    formData.append('price', this.modalPrice.toString());
-    formData.append('categoryId', this.modalCategoryId);
-  
-    // Thêm ảnh
-    this.selectedImages.forEach(file => {
-      formData.append('images', file);
-    });
-  
-    // Lọc trùng biến thể
+
+    // Chuẩn bị danh sách biến thể, loại trùng
     const variantSet = new Set();
     const filteredVariants = this.productVariants.filter(v => {
-      const key = `${v.colorId}-${v.size}`;
+      const key = `${v.colorId}-${v.sizeId}`;
       if (variantSet.has(key)) return false;
       variantSet.add(key);
       return true;
     });
-  
-    // ✅ Bắt buộc stringify dạng text chứ KHÔNG dùng Blob
-    formData.append('variants', JSON.stringify(
-      filteredVariants.map(v => ({
+
+    // Gộp thông tin text cần gửi
+    const textPayload = {
+      nameProduct: this.modalName,
+      description: this.modalDescription,
+      price: this.modalPrice,
+      categoryId: this.modalCategoryId,
+      variants: filteredVariants.map(v => ({
         colorId: +v.colorId,
-        sizeId: +v.size,
+        sizeId: +v.sizeId,
         quantity: +v.quantity
       }))
-    ));
-  
+      // variants: JSON.stringify(filteredVariants)
+    };
+
+    // ✅ Gửi thông tin text qua key 'data' với kiểu application/json
+    formData.append(
+      'data',
+      new Blob([JSON.stringify(textPayload)], { type: 'application/json' })
+    );
+
+    // ✅ Gửi ảnh nếu có
+    this.selectedImages.forEach(file => {
+      formData.append('images', file);
+    });
+
+    // Gửi lên backend
     const request = this.isEditMode && this.productToEdit
       ? this.productService.updateProduct(this.productToEdit.id, formData)
       : this.productService.addProduct(formData);
-  
+
     request.subscribe({
       next: () => {
+        this.showAlert('Lưu sản phẩm thành công');
         this.loadProducts();
         this.closeModal();
       },
       error: err => {
         console.error('Lỗi gửi sản phẩm:', err);
+        this.showAlert('Lỗi khi gửi sản phẩm!');
       }
     });
   }
-  
 
   editProduct(product: any) {
     this.isEditMode = true;
@@ -234,13 +272,12 @@ getColorHex(colorId: string): string {
       this.productService.getVariantsByProductId(product.id).subscribe(res => {
         this.productVariants = res.map(v => ({
           colorId: v.colorId,
-          size: v.sizeId,
+          sizeId: v.sizeId,
           quantity: v.quantity
         }));
       });
     });
   }
-
   
   confirmDelete(product: any) {
     this.productToDelete = product;
@@ -272,7 +309,7 @@ getColorHex(colorId: string): string {
       this.productService.getVariantsByProductId(product.id).subscribe(res => {
         this.productVariants = res.map(v => ({
           colorId: v.colorId,
-          size: v.sizeId,
+          sizeId: v.sizeId,
           quantity: v.quantity
         }));
         this.isDetailQuantity = true; // chỉ mở modal khi có dữ liệu
@@ -285,6 +322,7 @@ getColorHex(colorId: string): string {
     this.productToDelete = null;
     this.isDeleteModalOpen = false;
   }
+  
 
   cancelDetailQuantity() {
     this.productToDetail = null;

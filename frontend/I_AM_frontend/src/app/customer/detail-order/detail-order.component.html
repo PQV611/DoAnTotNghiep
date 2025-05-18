@@ -5,26 +5,26 @@
                 <div class="order-sidemenu block-border">
                     <div class="order-sidemenu__user">
                         <div class="order-sidemenu__user-avatar">
-                            <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt>
+                            <img [src]="'/assets/imageProduct/'+avatar" alt>
                         </div>
                         <div class="order-sidemenu__user-name">
-                            <p>Phạm Quốc Việt</p>
+                            <p>{{fullName}}</p>
                         </div>
                     </div>
                     <div class="order-sidemenu__menu">
                         <ul>
                             <li>
-                                <a href="#!">
+                                <a routerLink="/customer/info">
                                     <i class="bi bi-person"></i>&nbsp;Thông tin cá nhân
                                 </a>
                             </li>
                             <li class="active">
-                                <a href="#!">
+                                <a routerLink="/customer/order_manage">
                                     <i class="bi bi-arrow-repeat"></i>&nbsp;Quản lý đơn hàng
                                 </a>
                             </li>
                             <li>
-                                <a href="#!">
+                                <a routerLink="/customer/favourite_product">
                                     <i class="bi bi-heart"></i>&nbsp;Sản phẩm yêu thích
                                 </a>
                             </li>
@@ -35,50 +35,59 @@
             <div class="col-lg-auto col-lg col-account-content">
                 <div class="order-block__title">
                     <h2>
-                        <span class="bi bi-chevron-left"></span>
-                        CHI TIẾT ĐƠN HÀNG <b>MÃ SẢN PHẨM</b>
+                        <span routerLink="/customer/order_manage" style="cursor: pointer;" class="bi bi-chevron-left"></span>
+                        CHI TIẾT ĐƠN HÀNG <b>"IAM{{orderDetail?.orderId}}"</b>
+
+                        
                     </h2>
+                    
                     <div class="order__status order--cancel">
-                        <span class="bi bi-arrow-repeat" style="margin-right: 5px;"></span>
-                        <span>Đã hủy đơn hàng</span>
+                        <!-- <span class="bi bi-arrow-repeat" style="margin-right: 5px;"></span>
+                        <span [style.color]="getStatusColor(orderDetail?.status)">{{ getStatusText(orderDetail!.status) }}</span> -->
+                        <i [class]="getStatusIcon(orderDetail?.status)" [style.color]="getStatusColor(orderDetail?.status)" style="margin-right: 5px;"></i>
+                        <span [style.color]="getStatusColor(orderDetail?.status)">
+                            {{ getStatusText(orderDetail!.status) }}
+                        </span>
+
                     </div>
+                    
                 </div>
                 <div class="order-block row">
                     <div class="col-xl">
                         <div class="order-block__products checkout-my-cart">
                             <table class="cart__tables">
                                 <tbody>
-                                    <tr>
+                                    <tr *ngFor="let item of orderDetail?.products">
                                         <td>
                                             <div class="cart__product-item">
-                                                <div class="cart__product-item__img">
-                                                    <a href="javascript:void(0)">
-                                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/10/19/45e137da03b6f053cd18a2232ad4ad4d.jpg" alt>
+                                                <div class="cart__product-item__img" style="cursor: pointer;">
+                                                    <a [routerLink]="['/customer/detailProduct', item.productId]">
+                                                        <img [src]="'/assets/imageProduct/'+item.image" alt>
                                                     </a>
                                                 </div>
                                                 <div class="cart__product-item__content">
-                                                    <h3 class="cart__product-item__title">Đầm lụa phối bèo - xếp ly</h3>
+                                                    <h3 class="cart__product-item__title" style="cursor: pointer;" [routerLink]="['/customer/detailProduct', item.productId]" >{{item.productName}}</h3>
                                                     <div class="cart__product-item__properties">
                                                         <p>
-                                                            Màu sắc: <span>Trắng</span>
+                                                            Màu sắc: <span>{{item.color}}</span>
                                                         </p>
                                                     </div>
                                                     <div class="cart__product-item__properties">
                                                         <p>
-                                                            Size: <span style="text-transform: uppercase;">m</span>
+                                                            Size: <span style="text-transform: uppercase;">{{item.size}}</span>
                                                         </p>
                                                     </div>
                                                     <div class="cart__product-item__properties">
                                                         <p>
-                                                            Số lượng: <span>1</span>
+                                                            Số lượng: <span>{{item.quantity}}</span>
                                                         </p>
                                                     </div>
                                                     <div class="cart__product-item__btn--save">
-                                                        <button class="btn btn--outline btn--large repurchase-product">Mua lại</button>
+                                                        <!-- <button class="btn btn--outline btn--large repurchase-product">Mua lại</button> -->
                                                     </div>
                                                 </div>
                                                 <div class="cart__product-item__price">
-                                                    1.490.000đ
+                                                    {{item.total | number}}đ
                                                 </div>
                                             </div>
                                         </td>
@@ -95,13 +104,13 @@
                                 <div class="cart-summary__overview__item">
                                     <p>Ngày tạo đơn</p>
                                     <p>
-                                        <span class="price">03/04/2025</span>
+                                        <span class="price">{{orderDetail?.createdAt}}</span>
                                     </p>
                                 </div>
                                 <div class="cart-summary__overview__item">
                                     <p>Tạm tính</p>
                                     <p>
-                                        <span class="price">1.490.000 <sup>đ</sup></span>
+                                        <span class="price">{{orderDetail?.totalCost | number}} <sup>đ</sup></span>
                                     </p>
                                 </div>
                                 <div class="cart-summary__overview__item">
@@ -113,14 +122,14 @@
                                 <div class="cart-summary__overview__item">
                                     <p>Tổng tiền</p>
                                     <p>
-                                        <b>1.490.000 <sup>đ</sup></b>
+                                        <b>{{orderDetail?.totalCost | number}} <sup>đ</sup></b>
                                     </p>
                                 </div>
                             </div>
                             <div class="cart-summary__payment">
                                 <h4>Hình thức thanh toán</h4>
                                 <div class="cart-summary__overview__item">
-                                    <p>Thanh toán bằng Momo</p>
+                                    <p>{{orderDetail?.paymentMethod}}</p>
                                     <div class="order_status">
                                         <span class="icon-ic_radio_active">
                                             <div class="path1"></div>
@@ -132,17 +141,31 @@
                             <div class="cart-summary__address">
                                 <h4>Địa chỉ</h4>
                                 <div class="cart-summary__overview__item">
-                                    <p>Tên khách</p>
+                                    <p>{{orderDetail?.fullname}}</p>
                                 </div>
                                 <div class="cart-summary__overview__item">
-                                    <p>Địa chỉ chi tiết ở đây</p>
+                                    <p>{{orderDetail?.address}}</p>
                                     <br>
                                 </div>
                                 <div class="cart-summary__overview__item">
-                                    <p>Điện thoại: 0123456789</p>
+                                    <p>Điện thoại: {{orderDetail?.phone}}</p>
                                 </div>
                             </div>
+                            
                         </div>
+                        <br>
+                        <button *ngIf="orderDetail?.status === 1" 
+                            (click)="cancelOrder()"
+                            style="border-radius: 16px 0px; padding: 7px; border: none; background-color: rgb(229, 3, 3); color: white;"
+                        >
+                            Hủy đơn hàng
+                        </button>
+                        <button *ngIf="orderDetail?.status === 2" 
+                            (click)="confirmReceived()"
+                            style="border-radius: 16px 0px; padding: 7px; border: none; background-color: rgb(12, 89, 6); color: white;"
+                        >
+                            Đã nhận được hàng
+                        </button>
                     </div>
                 </div>
                 <!-- <div class="order-buttons"></div> -->

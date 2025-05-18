@@ -11,13 +11,13 @@
             </a>
           </div>
         <div class="user">
-            Username <i class="bi bi-box-arrow-right"></i>
+            {{fullName}} &nbsp;<i style="cursor: pointer;" class="bi bi-box-arrow-right" (click)="logout()"></i>
         </div>
     </div>
     <div class="admin-wrapper">
         <aside class="sidebar">
           <ul>
-            <li><a routerLink="/admin/dashboard" routerLinkActive="active"><i class="bi bi-speedometer2"></i> DASHBOARD</a></li>
+            <li *ngIf="role === 'ADMIN'"><a routerLink="/admin/dashboard" routerLinkActive="active"><i class="bi bi-speedometer2"></i> DASHBOARD</a></li>
             <!-- routerLink="/admin/categories" routerLinkActive="active" -->
             <li (click)="toggleSubmenu()">
                 <a style="cursor: pointer;"><i class="bi bi-kanban" ></i> Quản lý <i [class]="isSubmenuOpen ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i></a>
@@ -32,7 +32,7 @@
             </li>
             <li><a routerLink="/admin/products" routerLinkActive="active"><i class="bi bi-box-seam"></i> Kho</a></li>
             <li><a routerLink="/admin/order" routerLinkActive="active"><i class="bi bi-truck"></i> Đơn hàng</a></li>
-            <li><a routerLink="/admin/account" routerLinkActive="active"><i class="bi bi-person-vcard"></i> Tài khoản</a></li>
+            <li *ngIf="role === 'ADMIN'"><a routerLink="/admin/account" routerLinkActive="active"><i class="bi bi-person-vcard"></i> Tài khoản</a></li>
           </ul>
         </aside>
       

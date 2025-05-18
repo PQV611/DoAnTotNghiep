@@ -5,5 +5,5 @@ import project.datn.iam.DTO.request.OrderRequest;
 import project.datn.iam.DTO.response.OrderResponse;
 import project.datn.iam.model.Order;
 @Mapper(componentModel = "spring")
-public abstract class OrderMapper extends BaseMapper<Order, OrderResponse, OrderRequest> {
+public abstract class OrderMapperBase extends BaseMapper<Order, OrderResponse, OrderRequest> {
 }

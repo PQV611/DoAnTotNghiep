@@ -31,6 +31,7 @@ public abstract class BaseService<E, ID , Rq, Rs, Repo extends JpaRepository<E, 
         entity = repository.save(entity);
         afterSaveEntity(entity,request);
         return mapper.convertEntity2Response(entity);
+        //logic set them cai may can vao
     }
 
     protected void mapUpdatedEntity(Rq request, E entity){}

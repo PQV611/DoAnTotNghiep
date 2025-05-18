@@ -5,26 +5,27 @@
                 <div class="order-sidemenu block-border">
                     <div class="order-sidemenu_user">
                         <div class="order-sidemenu_user-avatar">
-                            <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt>
+                            <!-- src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" -->
+                            <img [src] = "'/assets/imageProduct/'+ user.avatar" alt>
                         </div>
                         <div class="order-sidemenu_user-name">
-                            <p>Phạm Quốc Việt</p>
+                            <p>{{user.fullName}}</p>
                         </div>
                     </div>
                     <div class="order-sidemenu_menu">
                         <ul>
                             <li class="active">
-                                <a href="#!">
+                                <a routerLink="/customer/info">
                                     <i class="bi bi-person"></i>&nbsp;Thông tin cá nhân
                                 </a>
                             </li>
                             <li>
-                                <a href="#!">
+                                <a routerLink="/customer/order_manage">
                                     <i class="bi bi-arrow-repeat"></i>&nbsp;Quản lý đơn hàng
                                 </a>
                             </li>
                             <li>
-                                <a href="#!">
+                                <a routerLink="/customer/favourite_product">
                                     <i class="bi bi-heart"></i>&nbsp;Sản phẩm yêu thích
                                 </a>
                             </li>
@@ -50,7 +51,9 @@
                                     <label>Họ và tên</label>
                                 </div>
                                 <div class="col col-input">
-                                    <input type="text" class="form-control" value="Phạm Quốc Việt" disabled="disabled" title="HoTen">
+                                    <!-- <input type="text" class="form-control" [(ngModel)] ="user.fullName"  [disabled]="true" title="HoTen"> -->
+                                    {{user.fullName}}
+                                    <!-- <p>{{fullName}}</p> -->
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -58,7 +61,8 @@
                                     <label>Ngày sinh</label>
                                 </div>
                                 <div class="col col-input">
-                                    <input type="text" class="form-control" value="06/11/2003" disabled="disabled" title="ngaysinh">
+                                    <!-- <input type="text" class="form-control" value="06/11/2003" disabled="disabled" title="ngaysinh"> -->
+                                    {{user.birth}}
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -66,7 +70,8 @@
                                     <label>Email</label>
                                 </div>
                                 <div class="col col-input has-button">
-                                    <input type="text" class="form-control" value="quocviet@gmail.com" id="customer_email" disabled="disabled" name="customer_email" title="email">
+                                    <!-- <input type="text" class="form-control" value="quocviet@gmail.com" id="customer_email" disabled="disabled" name="customer_email" title="email"> -->
+                                    {{user.email}}
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -74,7 +79,8 @@
                                     <label>Số điện thoại</label>
                                 </div>
                                 <div class="col col-input has-button">
-                                    <input type="text" class="form-control" value="0123456789" id="customer_phone" disabled="disabled" title="SDT">
+                                    <!-- <input type="text" class="form-control" value="0123456789" id="customer_phone" disabled="disabled" title="SDT"> -->
+                                     {{user.phone}}
                                 </div>
                             </div>
                             <!-- <div class="row form-group form-radio-checkbox">
@@ -102,7 +108,8 @@
                                     <label>Địa chỉ</label>
                                 </div>
                                 <div class="col col-input">
-                                    <input type="text" class="form-control" value="Kim Thiều" id="customer_address" disabled="disabled" title="DiaChi">
+                                    <!-- <input type="text" class="form-control" value="Kim Thiều" id="customer_address" disabled="disabled" title="DiaChi"> -->
+                                     {{user.address}}
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -131,16 +138,20 @@
         <div>
           <label>Mật khẩu hiện tại</label>
           <input placeholder="Vui lòng nhập ..." type="password" name="currentPassword" [(ngModel)]="currentPassword" required>
+          <div class="error text-danger" *ngIf="submitted && !currentPassword">Vui lòng nhập mật khẩu hiện tại</div>
         </div>
   
         <div>
           <label>Mật khẩu mới</label>
           <input placeholder="Vui lòng nhập ..." type="password" name="newPassword" [(ngModel)]="newPassword" required>
+          <div class="error text-danger" *ngIf="submitted && !newPassword">Vui lòng nhập mật khẩu mới</div>
         </div>
   
         <div>
           <label>Nhập lại mật khẩu mới</label>
           <input placeholder="Vui lòng nhập ..." type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+          <div class="error text-danger" *ngIf="submitted && !confirmPassword">Vui lòng xác nhận lại mật khẩu</div>
+            <div class="error text-danger" *ngIf="submitted && newPassword !== confirmPassword">Mật khẩu mới không trùng khớp</div>
         </div>
   
         <div class="modal-buttons">
@@ -161,24 +172,28 @@
         <div>
           <label>Họ và tên</label>
           <input title="fullname" type="text" [(ngModel)]="editUser.fullName" name="fullName" required />
+          <p class="text-danger" *ngIf="validationErrors.fullName">{{ validationErrors.fullName }}</p>
         </div>
   
         <div>
           <label>Ngày sinh</label>
           <input title="birth" type="date" [(ngModel)]="editUser.birthDate" name="birthDate" required />
+          <p class="text-danger" *ngIf="validationErrors.birthDate">{{ validationErrors.birthDate }}</p>
         </div>
   
         <div>
           <label>Email</label>
           <input title="email" type="email" [(ngModel)]="editUser.email" name="email" required />
+          <p class="text-danger" *ngIf="validationErrors.email">{{ validationErrors.email }}</p>
         </div>
   
         <div>
           <label>Số điện thoại</label>
           <input title="numberphone" type="text" [(ngModel)]="editUser.phone" name="phone" required />
+          <p class="text-danger" *ngIf="validationErrors.phone">{{ validationErrors.phone }}</p>
         </div>
   
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Giới tính</label>
             <div class="gender-options">
               <label>
@@ -190,25 +205,30 @@
                 Nữ
               </label>
             </div>
-          </div>
+          </div> -->
   
         <div>
           <label>Địa chỉ</label>
           <input title="address" type="text" [(ngModel)]="editUser.address" name="address" />
+          <p class="text-danger" *ngIf="validationErrors.address">{{ validationErrors.address }}</p>
         </div>
 
         <div class="form-group">
             <label>Ảnh đại diện</label>
+            <input title="1" type="file" (change)="onFileSelected($event)">
+            
             <div style="display: flex; justify-content: space-around">
                 <div>
                     <p><b>Ảnh ban đầu</b></p>
-                    <img th:src="'data:image/jpeg;base64,' + ${user.avatar}" style="width: 100px; height: 100px;" alt="avatar">
+                    <img [src] = "'/assets/imageProduct/'+ avatar" style="width: 100px; height: 100px;" alt="avatar">
                 </div>
                 <div style="line-height: 130px">
                     <i class="bi bi-arrow-left-right"></i>
                 </div>
                 <div>
                     <p><b>Ảnh thay đổi</b></p>
+                    
+
                     <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; width: 100px; height: 100px;"/>
                 </div>
             </div>

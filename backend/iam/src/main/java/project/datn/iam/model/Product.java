@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -36,4 +37,7 @@ public class Product {
 
     @Column(name = "price", precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductVariant> productVariants;
 }

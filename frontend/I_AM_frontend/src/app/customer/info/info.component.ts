@@ -1,16 +1,80 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserProfile, UserProfileService } from 'src/app/services/user-profile.service';
 
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.css'],
 })
-export class InfoComponent {
+export class InfoComponent implements OnInit{
   showModal = false;
-
+  fullName: string = '';
+  avatar: string = '';
+  address: string = '';
+  birth:string = '';
+  phone:string ='';
+  email:string ='';
   currentPassword = '';
   newPassword = '';
   confirmPassword = '';
+  avatarFile: File | null = null;
+  submitted: boolean = false;
+
+  user: UserProfile = {
+    fullName: '',
+    birth: '',
+    phone: '',
+    address: '',
+    email: '',
+    avatar: ''
+  };
+
+  validationErrors = {
+    fullName: '',
+    birthDate: '',
+    email: '',
+    phone: '',
+    address: ''
+  };
+
+  constructor(private authService: AuthService, private userService: UserProfileService){}
+
+  ngOnInit(): void {
+    // this.authService.getUserProfile().subscribe({
+    //   next: (res) => {
+    //     this.fullName = res.fullName;
+    //     this.avatar = res.avatar ;
+    //     this.address = res.address;
+    //     this.birth = res.birth ;
+    //     this.phone = res.phone ;
+    //     console.log("Fullname: ", this.fullName);
+    //   },
+    //   error: (err) => {
+    //     this.fullName = 'Không xác định'
+    //     console.error(err);
+    //   }
+    // });
+
+    // Gọi API để hiển thị USER
+    this.userService.getUserProfile().subscribe({
+      next: (res) => {
+        this.user = res;
+        this.fullName = res.fullName;
+        this.avatar = res.avatar;
+        this.address = res.address;
+        this.birth = res.birth;
+        this.phone = res.phone;
+        this.email = res.email;
+        console.log("Email: " + res.email);
+        console.log('Thông tin user:', res);
+        console.log('Dữ liệu nhận được: ' + this.user) ;
+      },
+      error: (err) => {
+        console.error('Lỗi khi lấy thông tin người dùng:', err);
+      }
+    });
+  }
 
   openModal() {
     this.showModal = true;
@@ -22,16 +86,29 @@ export class InfoComponent {
   }
 
   changePassword() {
+
+    this.submitted = true;
+
+    if (!this.currentPassword || !this.newPassword || !this.confirmPassword) {
+      return; // có trường bị bỏ trống
+    }
+
     if (this.newPassword !== this.confirmPassword) {
-      alert('Mật khẩu mới không trùng khớp');
+      // alert('Mật khẩu mới không trùng khớp');
       return;
     }
 
-    // TODO: Gọi API đổi mật khẩu ở đây
-    console.log('Đổi mật khẩu:', this.currentPassword, this.newPassword);
-
-    alert('Đổi mật khẩu thành công!');
-    this.closeModal();
+    this.userService.changePassword(this.currentPassword, this.newPassword).subscribe({
+      next: () => {
+        alert('Đổi mật khẩu thành công!');
+        this.resetForm();
+        this.closeModal();
+      },
+      error: (err) => {
+        alert('Đổi mật khẩu thất bại!');
+        console.error(err);
+      }
+    });
   }
 
   resetForm() {
@@ -45,15 +122,36 @@ export class InfoComponent {
   showEditModal = false;
 
 editUser = {
-  fullName: 'Phạm Quốc Việt',
-  birthDate: '2003-11-06',
-  email: 'quocviet@gmail.com',
-  phone: '0123456789',
-  gender: 'Nam',
-  address: 'Kim Thiều'
+  fullName: this.fullName,
+  birthDate: this.birth,
+  email: this.email,
+  phone: this.phone,
+  // gender: 'Nam',
+  address: this.address
 };
 
+onFileSelected(event: any): void {
+    this.avatarFile = event.target.files[0];
+
+    if (this.avatarFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const preview = document.getElementById('preview') as HTMLImageElement;
+        preview.src = reader.result as string;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(this.avatarFile);
+    }
+  }
+
 openEditModal() {
+  this.editUser = {
+    fullName: this.user.fullName,
+    birthDate: this.user.birth,
+    email: this.user.email,
+    phone: this.user.phone,
+    address: this.user.address
+  };
   this.showEditModal = true;
 }
 
@@ -62,9 +160,80 @@ closeEditModal() {
 }
 
 saveChanges() {
-  // TODO: Gọi API hoặc xử lý cập nhật thông tin người dùng ở đây
-  console.log('Thông tin đã cập nhật:', this.editUser);
-  alert('Cập nhật thành công!');
-  this.closeEditModal();
-}
+    // Reset lỗi trước
+  this.validationErrors = {
+    fullName: '',
+    birthDate: '',
+    email: '',
+    phone: '',
+    address: ''
+  };
+
+  let hasError = false;
+
+  // RÀNG BUỘC
+  if (!this.editUser.fullName.trim()) {
+    this.validationErrors.fullName = 'Họ tên không được để trống';
+    hasError = true;
+  }
+
+  if (!this.editUser.birthDate) {
+    this.validationErrors.birthDate = 'Ngày sinh không được để trống';
+    hasError = true;
+  } else {
+    const birth = new Date(this.editUser.birthDate);
+    const today = new Date();
+    if (birth > today) {
+      this.validationErrors.birthDate = 'Ngày sinh không được lớn hơn ngày hiện tại';
+      hasError = true;
+    }
+  }
+
+  const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  if (!this.editUser.email.trim()) {
+    this.validationErrors.email = 'Email không được để trống';
+    hasError = true;
+  } else if (!emailPattern.test(this.editUser.email)) {
+    this.validationErrors.email = 'Email không đúng định dạng';
+    hasError = true;
+  }
+
+  const phonePattern = /^\d{10}$/;
+  if (!this.editUser.phone.trim()) {
+    this.validationErrors.phone = 'Số điện thoại không được để trống';
+    hasError = true;
+  } else if (!phonePattern.test(this.editUser.phone)) {
+    this.validationErrors.phone = 'Số điện thoại phải đủ 10 số';
+    hasError = true;
+  }
+
+  if (!this.editUser.address.trim()) {
+    this.validationErrors.address = 'Địa chỉ không được để trống';
+    hasError = true;
+  }
+
+  if (hasError) return; // Không gửi form nếu có lỗi
+
+    const formData = new FormData();
+    formData.append('fullName', this.editUser.fullName);
+    formData.append('birth', this.editUser.birthDate); // yyyy-MM-dd
+    formData.append('email', this.editUser.email);
+    formData.append('phone', this.editUser.phone);
+    formData.append('address', this.editUser.address);
+    if (this.avatarFile) {
+      formData.append('avatarFile', this.avatarFile);
+    }
+
+    this.userService.updateUserProfile(formData).subscribe({
+      next: () => {
+        alert('Cập nhật thông tin thành công!');
+        this.closeEditModal();
+        this.ngOnInit(); // reload lại thông tin sau khi cập nhật
+      },
+      error: (err) => {
+        console.error('Lỗi cập nhật:', err);
+        alert('Cập nhật thất bại!');
+      }
+    });
+  }
 }

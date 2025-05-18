@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.datn.iam.DTO.ProductDTO;
 import project.datn.iam.DTO.ProductRequest;
@@ -63,33 +64,46 @@ public class ProductService {
         return new PageImpl<>(dtos, pageable, productPage.getTotalElements());
     }
 
-    public void addProduct(ProductRequest productRequest){
+    public void addProduct(ProductRequest productRequest) {
+        // 1. Tạo Product mới
         Product product = new Product();
         product.setNameProduct(productRequest.getNameProduct());
         product.setDescription(productRequest.getDescription());
-        product.setCategory(new Categories(productRequest.getCategoryId()));
         product.setPrice(productRequest.getPrice());
         product.setCreateAt(LocalDateTime.now());
+        product.setCategory(new Categories(productRequest.getCategoryId()));
 
-        //save variant
-        for (ProductVariantRequest v: productRequest.getVariants()) {
-            ProductVariant productVariant = new ProductVariant();
-            productVariant.setProduct(product);
-            productVariant.setColor(new Colors(v.getColorId()));
-            productVariant.setSize(new Sizes(v.getSizeId()));
-            productVariant.setQuantity(v.getQuantity());
+        // 2. Lưu Product trước để lấy ID
+        Product savedProduct = productRepository.save(product);
+
+        // 3. Lưu danh sách biến thể sản phẩm (variants)
+        List<ProductVariantRequest> variants = productRequest.getVariants();
+        if (variants != null && !variants.isEmpty()) {
+            for (ProductVariantRequest variantRequest : variants) {
+                ProductVariant variant = new ProductVariant();
+                variant.setProduct(savedProduct);
+                variant.setColor(new Colors(variantRequest.getColorId()));
+                variant.setSize(new Sizes(variantRequest.getSizeId()));
+                variant.setQuantity(variantRequest.getQuantity());
+                variant.setPrice(productRequest.getPrice()); // hoặc cho phép chỉnh giá từng variant riêng
+                productVariantRepository.save(variant);
+            }
         }
 
-        //save image
-        for (MultipartFile multipartFile : productRequest.getImages()) {
-            String fileName = saveImageToDisk(multipartFile) ;
-            Image image = new Image();
-            image.setProduct(product);
-            image.setImage(fileName);
-            imageRepository.save(image);
+        // 4. Lưu danh sách ảnh sản phẩm
+        List<MultipartFile> images = productRequest.getImages();
+        if (images != null && !images.isEmpty()) {
+            for (MultipartFile file : images) {
+                String fileName = fileStorageService.saveFile(file); // ghi file vào ổ đĩa
+                Image image = new Image();
+                image.setProduct(savedProduct); // gán product đã có ID
+                image.setImage(fileName);
+                imageRepository.save(image);
+            }
         }
     }
 
+    @Transactional
     public void updateProduct(Long id, ProductRequest productRequest){
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy mã sản phẩm"));
         product.setNameProduct(productRequest.getNameProduct());
@@ -129,6 +143,7 @@ public class ProductService {
 
     }
 
+    @Transactional
     public void deleteProduct(Long id) {
         productVariantRepository.deleteByProduct_Id(id);
         imageRepository.deleteByProduct_Id(id);
@@ -138,7 +153,7 @@ public class ProductService {
     private String saveImageToDisk(MultipartFile file) {
         try {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            Path path = Paths.get("path/to/your/image/folder", fileName);
+            Path path = Paths.get("E:\\DoAnTotNghiep_2025\\IAM_Project\\frontend\\I_AM_frontend\\src\\assets\\imageProduct", fileName);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             return fileName;
         } catch (IOException e) {

@@ -710,3 +710,39 @@ a {
     padding: 0px 10px;
     cursor: pointer;
 }
+
+.list-inline-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.list-inline-pagination li {
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 16px 0px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.list-inline-pagination li:hover {
+  background-color: #f5f5f5;
+  border-color: #999;
+}
+
+.list-inline-pagination li.active {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  border-color: #000;
+}
+
+.list-inline-pagination li a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+}

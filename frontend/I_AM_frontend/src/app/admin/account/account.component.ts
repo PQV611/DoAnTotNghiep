@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminAccountService, UserDTO, UserUpdateDTO, ChangePasswordDTO, PageResponse } from 'src/app/services/admin-account.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -38,7 +39,9 @@ export class AccountComponent implements OnInit {
   confirmNewPassword = '';
   changePasswordErrors: any = {};
 
-  constructor(private accountService: AdminAccountService, private toastr: ToastrService) { }
+  constructor(private accountService: AdminAccountService, private toastr: ToastrService, public authService: AuthService) { }
+
+  // private role = this.authService.getRoleFromToken();
 
   ngOnInit(): void {
     this.loadAccounts();

@@ -18,15 +18,15 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { OrderComponent } from './admin/order/order.component';
 
 const routes: Routes = [
-  // {path: '', redirectTo: 'homepage', pathMatch: 'full'},
+  {path: '', redirectTo: 'homepage', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'homepage', component: HomepageComponent},
   {path: 'pay/cart', component: CartComponent},
   {path: 'customer/info', component: InfoComponent},
   {path: 'customer/order_manage', component: OrderManageComponent},
   {path: 'customer/favourite_product', component: FavouriteProductComponent},
-  {path: 'customer/detailProduct', component: DetailProductComponent},
-  {path: 'customer/detailOrder', component:DetailOrderComponent},
+  {path: 'customer/detailProduct/:id', component: DetailProductComponent},
+  {path: 'customer/detailOrder/:id', component:DetailOrderComponent},
   {path:'category', component: CategoryComponent},
   { path: 'admin', component: AdminLayoutComponent, children: [
     { path: 'categories', component: CategoryManagerComponent },
