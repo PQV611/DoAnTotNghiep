@@ -193,6 +193,7 @@ loadPage(page: number): void {
         this.products = res.content;
         this.currentPage = res.number;
         this.totalPages = res.totalPages;
+        console.log('Products:', this.products);
       });
   }
 }

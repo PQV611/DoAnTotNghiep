@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+    <div class="alert-bar" *ngIf="alertMessage">
+        {{ alertMessage }}
+    </div>
     <div style="text-align: center; background-color: rgba(40, 14, 110, 0.568); padding: 10px; margin-bottom: 50px; border-radius: 23px; cursor: pointer;">
         <a href="/homepage" style="color: white; text-decoration: none;"> <i class="bi bi-house-door"></i> Về trang chủ</a>
     </div>

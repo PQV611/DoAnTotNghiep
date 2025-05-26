@@ -38,6 +38,11 @@ export class OrderManageComponent implements OnInit{
   }
 }
 
+getStatusColorClass(status: number): string {
+  return (status === 1 || status === 4) ? 'text-danger' : 'text-success';
+}
+
+
 
   loadOrders(): void {
     this.orderService.getOrderHistory().subscribe({

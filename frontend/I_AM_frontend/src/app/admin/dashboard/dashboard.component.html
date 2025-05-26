@@ -1,13 +1,231 @@
-dashboard
-<div class="dashboard">
-    <div class="row">
-        <div class="col-md-6">
-            <div>
+<div class="dashboard" style="background-color: white;">
+  <h2 style="text-align: center; padding-top: 15px;">THỐNG KÊ</h2>
+  <div class="row">
+    <!-- <div class="col-md-2"></div> -->
 
-            </div>
-            <div></div>
-            <div></div>
+    <div class="col-md-6">
+      <!-- <div class="package" style="height: 486px;"> -->
+        <div class="doanhthu display" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <div class="tien">
+          <h4>DOANH THU</h4>
+          <h5>{{summary?.totalRevenue | number}} đ</h5>
         </div>
-        <div class="col-md-6"></div>
+        <div class="icon">
+          <i class="bi bi-currency-dollar" style="font-size: 60px;"></i>
+        </div>
+      </div>
+
+      <div class="online display" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <div class="tien">
+          <h4>SỐ ĐƠN HÀNG ONLINE</h4>
+          <h5>{{summary?.transferOrders}}</h5>
+        </div>
+        <div class="icon">
+          <i class="bi bi-bank" style="font-size: 60px; margin-right: 5px;"></i>
+          <!-- <i class="bi bi-currency-dollar" ></i> -->
+        </div>
+      </div>
+
+      <div class="offline display" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <div class="tien">
+          <h4>SỐ ĐƠN HÀNG OFFLINE</h4>
+          <h5>{{summary?.codOrders}}</h5>
+        </div>
+        <div class="icon">
+          <i class="bi bi-cash" style="font-size: 60px; margin-right: 5px;"></i>
+          <!-- <i class="bi bi-currency-dollar" ></i> -->
+        </div>
+      </div>
+      <!-- </div> -->
     </div>
+    
+    <!-- <div class="col-md-3">
+      <div class="online display">
+        <div class="tien">
+          <h4>SỐ ĐƠN HÀNG ONLINE</h4>
+          <h5>{{summary?.transferOrders}}</h5>
+        </div>
+        <div class="icon">
+          <i class="bi bi-currency-dollar" style="font-size: 60px;"></i>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="col-md-3"> -->
+      <!-- <div class="offline display">
+        <div class="tien">
+          <h4>SỐ ĐƠN HÀNG OFFLINE</h4>
+          <h5>{{summary?.codOrders}}</h5>
+        </div>
+        <div class="icon">
+          <i class="bi bi-currency-dollar" style="font-size: 60px;"></i>
+        </div>
+      </div> -->
+    <!-- </div> -->
+
+    <div class="col-md-6">
+      <div class="top" style="margin-top: 15px;" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <h4 style="margin-top: 15px;">TOP TRENDING</h4>
+        <div>
+          <img [src]="'/assets/imageProduct/' + topUserAvatar" alt="" width="250px" height="300px" class="img-thumbnail" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        </div>
+        <i> 
+          <i class="bi bi-fire" style="color: rgb(246, 156, 60);"></i> {{topUserName}} <i class="bi bi-fire" style="color: rgb(246, 156, 60);"></i></i>
+        <p>{{topUserTotal | number}} đ</p>
+      </div>
+    </div>
+
+    <!-- <div class="col-md-2"></div> -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-8" style="text-align: center; margin-top: 15px;">
+      <h4>TOP 3 SẢN PHẨM CHÁY HÀNG</h4>
+      <!-- <div class="row" style="text-align: center; height: 450px;">
+        <div class="col-md-4" >
+          <div class="top2">
+            <h3>TOP2</h3>
+            <div>
+              <img [src]="'/assets/imageProduct/' + topProducts[1].image" alt="" width="180px" height="230px" class="img-thumbnail">
+            </div>
+            <i>
+              {{topProducts[1].name}}
+            </i>
+            <p>Đã bán: {{topProducts[1].quantitySold}}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="top1">
+            <h3>TOP1</h3>
+            <div>
+              <img [src]="'/assets/imageProduct/' + topProducts[0].image" alt="" width="200px" height="250px" class="img-thumbnail">
+            </div>
+            <i>
+              {{topProducts[0].name}}
+            </i>
+            <p>Đã bán: {{topProducts[0].quantitySold}}</p>
+          </div>
+        </div>
+        <div class="col-md-4" >
+          <div class="top3">
+            <h3>TOP3</h3>
+            <div>
+              <img [src]="'/assets/imageProduct/' + topProducts[2].image" alt="" width="150px" height="200px" class="img-thumbnail">
+            </div>
+            <i>
+              {{topProducts[2].name}}
+            </i>
+            <p>Đã bán: {{topProducts[2].quantitySold}}</p>
+          </div>
+        </div>
+      </div> -->
+      <table class="table table-hover" style="margin-left: 15px; margin-top: 15px;" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+      <thead>
+        <tr>
+          <th scope="col">TOP</th>
+          <th scope="col">MÃ SẢN PHẨM</th>
+          <th scope="col">ẢNH</th>
+          <th scope="col">TÊN SẢN PHẨM</th>
+          <th scope="col">SỐ LƯỢNG</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of topProducts; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>SP{{product.id}}</td>
+          <td>
+            <img [src]="'/assets/imageProduct/' + product.image" alt="" width="100px" height="150px" class="img-thumbnail">
+          </td>
+          
+          <td>{{product.name}}</td>
+          <td>Số lượng mua: {{product.quantitySold}}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="col-md-4 avatar" style=" text-align: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+      <h4>Tỉ lệ sản phẩm theo danh mục</h4>
+      <canvas #productQuantityPieCanvas></canvas>
+      
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-11" >
+      <div class="chooseOne" style="display: flex; justify-content: flex-start; margin-left: 15px; margin-top: 15px;">
+        <div class="row" title="doanh thu theo tuần trong tháng" *ngIf="isWeekSelected">
+                <div class="col-md-3">
+                  <label>Chọn tháng:</label>
+                  <select [(ngModel)]="selectedMonth" class="form-control">
+                    <option *ngFor="let m of months" [value]="m.value">{{ m.label }}</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label>Chọn năm:</label>
+                  <select [(ngModel)]="selectedYear" class="form-control">
+                    <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+                  </select>
+                  </div>
+                <div class="col-md-3 align-self-end">
+                  <button (click)="loadChartByMonthYear()" class="btn btn-primary">Xem biểu đồ</button>
+                </div>
+                <h3>DOANH THU 4 TUẦN TRONG THÁNG</h3>
+              </div>
+
+              <div class="row" title="Doanh thu các tháng trong năm" *ngIf="isMonthSelected">
+                <div class="col-md-3">
+                  <label>Chọn năm:</label>
+                  <select [(ngModel)]="selectedYearForYearlyChart" class="form-control">
+                    <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+                  </select>
+                </div>
+                <div class="col-md-3 align-self-end">
+                  <button class="btn btn-success" (click)="loadYearlyChart()">Xem biểu đồ năm</button>
+                </div>
+                <h3>DOANH THU CÁC THÁNG TRONG NĂM</h3>
+              </div>
+
+              <div class="row" title="doanh thu các ngày trong tháng của năm" *ngIf="isDaySelected">
+                <div class="col-md-3">
+                  <label>Chọn tháng:</label>
+                  <select [(ngModel)]="selectedMonth" class="form-control">
+                    <option *ngFor="let m of months" [value]="m.value">{{ m.label }}</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label>Chọn năm:</label>
+                  <select [(ngModel)]="selectedYear" class="form-control">
+                    <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+                  </select>
+                </div>
+                <div class="col-md-3 align-self-end">
+                  <button (click)="loadDailyLineChart()" class="btn btn-info">Biểu đồ ngày</button>
+                </div>
+                <h3>DOANH THU CÁC NGÀY TRONG THÁNG</h3>
+              </div>
+
+              <div style="width: 200px;" class="dadChooseOne">
+                <a href="javascrip:void(0)" class="choose" [class.isActive]="selectedType === 'day'"  (click)="chooseType('day')">Ngày |</a> 
+                <a href="javascrip:void(0)" class="choose" [class.isActive]="selectedType === 'week'" (click)="chooseType('week')"> Tuần |</a>
+                <a href="javascrip:void(0)" class="choose" [class.isActive]="selectedType === 'month'" (click)="chooseType('month')"> Tháng</a> 
+              </div>
+      </div>
+      <canvas #myCanvas height="120" *ngIf="isWeekSelected"></canvas>
+      <canvas #yearChartCanvas height="100" *ngIf="isMonthSelected"></canvas>
+      <canvas #dailyLineChart *ngIf="isDaySelected"></canvas>
+       
+       
+    </div>
+    <div class="col-md-1">
+      <!-- <div class="top" style="margin-top: 15px;" >
+        <h4 style="margin-top: 15px;">TOP TRENDING</h4>
+        <div>
+          <img [src]="'/assets/imageProduct/' + topUserAvatar" alt="" width="150px" height="200px" class="img-thumbnail">
+        </div>
+        <i> 
+          <i class="bi bi-fire" style="color: rgb(246, 156, 60);"></i> {{topUserName}} <i class="bi bi-fire" style="color: rgb(246, 156, 60);"></i></i>
+        <p>{{topUserTotal | number}} đ</p>
+      </div> -->
+  </div>
 </div>
+

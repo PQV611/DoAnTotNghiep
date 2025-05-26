@@ -34,6 +34,7 @@ export interface CartItemDetail {
   color: string;
   size: string;
   originalPrice: number;
+  activeDiscount: boolean;
   salePrice: number;
   discountAmount: number;
   numberDiscount: number;

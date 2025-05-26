@@ -1,3 +1,6 @@
+<div class="alert-bar" *ngIf="alertMessage">
+  {{ alertMessage }}
+</div>
 <div class="product-detail">
     <div class="container">
         <div class="row">
@@ -45,7 +48,8 @@
                     <div class="product-detail__price">
                         <b>{{product?.salePrice | number}}đ</b>
                         <del *ngIf="product.numberDiscount > 0">{{product?.originalPrice | number}}đ</del>
-                        <div class="product-detail__price-sale" *ngIf="product.numberDiscount > 0">-{{product?.numberDiscount}} <span>%</span></div>
+                        <!-- *ngIf="product.numberDiscount > 0" -->
+                        <div class="product-detail__price-sale" *ngIf="product.isActive">-{{product?.numberDiscount}} <span>%</span></div>
                     </div>
                     <div class="product-detail__color">
                         <p>Màu sắc: </p>
@@ -75,8 +79,8 @@
                         <p style="font-size: 16px; font-weight: 500; line-height: 1.2; vertical-align: baseline; margin-bottom: 0">Số lượng: </p>
                         <div class="product-detail__quantity-input">
                             <input type="number" name="quantity" title="quantity" [(ngModel)]="quantity" min="1"/>
-                            <div class="product-quantity product-detail__quantity--increase ">+</div>
-                            <div class="product-quantity product-detail__quantity--decrease">-</div>
+                            <!-- <div class="product-quantity product-detail__quantity--increase ">+</div> -->
+                            <!-- <div class="product-quantity product-detail__quantity--decrease">-</div> -->
                         </div>
                     </div>
                     <br>

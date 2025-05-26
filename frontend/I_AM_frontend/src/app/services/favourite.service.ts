@@ -7,6 +7,7 @@ export interface FavouriteProduct {
   nameProduct: string;
   originalPrice: number;
   salePrice: number;
+  activeDiscount: boolean
   numberDiscount: number;
   image1: string;
   image2: string;

@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container" style="align-items: center;">
     <form name="frm_cat" id="frm_cat" enctype="application/x-www-form-urlencoded" method="get" action data-slug="">
         <div class="row" id="products">
             <div class="container">
                 <section class="section-list-products">
                     <div class="box-products d-flex">
                         <div class="sidebar-prod sidebar-prod-pc">
-                            <div class="filter-by-side">
+                            <!-- <div class="filter-by-side">
                                 <ul class="list-side">
                                     <li class="item-side item-side-size">
                                         <p class="item-side-title " (click)="toggleSizeDisplay()">
@@ -13,7 +13,7 @@
                                         </p>
                                         <div class="sub-list-side" [ngClass]="{ 'show': isSizeVisible, 'hide': !isSizeVisible }">
                                             <label class="item-sub-list po-relative" *ngFor="let size of sizeList">
-                                                <!-- (click)="selectSize(size)" -->
+                                                
                                               <span class="item-sub-title item-sub-pr" >{{ size }}</span>
                                             </label>
                                         </div>
@@ -25,7 +25,7 @@
                                         </p>
                                         <div class="sub-list-side" [ngClass]="{ 'showColor': isColorVisible, 'hideColor': !isColorVisible }">
                                             <label class="item-sub-list po-relative" *ngFor="let color of colorList">
-                                                <!-- item-sub-title item-sub-pr -->
+                                               
                                               <span class="color-circle" [style.background-color]="color" (click)="selectColor(color)">
                                                 <span *ngIf="selectedColor === color" class="tick-mark"><i class="bi bi-check-lg"></i></span>
                                               </span>
@@ -60,7 +60,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="main-prod">
                             <h1 class="sub-title-main">{{getCategoryName()}}</h1>
@@ -68,7 +68,8 @@
                                 <div class="list-products list-products-cat d-flex">
                                     <div class="item-cat-product" *ngFor="let product of products">
                                         <div class="product">
-                                            <span class="badget" *ngIf="product.numberDiscount != 0" >
+                                            <!-- *ngIf="product.numberDiscount != 0" -->
+                                            <span class="badget"  *ngIf="product.activeDiscount">
                                                 -{{product.numberDiscount}} <span>%</span>
                                             </span>
                                             <div class="thumb-product">

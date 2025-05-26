@@ -13,7 +13,7 @@ public class ProductCategoryDTO {
     private Long id;
     private String nameProduct;
     private Integer numberDiscount ;
-//    private Boolean activeDiscount ;
+    private Boolean activeDiscount ;
     private BigDecimal originalPrice;
     private BigDecimal salePrice;
     private String image1;

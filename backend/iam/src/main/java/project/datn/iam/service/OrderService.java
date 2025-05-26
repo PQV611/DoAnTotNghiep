@@ -62,31 +62,6 @@ public class OrderService {
         }
     }
 
-//    public OrderDTO getOrderDetail(Long id) {
-//        Order order = orderRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng với id = " + id));
-//
-//        List<OrderDetail> details = orderDetailRepository.findByOrderId(order.getIdOrder());
-//        return orderMapper.toDTO(order, details);
-//    }
-
-
-
-
-//    public Page<OrderDTO> getOrdersByStatus(int status, LocalDateTime fromDate, LocalDateTime toDate, int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<Order> orders = orderRepository.findByStatusAndDateRange(status, fromDate, toDate, pageable);
-//        long total = orderRepository.countByStatusAndDateRange(status, fromDate, toDate);
-//
-//        List<OrderDTO> dtoList = orders.stream().map(order -> {
-//            List<OrderDetail> items = orderDetailRepository.findByOrderIdOrder(order.getIdOrder());
-//            List<Image> images = imageRepository.findAllByOrderId(order.getIdOrder());
-//            return orderMapper.toDTO(order, items, images);
-//        }).collect(Collectors.toList());
-//
-//        return new PageImpl<>(dtoList, pageable, total);
-//    }
-
     public void updateStatus(Long id, int newStatus) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
         order.setStatus(newStatus);
@@ -100,10 +75,5 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-//    public OrderDTO getOrderDetail(Long id) {
-//        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
-//        List<OrderDetail> items = orderDetailRepository.findByOrderIdOrder(order.getIdOrder());
-//        List<Image> images = imageRepository.findAllByOrderId(order.getIdOrder());
-//        return orderMapper.toDTO(order, items, images);
-//    }
+
 }

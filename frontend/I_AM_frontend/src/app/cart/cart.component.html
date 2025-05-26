@@ -1,3 +1,6 @@
+<div class="alert-bar" *ngIf="alertMessage">
+  {{ alertMessage }}
+</div>
 <div class="container">
     <!-- method="post" action enctype="application/x-www-form-urlencoded" -->
     <form class="frm_cart" id="frm_cart">
@@ -44,7 +47,8 @@
                                     </td>
                                     <td class="cart-sale-price">
                                         <p style="color:#6c6d70" *ngIf="item.numberDiscount > 0">-{{item.discountAmount | number:'1.0-0'}}đ</p>
-                                        <p class="cart-sale-item" style="color: red; font-weight: bold;" *ngIf="item.numberDiscount > 0">(-{{item.numberDiscount}}%)</p>
+                                        <!-- *ngIf="item.numberDiscount > 0" -->
+                                        <p class="cart-sale-item" style="color: red; font-weight: bold;" *ngIf="item.activeDiscount">(-{{item.numberDiscount}}%)</p>
                                     </td>
                                     <td class="cot4">
                                         <div class="product-detail_quantity-input">

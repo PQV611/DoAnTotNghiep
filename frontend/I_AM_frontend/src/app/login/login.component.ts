@@ -25,6 +25,15 @@ export class LoginComponent implements OnInit {
 
   passwordMismatch = false;
 
+  alertMessage: string = '';
+
+showAlert(message: string) {
+  this.alertMessage = message;
+  setTimeout(() => {
+    this.alertMessage = '';
+  }, 4000); // 4 giây tự ẩn
+}
+
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -47,74 +56,32 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // onRegister() {
-  //   if (this.registerData.password !== this.registerData.confirmPassword) {
-  //     alert('Mật khẩu xác nhận không khớp!');
-  //     return;
-  //   }
-
-  //   this.authService.register(this.registerData).subscribe({
-  //     // next: () => alert('Đăng ký thành công'),
-  //     // error: () => alert('Đăng ký thất bại')
-  //     next: (res) => {
-  //       if (res.success) {
-  //         alert(res.message); // "Đăng ký thành công!"
-  //         // Chuyển về đăng nhập
-  //         const container = document.getElementById('container');
-  //         if (container) container.classList.remove('active');
-  //       } else {
-  //         alert('Lỗi: ' + res.message);
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //       alert('Đăng ký thất bại, vui lòng thử lại sau.');
-  //     }
-  //   });
-  // }
-
   onRegister(form: NgForm) {
     this.passwordMismatch = this.registerData.password !== this.registerData.confirmPassword;
     if (form.invalid || this.passwordMismatch) {
+      // this.showAlert("Vui lòng nhập thông tin đăng ký");
       return; // Dừng lại nếu form sai
     }
 
     this.authService.register(this.registerData).subscribe({
       next: (res) => {
         if (res.success) {
-          alert(res.message);
+          // alert(res.message);
+          this.showAlert(res.message) ;
           const container = document.getElementById('container');
           if (container) container.classList.remove('active');
         } else {
-          alert('Lỗi: ' + res.message);
+          // alert('Lỗi: ' + res.message);
+          this.showAlert('Lỗi: ' + res.message) ;
         }
       },
       error: (err) => {
         console.error(err);
-        alert('Đăng ký thất bại, vui lòng thử lại sau.');
+        // alert('Đăng ký thất bại, vui lòng thử lại sau.');
+        this.showAlert('Đăng ký thất bại, vui lòng thử lại sau.');
       }
     });
   }
-
-  // onLogin() {
-  //   this.authService.login(this.loginData).subscribe({
-  //     next: (response) => {
-  //       this.authService.saveToken(response.token);
-  //       alert('Đăng nhập thành công');
-  //       const role = this.authService.getRoleFromToken();
-  //       console.log('Role from token:', role);
-  //       if (role === 'ADMIN') {
-  //         this.router.navigate(['/admin']);
-  //       } else if (role === 'STAFF') {
-  //         this.router.navigate(['/admin/categories']);
-  //       } else {
-  //         this.router.navigate(['/homepage']);
-  //       }
-  //       // this.router.navigate(['/homepage']);
-  //     },
-  //     error: () => alert('Đăng nhập thất bại')
-  //   });
-  // }
 
   onLogin(form: NgForm) {
     if (form.invalid) return;
@@ -132,7 +99,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/homepage']);
         }
       },
-      error: () => alert('Đăng nhập thất bại')
+      // alert('Đăng nhập thất bại')
+      error: () => this.showAlert('Đăng nhập thất bại, vui lòng kiểm tra lại thông tin đăng nhập của bạn.')
     });
   }
 }

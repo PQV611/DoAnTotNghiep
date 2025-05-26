@@ -24,6 +24,7 @@
     </select>
 
     <button class="btn btn-add" (click)="openAddModal()">Thêm mới mã giảm giá</button>
+    <button class="btn btn-add" (click)="updateIsActive()">Cập nhật</button>
   </div>
   <div class="alert-bar" *ngIf="alertMessage">
     {{ alertMessage }}
@@ -35,7 +36,7 @@
       <tr>
         <th>Mã sản phẩm</th>
         <th>Tên sản phẩm</th>
-        <th>Mã giảm giá</th>
+        <th>Khuyến mãi</th>
         <th>Ngày hết hạn</th>
         <th>Trạng thái</th>
         <th>Hành động</th>
@@ -53,7 +54,8 @@
           </span>
         </td>
         <td>
-          <button class="btn btn-edit" (click)="editDiscount(item)" *ngIf="getStatus(item) !== 'Hết hạn'"><i class="bi bi-pencil-square"></i> Sửa</button>
+          <!-- *ngIf="getStatus(item) !== 'Hết hạn'" -->
+          <button class="btn btn-edit" (click)="editDiscount(item)" ><i class="bi bi-pencil-square"></i> Sửa</button>
           <button class="btn btn-delete" (click)="confirmRemoveDiscount(item)"><i  class="bi bi-trash3"></i> Xoá</button>
         </td>
       </tr>

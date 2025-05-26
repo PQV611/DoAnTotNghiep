@@ -17,6 +17,7 @@ public class ProductDetailDTO {
     private double rating; // Số sao đánh giá
     private BigDecimal originalPrice;
     private BigDecimal salePrice;
+    private Boolean isActive ;
     private int numberDiscount;
     private List<String> colors;
     private List<String> sizes;

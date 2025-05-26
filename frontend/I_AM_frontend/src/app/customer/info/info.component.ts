@@ -38,24 +38,18 @@ export class InfoComponent implements OnInit{
     address: ''
   };
 
+  alertMessage: string = '';
+
+  showAlert(message: string) {
+    this.alertMessage = message;
+    setTimeout(() => {
+      this.alertMessage = '';
+    }, 4000); // 4 giây tự ẩn
+  }
+
   constructor(private authService: AuthService, private userService: UserProfileService){}
 
   ngOnInit(): void {
-    // this.authService.getUserProfile().subscribe({
-    //   next: (res) => {
-    //     this.fullName = res.fullName;
-    //     this.avatar = res.avatar ;
-    //     this.address = res.address;
-    //     this.birth = res.birth ;
-    //     this.phone = res.phone ;
-    //     console.log("Fullname: ", this.fullName);
-    //   },
-    //   error: (err) => {
-    //     this.fullName = 'Không xác định'
-    //     console.error(err);
-    //   }
-    // });
-
     // Gọi API để hiển thị USER
     this.userService.getUserProfile().subscribe({
       next: (res) => {
@@ -100,12 +94,14 @@ export class InfoComponent implements OnInit{
 
     this.userService.changePassword(this.currentPassword, this.newPassword).subscribe({
       next: () => {
-        alert('Đổi mật khẩu thành công!');
+        // alert('Đổi mật khẩu thành công!');
+        this.showAlert('Đổi mật khẩu thành công !') ;
         this.resetForm();
         this.closeModal();
       },
       error: (err) => {
         alert('Đổi mật khẩu thất bại!');
+        this.showAlert('Đổi mật khẩu thất bại !') ;
         console.error(err);
       }
     });
@@ -226,13 +222,15 @@ saveChanges() {
 
     this.userService.updateUserProfile(formData).subscribe({
       next: () => {
-        alert('Cập nhật thông tin thành công!');
+        // alert('Cập nhật thông tin thành công!');
+        this.showAlert('Cập nhật thông tin thành công!')
         this.closeEditModal();
         this.ngOnInit(); // reload lại thông tin sau khi cập nhật
       },
       error: (err) => {
         console.error('Lỗi cập nhật:', err);
-        alert('Cập nhật thất bại!');
+        // alert('Cập nhật thất bại!');
+        this.showAlert('Cập nhật thất bại !') ;
       }
     });
   }

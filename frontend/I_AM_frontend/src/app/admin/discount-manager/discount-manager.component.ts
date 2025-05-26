@@ -99,18 +99,39 @@ showAlert(message: string) {
     this.isModalOpen = true;
   }
 
+  // discount-manager.component.ts
+  updateIsActive() {
+    this.discountService.updateIsActiveStatus().subscribe({
+      next: res => {
+        this.showAlert(res.message) // hoặc dùng toastr nếu bạn đã tích hợp
+        this.loadDiscounts(); // hoặc gọi lại API hiển thị danh sách giảm giá
+      },
+      error: err => {
+        console.error('Lỗi khi cập nhật trạng thái isActive:', err);
+        this.showAlert('Cập nhật trạng thái thất bại!');
+      }
+    });
+  }
+
+
   saveDiscount(): void {
+    
     this.errors = {};
   
     // Check trống
     if (!this.modalProductId) this.errors.productId = 'Vui lòng nhập mã sản phẩm';
     if (!this.modalDiscountCode) this.errors.discountCode = 'Vui lòng nhập mã giảm giá';
     if (!this.modalToDate) this.errors.toDate = 'Vui lòng nhập ngày hết hạn';
-  
+    console.log("1123") ;
     // Check đã tồn tại productId nếu đang thêm mới
     if (this.modalMode === 'add') {
       const exists = this.discounts.some(d => d.id_product === +this.modalProductId);
-      if (exists) this.errors.productId = 'Mã sản phẩm đã tồn tại';
+      // if (exists) this.errors.productId = 'Mã sản phẩm đã tồn tại';
+      if (exists) {
+        this.errors.productId = 'Mã sản phẩm đã tồn tại';
+        console.log("Trùng mã sản phẩm", this.errors.productId);
+        return; // phải return sau khi gán errors
+      }
     }
   
     // Check số giảm giá
@@ -134,7 +155,7 @@ showAlert(message: string) {
       id_product: +this.modalProductId,
       name_product: '',
       numberDiscount: discountValue,
-      endDate: this.modalToDate + 'T00:00:00',
+      endDate: this.modalToDate + 'T00:00:00',  
       isActive: true
     };
   

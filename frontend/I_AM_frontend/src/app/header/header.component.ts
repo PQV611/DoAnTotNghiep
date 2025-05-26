@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
       next: (res) => {
         this.cartItems = res.items;
         this.totalCost = res.totalCost;
-        console.log("ảnh: " + this.cartItems[0].imageUrl);
+        // console.log("ảnh: " + this.cartItems[0].imageUrl);
         console.log("gior hàng: ", this.cartItems);
       },
       error: (err) => {

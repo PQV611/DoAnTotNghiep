@@ -14,6 +14,7 @@ public class FavouriteDTO {
     private String nameProduct;
     private BigDecimal originalPrice;
     private BigDecimal salePrice;
+    private Boolean activeDiscount ;
     private int numberDiscount;
     private String image1;
     private String image2;

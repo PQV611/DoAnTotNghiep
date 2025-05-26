@@ -69,7 +69,7 @@
           <td>{{ order.address }}</td>
           <td>{{ order.totalCost | number }}đ</td>
           <td>{{ order.paymentMethod }}</td>
-          <td>{{ order.createAt }}</td>
+          <td>{{ order.createAt | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
           <td>
             <span [ngClass]="{ 'text-danger': order.status === 1 || order.status === 4, 'text-success': order.status === 2 || order.status === 3 }">
                 {{ order.statusText }}

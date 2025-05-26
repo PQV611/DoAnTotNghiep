@@ -203,14 +203,24 @@ public class CartController {
             BigDecimal originalPrice = product.getPrice();
             BigDecimal salePrice = variant.getPrice(); // giá sau khi giảm
             BigDecimal discountAmount = BigDecimal.valueOf(0);
-
+            Boolean activeDiscount = false;
             if (discountOpt.isPresent()) {
 //                BigDecimal originalPrice = BigDecimal.valueOf(product.getPrice());
                 numberDiscount = discountOpt.get().getNumberDiscount();
+                activeDiscount = discountOpt.get().getIsActive() ;
 
-                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)); // (1 - percent)
-                discountAmount = originalPrice.multiply(percent).multiply(BigDecimal.valueOf(cart.getQuantity()));
-                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                if(activeDiscount) {
+                    BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)); // (1 - percent)
+                    discountAmount = originalPrice.multiply(percent).multiply(BigDecimal.valueOf(cart.getQuantity()));
+                    salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                }else {
+                    discountAmount = BigDecimal.valueOf(0);
+                    salePrice = originalPrice;
+                }
+
+//                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)); // (1 - percent)
+//                discountAmount = originalPrice.multiply(percent).multiply(BigDecimal.valueOf(cart.getQuantity()));
+//                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
             }
 //            int numberDiscount = originalPrice.compareTo(BigDecimal.ZERO) > 0
 //                    ? originalPrice.subtract(salePrice)
@@ -229,6 +239,7 @@ public class CartController {
             itemMap.put("color", color);
             itemMap.put("size", size);
             itemMap.put("originalPrice", originalPrice);
+            itemMap.put("activeDiscount", activeDiscount);
             itemMap.put("salePrice", salePrice);
             itemMap.put("discountAmount", discountAmount);
             itemMap.put("numberDiscount", numberDiscount);
@@ -474,8 +485,16 @@ public class CartController {
             Optional<Discount> discountOpt = discountRepository.findByProductId(product.getId());
             if (discountOpt.isPresent()) {
                 int numberDiscount = discountOpt.get().getNumberDiscount();
-                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
-                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                Boolean activeDiscount = discountOpt.get().getIsActive() ;
+                if(activeDiscount == true) {
+                    BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
+                    salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                }else {
+                    salePrice = originalPrice;
+                }
+
+//                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
+//                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
             }
 
             BigDecimal itemTotal = salePrice.multiply(BigDecimal.valueOf(quantity));
@@ -506,8 +525,17 @@ public class CartController {
             Optional<Discount> discountOpt = discountRepository.findByProductId(product.getId());
             if (discountOpt.isPresent()) {
                 int numberDiscount = discountOpt.get().getNumberDiscount();
-                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
-                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                Boolean activeDiscount = discountOpt.get().getIsActive() ;
+
+                if(activeDiscount == true){
+                    BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
+                    salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                }else {
+                    salePrice = originalPrice;
+                }
+
+//                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
+//                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
             }
 
             // ✅ Lưu chi tiết đơn hàng

@@ -9,6 +9,7 @@ export interface ProductDetail {
   rating: number;
   originalPrice: number;
   salePrice: number;
+  isActive: boolean;
   numberDiscount: number;
   colors: string[]; // ví dụ: ['#ffffff', '#000000']
   sizes: string[];  // ví dụ: ['S', 'M', 'L']

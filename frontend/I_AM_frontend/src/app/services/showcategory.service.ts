@@ -10,7 +10,8 @@ export interface ProductCategory {
   salePrice: number;
   image1: string;
   image2: string;
-  isActive: number
+  isActive: number;
+  activeDiscount: boolean;
 }
 
 

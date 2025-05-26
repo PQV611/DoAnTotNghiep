@@ -58,12 +58,22 @@ public class FavouriteController {
             BigDecimal originalPrice = product.getPrice() ;
             BigDecimal salePrice = originalPrice ;
             int numberDiscount = 0 ;
-
+            Boolean activeDiscount = false ;
             Optional<Discount> discountOpt = discountRepository.findByProductId(product.getId());
             if (discountOpt.isPresent()) {
+                activeDiscount = discountOpt.get().getIsActive() ;
                 numberDiscount = discountOpt.get().getNumberDiscount();
-                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
-                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+
+                if(activeDiscount == true){
+                    BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
+                    salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                }else {
+                    numberDiscount = 0 ;
+                    salePrice = originalPrice;
+                }
+
+//                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100));
+//                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
             }
 
             return new FavouriteDTO(
@@ -71,6 +81,7 @@ public class FavouriteController {
                     product.getNameProduct(),
                     originalPrice,
                     salePrice,
+                    activeDiscount,
                     numberDiscount,
                     image1,
                     image2,

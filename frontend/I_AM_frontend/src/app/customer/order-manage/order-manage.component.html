@@ -75,8 +75,8 @@
                                 </td>
                                 <td>
                                     <div class="order__status">
-                                        <i class="bi bi-arrow-repeat"></i>
-                                        <span class="ng-binding">{{getStatusText(order.status)}}</span>
+                                        <!-- <i class="bi bi-arrow-repeat"></i> -->
+                                        <span class="ng-binding" [ngClass]="getStatusColorClass(order.status)" >{{getStatusText(order.status)}}</span>
                                     </div>
                                 </td>
                                 <td>

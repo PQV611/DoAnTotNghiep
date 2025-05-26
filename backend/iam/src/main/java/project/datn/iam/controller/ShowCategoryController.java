@@ -83,12 +83,23 @@ public class ShowCategoryController {
             // lấy giảm giá nếu có
             Optional<Discount> discountOpt = discountRepository.findByProductId(product.getId());
             Integer discountValue = 0;
+            Boolean discountActive = null;
             if (discountOpt.isPresent()) {
 //                BigDecimal originalPrice = BigDecimal.valueOf(product.getPrice());
                 discountValue = discountOpt.get().getNumberDiscount();
+                discountActive = discountOpt.get().getIsActive();
 
-                BigDecimal percent = BigDecimal.valueOf(discountValue).divide(BigDecimal.valueOf(100)); // (1 - percent)
-                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                if(discountActive == true) {
+                    BigDecimal percent = BigDecimal.valueOf(discountValue).divide(BigDecimal.valueOf(100)); // (1 - percent)
+                    salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                }else {
+//                    BigDecimal percent = BigDecimal.valueOf(discountValue).divide(BigDecimal.valueOf(100));
+                    discountValue = 0;
+                    salePrice = originalPrice ;
+                }
+
+//                BigDecimal percent = BigDecimal.valueOf(discountValue).divide(BigDecimal.valueOf(100)); // (1 - percent)
+//                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
             }
 //            Boolean activeDiscount ;
 //            if (dateTimeFromDB.isBefore(LocalDateTime.now())) {
@@ -101,6 +112,7 @@ public class ShowCategoryController {
                     product.getId(),
                     product.getNameProduct(),
                     discountValue,
+                    discountActive,
                     originalPrice,
                     salePrice,
                     image1,
@@ -148,12 +160,22 @@ public class ShowCategoryController {
             // lấy giảm giá nếu có
             Optional<Discount> discountOpt = discountRepository.findByProductId(product.getId());
             Integer discountValue = 0;
+            Boolean discountActive = null;
             if (discountOpt.isPresent()) {
 //                BigDecimal originalPrice = BigDecimal.valueOf(product.getPrice());
                 discountValue = discountOpt.get().getNumberDiscount();
+                discountActive = discountOpt.get().getIsActive();
 
-                BigDecimal percent = BigDecimal.valueOf(discountValue).divide(BigDecimal.valueOf(100)); // (1 - percent)
-                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                if(discountActive == true) {
+                    BigDecimal percent = BigDecimal.valueOf(discountValue).divide(BigDecimal.valueOf(100)); // (1 - percent)
+                    salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
+                }else {
+                    discountValue = 0;
+                    salePrice = originalPrice;
+                }
+
+//                BigDecimal percent = BigDecimal.valueOf(discountValue).divide(BigDecimal.valueOf(100)); // (1 - percent)
+//                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
             }
             int isActive = favouriteProductIds.contains(product.getId()) ? 1 : 0;
 
@@ -161,6 +183,7 @@ public class ShowCategoryController {
                     product.getId(),
                     product.getNameProduct(),
                     discountValue,
+                    discountActive,
                     originalPrice,
                     salePrice,
                     image1,

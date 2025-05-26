@@ -21,6 +21,15 @@ export class CartComponent implements OnInit {
   totalItems: number = 0;
   TongTienHang: number = 0;
   cartItems: CartItemDetail[] = [];
+  alertMessage: string = '';
+
+  showAlert(message: string) {
+    this.alertMessage = message;
+    setTimeout(() => {
+      this.alertMessage = '';
+    }, 4000); // 4 giây tự ẩn
+  }
+
   constructor(private authService:AuthService, private cartService: CartService) { }
 
   ngOnInit(): void {
@@ -95,7 +104,8 @@ refreshCart(): void {
     removeItem(item: CartItemDetail): void {
       this.cartService.removeItem(item.productCode, item.color, item.size).subscribe({
         next: () => {
-          alert("Đã xoá sản phẩm khỏi giỏ hàng!");
+          // alert("Đã xoá sản phẩm khỏi giỏ hàng!");
+          this.showAlert("Đã xoá sản phẩm khỏi giỏ hàng!") ;
           this.refreshCart();
           // this.ngOnInit(); // 🌀 Gọi lại để load lại toàn bộ giỏ
         },
@@ -122,13 +132,15 @@ refreshCart(): void {
 
       this.cartService.checkout(data).subscribe({
         next: (res) => {
-          alert('Đặt hàng thành công!');
+          // alert('Đặt hàng thành công!');
+          this.showAlert('Đặt hàng thành công!');
           // Optionally redirect:
           window.location.href = '/customer/order_manage';
         },
         error: (err) => {
           console.error('Lỗi đặt hàng:', err);
-          alert('Lỗi khi đặt hàng!');
+          // alert('Lỗi khi đặt hàng!');
+          this.showAlert('Lỗi khi đặt hàng!') ;
         }
       });
     }

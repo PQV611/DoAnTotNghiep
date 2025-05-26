@@ -29,6 +29,12 @@ export class DiscountService {
     );
   }
 
+  // discount.service.ts
+  updateIsActiveStatus(): Observable<any> {
+    return this.http.put(`http://localhost:8080/admin/discounts/update-status`, {});
+  }
+
+
   getDiscountsFiltered(keyword: string, status: string, page: number, size:number): Observable<PageResponse<DiscountDTO>> {
     const params = new HttpParams()
       .set('keyword', keyword)

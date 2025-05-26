@@ -46,6 +46,7 @@ export class FavouriteProductComponent implements OnInit {
     this.favouriteService.getFavourites().subscribe({
       next: (res) => {
         this.favouriteProducts = res;
+        console.log('Danh sách yêu thích:', this.favouriteProducts);
       },
       error: (err) => {
         console.error('Không thể tải danh sách yêu thích:', err);

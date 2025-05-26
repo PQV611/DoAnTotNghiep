@@ -41,13 +41,28 @@ public class DetailProductController {
         Product product = productOpt.get();
 
         // Lấy giá gốc và giá sau khi giảm
+        Boolean isActive = discountRepository.findByProductId(id).map(Discount::getIsActive).orElse(false);
         BigDecimal originalPrice = product.getPrice();
-        int numberDiscount = discountRepository.findByProductId(id)
-                .map(Discount::getNumberDiscount)
-                .orElse(0);
-        BigDecimal salePrice = originalPrice.multiply(
-                BigDecimal.ONE.subtract(BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)))
-        );
+        int numberDiscount = 0 ;
+        BigDecimal salePrice ;
+        if(isActive == true){
+            numberDiscount = discountRepository.findByProductId(id)
+                    .map(Discount::getNumberDiscount)
+                    .orElse(0);
+            salePrice = originalPrice.multiply(
+                    BigDecimal.ONE.subtract(BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)))
+            );
+        }else {
+            numberDiscount = 0 ;
+            salePrice = originalPrice ;
+        }
+
+//        int numberDiscount = discountRepository.findByProductId(id)
+//                .map(Discount::getNumberDiscount)
+//                .orElse(0);
+//        BigDecimal salePrice = originalPrice.multiply(
+//                BigDecimal.ONE.subtract(BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)))
+//        );
 
         // Lấy danh sách ảnh
         List<String> images = imageRepository.findAllByProductId(id)
@@ -77,6 +92,7 @@ public class DetailProductController {
         dto.setRating(rating);
         dto.setOriginalPrice(originalPrice);
         dto.setSalePrice(salePrice);
+        dto.setIsActive(isActive);
         dto.setNumberDiscount(numberDiscount);
         dto.setColors(colors);
         dto.setSizes(sizes);

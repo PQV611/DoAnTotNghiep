@@ -46,7 +46,8 @@
                     <div class="list-products list-products-cat d-flex">
                         <div class="item-cat-product" *ngFor="let item of favouriteProducts">
                             <div class="product">
-                                <span class="badget badget_03" *ngIf="item.numberDiscount > 0">
+                                <!-- *ngIf="item.numberDiscount > 0" -->
+                                <span class="badget badget_03" *ngIf="item.activeDiscount">
                                     -{{item.numberDiscount}} <span>%</span>
                                 </span>
                                 <div class="thumb-product">
@@ -68,7 +69,7 @@
                                         <ins>
                                             <span>{{item.salePrice | number}}đ</span>
                                         </ins>
-                                        <del style="margin-left: 4px;">
+                                        <del style="margin-left: 4px;" *ngIf="item.numberDiscount > 0">
                                             <span>{{item.originalPrice | number}}đ</span>
                                         </del>
                                     </div>

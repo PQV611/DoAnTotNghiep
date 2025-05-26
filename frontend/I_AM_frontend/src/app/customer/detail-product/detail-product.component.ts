@@ -24,6 +24,15 @@ export class DetailProductComponent implements OnInit {
   availableSizes: string[] = [];
   productId: number = 0;
 
+  alertMessage: string = '';
+
+  showAlert(message: string) {
+    this.alertMessage = message;
+    setTimeout(() => {
+      this.alertMessage = '';
+    }, 4000); // 4 giây tự ẩn
+  }
+
   constructor(private route: ActivatedRoute, private productService: DetailProductService, public authService:AuthService, private cartService: CartService) {}
 
   ngOnInit(): void {
@@ -32,7 +41,7 @@ export class DetailProductComponent implements OnInit {
       this.product = data;
       this.imageList = data.imageList;
       this.mainImage = data.mainImage;
-      console.log("PRODUCT DETAIL: ", this.product.id);
+      console.log("PRODUCT DETAIL: ", this.product);
       
     });
     
@@ -70,7 +79,8 @@ export class DetailProductComponent implements OnInit {
     console.log('Gửi lên:', this.productId, this.selectedColor.trim(), this.selectedSize.trim(), this.quantity);
 
     if (!this.product) {
-      alert('Sản phẩm chưa tải xong, vui lòng thử lại.');
+      // alert('Sản phẩm chưa tải xong, vui lòng thử lại.');
+      this.showAlert('Sản phẩm chưa tải xong, vui lòng thử lại.') ;
       return;
     }
 
@@ -84,11 +94,13 @@ export class DetailProductComponent implements OnInit {
     this.cartService.addToCart(this.productId, this.selectedColor, this.selectedSize, this.quantity)
       .subscribe({
         next: (res) => {
-          alert('Đã thêm vào giỏ hàng!');
+          // alert('Đã thêm vào giỏ hàng!');
+          this.showAlert('Đã thêm vào giỏ hàng !')
         },
         error: (err) => {
           console.error('Lỗi thêm vào giỏ hàng:', err);
-          alert('Có vẻ sản màu hoặc size này đã hết hàng');
+          // alert('Có vẻ sản màu hoặc size này đã hết hàng');
+          this.showAlert('Có vẻ sản màu hoặc size này đã hết hàng. Vui lòng chọn sản phẩm khác') ;
         }
       });
   }

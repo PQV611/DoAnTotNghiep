@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { TokenInterceptor } from './helpder/token.interceptor';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -61,8 +62,8 @@ import { TokenInterceptor } from './helpder/token.interceptor';
       timeOut: 4000,
       // closeButton: true,
       progressBar: true,
-    })
-    
+    }),
+    NgChartsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}

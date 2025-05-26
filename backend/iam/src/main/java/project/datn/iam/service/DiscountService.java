@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import project.datn.iam.DTO.DiscountDTO;
 import project.datn.iam.mapper.DiscountMapper;
@@ -71,5 +72,16 @@ public class DiscountService {
         discountRepository.delete(discount);
     }
 
+    @Transactional
+    public void updateDiscountIsActiveByEndDate() {
+        List<Discount> discounts = discountRepository.findAll();
+
+        for (Discount discount : discounts) {
+            boolean shouldBeActive = discount.getEndDate() != null && discount.getEndDate().isAfter(LocalDateTime.now());
+            discount.setIsActive(shouldBeActive);
+        }
+
+        discountRepository.saveAll(discounts);
+    }
 
 }
