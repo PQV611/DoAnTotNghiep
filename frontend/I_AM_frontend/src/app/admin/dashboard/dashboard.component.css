@@ -1,0 +1,47 @@
+.dashboard {
+    /* font-family: ; */
+}
+
+.display {
+    display: flex;
+    justify-content: space-between;
+    height: 142px;
+    line-height: 130px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(88, 87, 87);
+    border-radius: 10px;
+    margin: 15px 15px 0px 15px;
+}
+
+.tien {
+    padding: 35px 0px 0px 20px;
+    /* border-left: 10px solid green; */
+    border-radius: 10px;
+}
+
+.top {
+    text-align: center;
+}
+
+.top {
+    /* border: 1px solid black; */
+    border-radius: 2%;
+    /* padding: 15px; */
+    margin: 15px;
+}
+
+.dadChooseOne a{
+    color:rgb(77, 150, 223);
+}
+
+.choose {
+    text-decoration: none;
+}
+
+.choose.isActive {
+  font-weight: bold;
+  color: #4a12e2;
+  /* text-decoration: underline; */
+}
+
+

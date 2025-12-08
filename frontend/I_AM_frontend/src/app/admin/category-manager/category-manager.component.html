@@ -3,9 +3,19 @@
 
     <div class="category-controls">
         <button class="btn btn-add" (click)="addCategory()">Thêm mới</button>
-        <input type="text" placeholder="Tìm kiếm..." [(ngModel)]="searchTerm">
+        <!-- chọn số lượng sản phẩm / trang -->
+      <select [(ngModel)]="pageSize" (change)="loadCategories(0)">
+        <option [value]="6">6 / trang</option>
+        <option [value]="10">10 / trang</option>
+        <option [value]="20">20 / trang</option>
+        <option [value]="50">50 / trang</option>
+      </select>
+        <input type="text" placeholder="Tìm kiếm..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
     </div>
-
+    <div class="alert-bar" *ngIf="alertMessage">
+      {{ alertMessage }}
+    </div>
+    
     <table class="category-table">
     <thead>
         <tr>
@@ -15,14 +25,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let category of filteredCategories">
-        <td>{{ category.id }}</td>
-        <td>{{ category.name }}</td>
+        <tr *ngFor="let category of categories">
+        <td>{{ category.id_category}}</td>
+        <td>{{ category.name_category }}</td>
         <td>
-            <button class="btn btn-edit" (click)="editCategory(category.id)">
+            <button class="btn btn-edit" (click)="editCategory(category.id_category!)">
                 <i class="bi bi-pencil-square"></i> Sửa
             </button>
-            <button class="btn btn-delete" (click)="confirmDelete(category.id)">
+            <button class="btn btn-delete" (click)="confirmDelete(category.id_category!)">
                 <i class="bi bi-trash3"></i> Xoá
             </button>
         </td>
@@ -31,12 +41,25 @@
     </table>
 </div>
 
+<div class="pagination">
+  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 0">❮</button>
+  <button *ngFor="let page of [].constructor(totalPages); let i = index"
+          (click)="changePage(i)"
+          [class.active]="i === currentPage">
+    {{ i + 1 }}
+  </button>
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage + 1 >= totalPages">❯</button>
+</div>
+
+
+
 <!-- Modal chung -->
 <div class="modal-overlay" *ngIf="isModalOpen">
     <div class="modal">
       <h3>{{ modalMode === 'add' ? 'Thêm danh mục' : 'Sửa danh mục' }}</h3>
       
       <input type="text" [(ngModel)]="modalCategoryName" placeholder="Tên danh mục...">
+      <div *ngIf="errors.name_category" class="error" style="color: red;">{{ errors.name_category }}</div>
   
       <div class="modal-actions">
         <button class="btn btn-save" (click)="saveCategory()">Lưu</button>

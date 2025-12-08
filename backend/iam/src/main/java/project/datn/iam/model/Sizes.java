@@ -16,8 +16,12 @@ public class Sizes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_size")
-    private Long id_size ;
+    private Long idSize ;
 
     @Column(name = "name_size", nullable = false, unique = true)
-    private String name_size ;
+    private String nameSize ;
+
+    public Sizes(Long idSize) {
+        this.idSize = idSize;
+    }
 }

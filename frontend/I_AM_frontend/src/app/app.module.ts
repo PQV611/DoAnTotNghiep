@@ -6,11 +6,10 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { CartComponent } from './cart/cart.component';
 import { InfoComponent } from './customer/info/info.component';
-import { FormsModule } from '@angular/forms';
 import { OrderManageComponent } from './customer/order-manage/order-manage.component';
 import { FavouriteProductComponent } from './customer/favourite-product/favourite-product.component';
 import { DetailProductComponent } from './customer/detail-product/detail-product.component';
@@ -23,6 +22,13 @@ import { DiscountManagerComponent } from './admin/discount-manager/discount-mana
 import { OrderComponent } from './admin/order/order.component';
 import { AccountComponent } from './admin/account/account.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { TokenInterceptor } from './helpder/token.interceptor';
+import { NgChartsModule } from 'ng2-charts';
+import { MessageChatComponent } from './message/message-chat/message-chat.component';
+
 
 @NgModule({
   declarations: [
@@ -44,15 +50,26 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
     DiscountManagerComponent,
     OrderComponent,
     AccountComponent,
-    DashboardComponent
+    DashboardComponent,
+    MessageChatComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-center',  // ✅ dính đáy, chính giữa
+      timeOut: 4000,
+      // closeButton: true,
+      progressBar: true,
+    }),
+    NgChartsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

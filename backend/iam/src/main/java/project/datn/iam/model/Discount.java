@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,7 +28,7 @@ public class Discount {
     @Column(name = "numberdiscount")
     private Integer numberDiscount ;
 
-    @Column(name = "startdate", nullable = false)
+    @Column(name = "startdate")
     private LocalDateTime startDate ;
 
     @Column(name = "enddate")

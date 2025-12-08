@@ -1,139 +1,141 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
-export class OrderComponent {
-  fromDate = '';
-  toDate = '';
-  searchTerm = '';
-  activeTab: 'pending' | 'shipping' | 'completed' | 'cancelled' = 'pending';
-
-  isDetailModalOpen = false;
+export class OrderComponent implements OnInit {
+  orders: any[] = [];
   selectedOrder: any = null;
+  isDetailModalOpen = false;
 
-  orders = [
-    {
-      id: 'ORD001',
-      customerId: 'KH001',
-      address: '123 Đường A, Quận B',
-      total: 1500000,
-      method: 'VNPay',
-      createdAt: '2025-05-01',
-      status: 'pending',
-      statusText: 'Đang chờ phê duyệt',
-      products: [
-        { name: 'Áo thun A', quantity: 2, price: 250000, imageUrl: 'assets/images/test-detail-P-1.jpg' },
-        { name: 'Quần jean B', quantity: 1, price: 500000, imageUrl: 'assets/images/vay_test.webp' }
-      ]
-    },
-    {
-      id: 'ORD002',
-      customerId: 'KH002',
-      address: '456 Đường X, Quận Y',
-      total: 2000000,
-      method: 'Tiền mặt',
-      createdAt: '2025-05-03',
-      status: 'shipping',
-      statusText: 'Đang giao hàng',
-      products: [
-        { name: 'Giày sneaker', quantity: 1, price: 2000000, imageUrl: 'assets/images/vay_test.webp' }
-      ]
-    },
-    {
-      id: 'ORD003',
-      customerId: 'KH003',
-      address: '789 Đường Z, Quận W',
-      total: 1000000,
-      method: 'VNPay',
-      createdAt: '2025-05-04',
-      status: 'completed',
-      statusText: 'Giao hàng thành công',
-      products: [
-        { name: 'Áo sơ mi', quantity: 1, price: 1000000, imageUrl: 'assets/images/test-detail-P-1.jpg' }
-      ]
-    },
-    {
-      id: 'ORD004',
-      customerId: 'KH004',
-      address: '101 Đường Q, Quận K',
-      total: 800000,
-      method: 'Tiền mặt',
-      createdAt: '2025-05-02',
-      status: 'cancelled',
-      statusText: 'Đã huỷ',
-      products: [
-        { name: 'Áo khoác', quantity: 1, price: 800000, imageUrl: 'assets/images/vay_test.webp' }
-      ]
+  selectedStatus = 0; // 0 = tất cả
+  pageSize = 6;
+  currentPage = 0;
+  totalPages = 0;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.loadOrders();
+  }
+
+  get pageNumbers(): number[] {
+    return Array(this.totalPages).fill(0).map((_, i) => i);
+  }
+
+  alertMessage: string = '';
+
+showAlert(message: string) {
+  this.alertMessage = message;
+  setTimeout(() => {
+    this.alertMessage = '';
+  }, 4000); // 4 giây tự ẩn
+}
+
+  loadOrders(): void {
+    const params = new HttpParams()
+      .set('status', this.selectedStatus.toString())
+      .set('page', this.currentPage.toString())
+      .set('size', this.pageSize.toString());
+
+    this.http.get<any>('http://localhost:8080/admin/order', { params }).subscribe(res => {
+      this.orders = res.content;
+      this.totalPages = res.totalPages;
+      this.currentPage = res.number;
+    });
+  }
+
+  changeStatus(status: number): void {
+    this.selectedStatus = status;
+    this.currentPage = 0;
+    this.loadOrders();
+  }
+
+  changePage(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      this.loadOrders();
     }
-  ];
-
-  get filteredOrders() {
-    let result = this.orders.filter(order => order.status === this.activeTab);
-  
-    // Ép kiểu ngày tạo về Date để so sánh chính xác
-    if (this.fromDate) {
-      const from = new Date(this.fromDate);
-      result = result.filter(order => new Date(order.createdAt) >= from);
-    }
-  
-    if (this.toDate) {
-      const to = new Date(this.toDate);
-      result = result.filter(order => new Date(order.createdAt) <= to);
-    }
-  
-    if (this.searchTerm.trim()) {
-      const keyword = this.searchTerm.toLowerCase();
-      result = result.filter(order =>
-        order.id.toLowerCase().includes(keyword) ||
-        order.customerId.toLowerCase().includes(keyword)
-      );
-    }
-  
-    return result;
-  }
-  
-
-  get countPendding(){
-    return this.orders.filter(o => o.status === 'pending').length;
   }
 
-  get countShipping() {
-    return this.orders.filter(o => o.status === 'shipping').length;
+  changePageSize(size: number): void {
+    this.pageSize = size;
+    this.currentPage = 0;
+    this.loadOrders();
   }
 
-  get countCompleted() {
-    return this.orders.filter(o => o.status === 'completed').length;
+  approveOrder(order: any): void {
+    // this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/approve`, {}).subscribe(() => {
+    //   this.showAlert('Phê duyệt đơn hàng thành công');
+    //   this.loadOrders();
+    // });
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/approve`, {}).subscribe({
+      next: () => {
+        this.showAlert('Phê duyệt đơn hàng thành công');
+        this.loadOrders();
+      },
+      error: (err) => {
+        console.error('Lỗi khi phê duyệt đơn hàng:', err);
+        this.showAlert(err.error);
+      }
+    })
   }
 
-  changeTab(tab: 'pending' | 'shipping' | 'completed' | 'cancelled') {
-    this.activeTab = tab;
+  rejectOrder(order: any): void {
+    // this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/cancel`, {}).subscribe(() => {
+    //   this.showAlert('Huỷ đơn hàng thành công');
+    //   this.loadOrders();
+    // });
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/cancel`, {}).subscribe({
+      next: () => {
+        this.showAlert('Huỷ đơn hàng thành công');
+        this.loadOrders();
+      },
+      error: (err) => {
+        console.error('Lỗi khi huỷ đơn hàng:', err);
+        this.showAlert(err.error);
+      }
+    })
   }
 
-  approveOrder(order: any) {
-    order.status = 'shipping';
-    order.statusText = 'Đang giao hàng';
+  markAsDelivered(order: any): void {
+    // this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/deliver`, {}).subscribe(() => {
+    //   this.showAlert('Đánh dấu đã giao hàng thành công');
+    //   this.loadOrders();
+    // });
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/deliver`, {}).subscribe({
+      next: () => {
+        this.showAlert('Đánh dấu đã giao hàng thành công');
+        this.loadOrders();
+      },
+      error: (err) => {
+        console.error('Lỗi khi đánh dấu giao hàng:', err);
+        this.showAlert(err.error);
+      }
+    })
   }
 
-  rejectOrder(order: any) {
-    order.status = 'cancelled';
-    order.statusText = 'Đã huỷ';
-  }
-
-  markAsDelivered(order: any) {
-    order.status = 'completed';
-    order.statusText = 'Giao hàng thành công';
-  }
-
-  viewDetail(order: any) {
+  viewDetail(order: any): void {
     this.selectedOrder = order;
     this.isDetailModalOpen = true;
   }
 
-  closeDetailModal() {
-    this.isDetailModalOpen = false;
+  closeDetailModal(): void {
     this.selectedOrder = null;
+    this.isDetailModalOpen = false;
+  }
+
+  statusTextMap: { [key: number]: string } = {
+    1: 'Chờ phê duyệt',
+    2: 'Đang giao hàng',
+    3: 'Giao hàng thành công',
+    4: 'Đã huỷ'
+  };
+
+  getStatusText(status: number): string {
+    return this.statusTextMap[status] || 'Không xác định';
   }
 }

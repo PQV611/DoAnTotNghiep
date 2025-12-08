@@ -90,3 +90,70 @@
     margin-top: 10px;
   }
   
+
+  /* .pagination {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .pagination button {
+    margin: 0 3px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+  }
+  
+  .pagination button.active {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  } */
+  .pagination {
+    display: flex;
+    justify-content: end;
+    margin-top: 16px;
+    gap: 8px;
+  }
+  .pagination button {
+    padding: 6px 10px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+  }
+  .pagination button.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+  .pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+
+  .alert-bar {
+    background-color: #28a745; /* màu xanh thành công */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    animation: fadeOut 4s forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+  }
+  

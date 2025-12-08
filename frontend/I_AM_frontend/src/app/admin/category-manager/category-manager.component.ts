@@ -1,96 +1,167 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CategoriesService, CategoryDTO } from 'src/app/services/categories.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-manager',
   templateUrl: './category-manager.component.html',
   styleUrls: ['./category-manager.component.css']
 })
-export class CategoryManagerComponent {
+export class CategoryManagerComponent implements OnInit {
   searchTerm: string = '';
-  categories = [
-    { id: 1, name: 'Áo thun' },
-    { id: 2, name: 'Quần jean' },
-    { id: 3, name: 'Giày thể thao' }
-  ];
+  categories: CategoryDTO[] = [];
+  errors: any = {};
+
+  // Pagination
+  currentPage = 0;
+  pageSize = 6;
+  totalPages = 0;
   // Modal
-  isModalOpen: boolean = false;
+  isModalOpen = false;
   modalMode: 'add' | 'edit' = 'add';
-  modalCategoryName: string = '';
+  modalCategoryName = '';
   editingCategoryId: number | null = null;
-  // Thêm biến mới cho modal xoá
-  isDeleteModalOpen: boolean = false;
+
+  // Modal xoá
+  isDeleteModalOpen = false;
   categoryToDeleteId: number | null = null;
+
+  constructor(
+    private categoryService: CategoriesService,
+    private toastr: ToastrService
+  ) {}
+
+  loadPage(page: number): void {
+    this.categoryService.getPage(page, this.pageSize).subscribe(res => {
+      this.categories = res.content;
+      this.currentPage = res.number;
+      this.totalPages = res.totalPages;
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadCategories(0);
+    this.loadPage(0);
+  }
+  alertMessage: string = '';
+
+showAlert(message: string) {
+  this.alertMessage = message;
+  setTimeout(() => {
+    this.alertMessage = '';
+  }, 4000); // 4 giây tự ẩn
+}
+
 
   get filteredCategories() {
     return this.categories.filter(c =>
-      c.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      (c.name_category || '').toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
+  get pageNumbers(): number[] {
+    return Array(this.totalPages)
+      .fill(0)
+      .map((_, i) => i);
+  }
+  
+
+  loadCategories(page: number = 0): void {
+    this.categoryService.getCategoriesFiltered(this.searchTerm, page, this.pageSize).subscribe({
+      next: res => {
+        console.log('DANH MỤC NHẬN ĐƯỢC:', res);
+        this.categories = res.content;
+        console.log('DỮ LIỆU CẦN HIỂN THỊ:', this.categories);
+        this.currentPage = res.number;
+        this.totalPages = res.totalPages;
+      },
+      error: err => {
+        console.error('LỖI GỌI API:', err);
+      }
+    });
+  }
+
   addCategory(): void {
-    console.log('CLICKED ADD'); // kiểm tra
     this.modalMode = 'add';
     this.modalCategoryName = '';
     this.isModalOpen = true;
-    console.log('isModalOpen:', this.isModalOpen); // xem log
+    this.errors = {}; // Reset lỗi
   }
 
   editCategory(id: number): void {
-    const cat = this.categories.find(c => c.id === id);
+    const cat = this.categories.find(c => c.id_category === id);
     if (cat) {
       this.modalMode = 'edit';
-      this.modalCategoryName = cat.name;
+      this.modalCategoryName = cat.name_category;
       this.editingCategoryId = id;
       this.isModalOpen = true;
+      this.errors = {}; // Reset lỗi
     }
   }
 
-  deleteCategory(id: number): void {
-    const confirmDelete = confirm('Bạn có chắc muốn xoá danh mục này?');
-    if (confirmDelete) {
-      this.categories = this.categories.filter(c => c.id !== id);
-    }
-  }
-
-  // Lưu danh mục (thêm hoặc sửa)
   saveCategory(): void {
+    this.errors = {}; // Reset lỗi
+    // if (!this.modalName) this.errors.name = 'Vui lòng nhập tên sản phẩm';
+    // if (!this.modalDescription) this.errors.description = 'Vui lòng nhập mô tả';
+    // if (!this.modalQuantity || this.modalQuantity <= 0) this.errors.quantity = 'Số lượng không hợp lệ';
+    // if (!this.modalPrice || this.modalPrice <= 0) this.errors.price = 'Giá không hợp lệ';
+    // if (!this.modalCategoryId) this.errors.categoryId = 'Vui lòng chọn loại sản phẩm';
+    // if (!this.isEditMode && (this.selectedImages.length === 0 || this.selectedImages.length > 5)) {
+    //   this.errors.images = 'Chọn từ 1 đến 5 ảnh';
+    // }
+    if (!this.modalCategoryName) this.errors.name_category = 'Vui lòng nhập tên danh mục';
+    if (Object.keys(this.errors).length > 0) return; // Nếu có lỗi thì không lưu
     if (this.modalMode === 'add') {
-      const newId = Math.max(...this.categories.map(c => c.id)) + 1;
-      this.categories.push({ id: newId, name: this.modalCategoryName });
+      this.categoryService.create({ name_category: this.modalCategoryName }).subscribe(() => {
+        this.showAlert('Thêm danh mục thành công');
+        this.closeModal();
+        this.loadCategories();
+      });
     } else if (this.modalMode === 'edit' && this.editingCategoryId !== null) {
-      const index = this.categories.findIndex(c => c.id === this.editingCategoryId);
-      if (index !== -1) {
-        this.categories[index].name = this.modalCategoryName;
-      }
+      this.categoryService.update(this.editingCategoryId, {
+        name_category: this.modalCategoryName
+      }).subscribe(() => {
+        this.showAlert('Cập nhật danh mục thành công');
+        this.closeModal();
+        this.loadCategories();
+      });
     }
-    this.closeModal();
   }
 
-  // Đóng modal
+  confirmDelete(id: number): void {
+    this.categoryToDeleteId = id;
+    this.isDeleteModalOpen = true;
+  }
+
+  deleteCategory2(): void {
+    if (this.categoryToDeleteId !== null) {
+      this.categoryService.delete(this.categoryToDeleteId).subscribe(() => {
+        this.showAlert('Xoá danh mục thành công');
+        this.loadCategories();
+        this.isDeleteModalOpen = false;
+        this.categoryToDeleteId = null;
+      });
+    }
+  }
+
+  cancelDelete(): void {
+    this.isDeleteModalOpen = false;
+    this.categoryToDeleteId = null;
+  }
+
   closeModal(): void {
     this.isModalOpen = false;
     this.modalCategoryName = '';
     this.editingCategoryId = null;
   }
 
-  // Khi bấm nút xoá
-confirmDelete(id: number): void {
-  this.categoryToDeleteId = id;
-  this.isDeleteModalOpen = true;
-}
-
-// Thực hiện xoá
-deleteCategory2(): void {
-  if (this.categoryToDeleteId !== null) {
-    this.categories = this.categories.filter(c => c.id !== this.categoryToDeleteId);
-    this.categoryToDeleteId = null;
-    this.isDeleteModalOpen = false;
+  changePage(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.loadCategories(page);
+    }
   }
-}
-
-// Huỷ xoá
-cancelDelete(): void {
-  this.isDeleteModalOpen = false;
-  this.categoryToDeleteId = null;
-}
+  onSearchChange(): void {
+    this.loadCategories(0); // luôn về trang đầu khi lọc
+  }
+  
 }

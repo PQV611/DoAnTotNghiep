@@ -358,4 +358,22 @@ a {
     border: 2px solid #ddd;
   }
   
-  
+  .alert-bar {
+  background-color: #28a745; /* màu xanh thành công */
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  animation: fadeOut 4s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}

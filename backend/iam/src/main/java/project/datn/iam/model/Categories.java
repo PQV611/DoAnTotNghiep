@@ -19,5 +19,9 @@ public class Categories {
     private Long id_category ;
 
     @Column(name = "name_category", nullable = false, length = 50, unique = true)
-    private String name_category ;
+    private String nameCategory ;
+
+    public Categories(Long id) {
+        this.id_category = id;
+    }
 }
