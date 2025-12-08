@@ -40,6 +40,7 @@ export interface CartItemDetail {
   numberDiscount: number;
   quantity: number;
   total: number;
+  QuantityOfProductVariant :number;
 }
 
 export interface CartDetailResponse {

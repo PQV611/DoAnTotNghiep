@@ -128,6 +128,9 @@ public class ShowCategoryController {
             @RequestHeader(value = "Authorization", required = false) String authHeader,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String sizeOption,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) String keyword
     ) {
         Pageable pageable = PageRequest.of(page, size);
@@ -146,7 +149,14 @@ public class ShowCategoryController {
         final List<Long> favouriteProductIds = favouriteIds;
 
         // gọi custom query
-        Page<Product> productsPage = productRepository.searchByName(keyword, pageable) ;
+        Page<Product> productsPage ;
+//        Page<Product> productsPage = productRepository.searchByName(keyword, pageable) ;
+
+        if (keyword != null) {
+            productsPage = productRepository.searchByKeywordAndOption(keyword, sizeOption, minPrice, maxPrice, pageable);
+        }else {
+            productsPage = productRepository.searchByName(keyword, pageable) ;
+        }
 
         return productsPage.map(product -> {
             List<String> images = imageRepository.findAllByProductId(product.getId());

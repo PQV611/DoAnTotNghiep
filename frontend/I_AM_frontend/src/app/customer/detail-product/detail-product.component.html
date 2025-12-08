@@ -30,26 +30,26 @@
             </div>
             <div class="col-md-6">
                 <div class="product-detail__information">
-                    <h1 style="text-transform: uppercase;">{{product?.nameProduct}}</h1>
+                    <h1 style="text-transform: uppercase;">{{product.nameProduct}}</h1>
                     <div class="product-detail__sub-info">
                         <p>
-                            CODE: <span>{{product?.code}}</span>
+                            CODE: <span>{{product.code}}</span>
                         </p>
-                        <div class="product-detail__rating">
-                            {{product?.rating}}
+                        <!-- <div class="product-detail__rating">
+                            {{product.rating}}
                             <div class="product-detail__rating-wrapper">
                                 
                                 <div class="product-detail__rating__background"></div>
                                 <div class="product-detail__rating__bar" style="width: 100%;"></div>
                             </div>
                             <span>(0 đánh giá)</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="product-detail__price">
-                        <b>{{product?.salePrice | number}}đ</b>
-                        <del *ngIf="product.numberDiscount > 0">{{product?.originalPrice | number}}đ</del>
+                        <b>{{product.salePrice | number}}đ</b>
+                        <del *ngIf="product.numberDiscount > 0">{{product.originalPrice | number}}đ</del>
                         <!-- *ngIf="product.numberDiscount > 0" -->
-                        <div class="product-detail__price-sale" *ngIf="product.isActive">-{{product?.numberDiscount}} <span>%</span></div>
+                        <div class="product-detail__price-sale" *ngIf="product.isActive">-{{product.numberDiscount}} <span>%</span></div>
                     </div>
                     <div class="product-detail__color">
                         <p>Màu sắc: </p>
@@ -73,6 +73,12 @@
                         </label>
                         </div>
                     </div>
+                    <div (click)="openModal()" style="margin-top: 12px;">
+                        <a href="javascript:void(0)" style="color: rgb(96, 96, 241);">
+                            <i class="bi bi-info-lg"></i> Kiểm tra kích cỡ của bạn
+                        </a>
+                        
+                    </div>
                     <p class="text-danger" *ngIf="showWarning" style="color: red; margin-top: 5px; font-size: 14px;">Vui lòng chọn đầy đủ màu và size!</p>
 
                     <div class="product-detail__quantity">
@@ -94,7 +100,11 @@
                             <i class="bi bi-heart"></i>
                         </button> -->
                     </div>
-                    <div class="product-detail-divider"></div>
+                    <div class="product-detail-divider">
+                        <hr>
+                        <h5 style="border-bottom: 2px solid black; width: 90px; padding-bottom: 10px;">Giới thiệu</h5>
+                        {{product.description}}
+                    </div>
 
                     <!-- Chưa làm -->
                     <div class="product-detail__tab">
@@ -106,3 +116,11 @@
         </div>
     </div>
 </div>
+
+<!-- KÍCH THƯỚC -->
+<div *ngIf="showModal" class="custom-modal-overlay">
+    <div class="custom-modal">
+        <div style="text-align: end; cursor: pointer;" (click)="closeModal()"><i class="bi bi-x-lg"></i></div>
+      <img src="../../../assets/images/size.jpg" alt="">
+    </div>
+  </div>

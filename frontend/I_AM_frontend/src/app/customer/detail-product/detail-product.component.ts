@@ -12,6 +12,7 @@ import { DetailProductService, ProductDetail } from 'src/app/services/detail-pro
 export class DetailProductComponent implements OnInit {
   product!: ProductDetail;
   mainImage: string = '';
+  showModal = false;
   imageList: string[] = [];
   backgroundPosition = 'center';
   backgroundSize = '100%'; // Lúc đầu ảnh ở kích thước gốc
@@ -95,12 +96,14 @@ export class DetailProductComponent implements OnInit {
       .subscribe({
         next: (res) => {
           // alert('Đã thêm vào giỏ hàng!');
-          this.showAlert('Đã thêm vào giỏ hàng !')
+          // this.showAlert('Đã thêm vào giỏ hàng !')
+          window.location.reload(); 
+          console.log('tesst', res.message);
         },
         error: (err) => {
           console.error('Lỗi thêm vào giỏ hàng:', err);
           // alert('Có vẻ sản màu hoặc size này đã hết hàng');
-          this.showAlert('Có vẻ sản màu hoặc size này đã hết hàng. Vui lòng chọn sản phẩm khác') ;
+          this.showAlert(err.error) ;
         }
       });
   }
@@ -120,5 +123,13 @@ export class DetailProductComponent implements OnInit {
         console.error('Lỗi khi lấy size theo màu:', err);
       }
     });
+  }
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 }

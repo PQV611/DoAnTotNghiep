@@ -62,7 +62,7 @@
       <tbody>
         <!-- Chỗ đoạn này là dùng this.orders luôn, nên là các trường phải đúng như trong entity -->
         <tr *ngFor="let order of orders">
-          <td>{{ order.idOrder }}</td>
+          <td>IAM{{ order.idOrder }}</td>
           <td>{{ order.idUser }}</td>
           <td>{{ order.fullname }}</td>
           <td><i class="bi bi-eye-fill" style="cursor: pointer;" (click)="viewDetail(order)"></i></td>

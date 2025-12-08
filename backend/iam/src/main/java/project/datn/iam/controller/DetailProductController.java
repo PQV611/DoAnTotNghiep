@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.datn.iam.DTO.ProductDetailDTO;
+import project.datn.iam.DTO.ProductVariantDTO;
 import project.datn.iam.model.Discount;
 import project.datn.iam.model.Product;
 import project.datn.iam.model.ProductVariant;
@@ -11,6 +12,7 @@ import project.datn.iam.repository.DiscountRepository;
 import project.datn.iam.repository.ImageRepository;
 import project.datn.iam.repository.ProductRepository;
 import project.datn.iam.repository.ProductVariantRepository;
+import project.datn.iam.service.ProductVariantService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,6 +34,9 @@ public class DetailProductController {
 
     @Autowired
     private ProductVariantRepository productVariantRepository;
+
+    @Autowired
+    private ProductVariantService productVariantService;
 
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductDetailDTO> getProductDetail(@PathVariable Long id) {
@@ -57,12 +62,7 @@ public class DetailProductController {
             salePrice = originalPrice ;
         }
 
-//        int numberDiscount = discountRepository.findByProductId(id)
-//                .map(Discount::getNumberDiscount)
-//                .orElse(0);
-//        BigDecimal salePrice = originalPrice.multiply(
-//                BigDecimal.ONE.subtract(BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)))
-//        );
+        List<ProductVariantDTO> variant = productVariantService.getVariantsByProductId(id);
 
         // Lấy danh sách ảnh
         List<String> images = imageRepository.findAllByProductId(id)
@@ -88,6 +88,7 @@ public class DetailProductController {
         ProductDetailDTO dto = new ProductDetailDTO();
         dto.setIdProduct(product.getId());
         dto.setNameProduct(product.getNameProduct());
+        dto.setDescription(product.getDescription());
         dto.setCode("SP" + product.getId());
         dto.setRating(rating);
         dto.setOriginalPrice(originalPrice);
@@ -96,6 +97,7 @@ public class DetailProductController {
         dto.setNumberDiscount(numberDiscount);
         dto.setColors(colors);
         dto.setSizes(sizes);
+        dto.setProductVariants(variant);
         dto.setMainImage(mainImage);
         dto.setImageList(images);
 

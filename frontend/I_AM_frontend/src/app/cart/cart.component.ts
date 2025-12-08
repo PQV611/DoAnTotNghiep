@@ -106,7 +106,9 @@ refreshCart(): void {
         next: () => {
           // alert("Đã xoá sản phẩm khỏi giỏ hàng!");
           this.showAlert("Đã xoá sản phẩm khỏi giỏ hàng!") ;
+          
           this.refreshCart();
+          window.location.reload(); //  Tải lại trang để cập nhật giỏ hàng
           // this.ngOnInit(); // 🌀 Gọi lại để load lại toàn bộ giỏ
         },
         error: (err) => {
@@ -121,6 +123,14 @@ refreshCart(): void {
       if (!this.fullname || !this.phone || !this.address) {
         this.showCheckoutWarning = true;
         return;
+      }
+
+      for (const item of this.cartItems) {
+        if (item.quantity > item.QuantityOfProductVariant) {
+          this.showAlert('Số lượng của sản phẩm ' + item.productName + ' không đủ trong kho!');
+          console.error('Số lượng của sản phẩm ' + item.productName + ' không đủ trong kho!');
+          return;
+        }
       }
 
       const fullname = (document.getElementById('name') as HTMLInputElement)?.value;

@@ -33,7 +33,7 @@ public class DiscountController {
     @PutMapping("/update-status")
     public ResponseEntity<Map<String, String>> updateDiscountStatus() {
         discountService.updateDiscountIsActiveByEndDate();
-        return ResponseEntity.ok(Map.of("message", "Cập nhật trạng thái isActive thành công"));
+        return ResponseEntity.ok(Map.of("message", "Cập nhật trạng thái khuyến mãi thành công"));
     }
 
 

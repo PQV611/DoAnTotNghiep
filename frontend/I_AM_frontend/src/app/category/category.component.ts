@@ -188,6 +188,7 @@ loadPage(page: number): void {
         this.priceFrom,
         this.priceTo,
         this.selectedCategoryId ?? undefined
+        
       )
       .subscribe((res) => {
         this.products = res.content;
@@ -195,6 +196,7 @@ loadPage(page: number): void {
         this.totalPages = res.totalPages;
         console.log('Products:', this.products);
       });
+      console.log("from: " + this.priceFrom + " to: " + this.priceTo);
   }
 }
 

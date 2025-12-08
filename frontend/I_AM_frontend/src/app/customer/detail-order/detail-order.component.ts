@@ -13,6 +13,14 @@ export class DetailOrderComponent implements OnInit{
   avatar: string = '';
   orderId!: number;
   orderDetail: OrderDetailResponse | null = null;
+  alertMessage: string = '';
+
+  showAlert(message: string) {
+    this.alertMessage = message;
+    setTimeout(() => {
+      this.alertMessage = '';
+    }, 4000); // 4 giây tự ẩn
+  }
 
   constructor(private route:ActivatedRoute, private orderService: OrdercustomerService, private authService: AuthService) { }
 
@@ -74,12 +82,14 @@ export class DetailOrderComponent implements OnInit{
     if (confirm('Bạn có chắc muốn huỷ đơn hàng này?')) {
       this.orderService.cancelOrder(this.orderId).subscribe({
         next: () => {
-          alert('Huỷ đơn hàng thành công!');
+          // alert('Huỷ đơn hàng thành công!');
+          this.showAlert('Huỷ đơn hàng thành công!');
           this.loadOrderDetail(); // reload lại
         },
         error: (err) => {
           console.error('Lỗi khi huỷ đơn:', err);
-          alert('Không thể huỷ đơn hàng!');
+          // alert('Không thể huỷ đơn hàng!');
+          this.showAlert(err.error);
         }
       });
     }
@@ -89,12 +99,14 @@ export class DetailOrderComponent implements OnInit{
     if (confirm('Bạn đã nhận được hàng?')) {
       this.orderService.confirmReceived(this.orderId).subscribe({
         next: () => {
-          alert('Xác nhận đã nhận hàng thành công!');
+          // alert('Xác nhận đã nhận hàng thành công!');
+          this.showAlert('Xác nhận đã nhận hàng thành công!');
           this.loadOrderDetail();
         },
         error: (err) => {
           console.error('Lỗi khi xác nhận:', err);
-          alert('Không thể xác nhận nhận hàng!');
+          // alert('Không thể xác nhận nhận hàng!');
+          this.showAlert(err.error);
         }
       });
     }

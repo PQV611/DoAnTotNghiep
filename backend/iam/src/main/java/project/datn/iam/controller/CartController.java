@@ -7,10 +7,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import project.datn.iam.DTO.AddToCartDTO;
 import project.datn.iam.DTO.CartResponseDTO;
+import project.datn.iam.DTO.ProductVariantDTO;
 import project.datn.iam.DTO.UpdateCartQuantityDTO;
 import project.datn.iam.config.JwtUtil;
 import project.datn.iam.model.*;
 import project.datn.iam.repository.*;
+import project.datn.iam.service.ProductVariantService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -44,6 +46,8 @@ public class CartController {
     private OrderDetailRepository orderDetailRepository;
     @Autowired
     private DiscountRepository discountRepository;
+    @Autowired
+    private ProductVariantService productVariantService;
 
     @GetMapping("/total-quantity")
     public ResponseEntity<?> getTotalCartQuantity(Authentication authentication) {
@@ -120,9 +124,18 @@ public class CartController {
 
 
         if (variantOpt.isEmpty())
-            return ResponseEntity.badRequest().body("Không tìm thấy biến thể sản phẩm phù hợp");
+            return ResponseEntity.badRequest().body("Có vẻ sản phẩm không tồn tại size hoặc màu để phục vụ bạn");
 
         ProductVariant variant = variantOpt.get();
+
+        List<ProductVariantDTO> productVariant = productVariantService.getVariantsByProductId(request.getProductId());
+        for (ProductVariantDTO productVariantDTO : productVariant) {
+            if(productVariantDTO.getColorName().equals(request.getColor()) && productVariantDTO.getSizeName().equals(request.getSize())) {
+                if(request.getQuantity() > productVariantDTO.getQuantity()) {
+                    return ResponseEntity.badRequest().body("Số lượng sản phẩm không đủ để thêm vào giỏ hàng");
+                }
+            }
+        }
 
 
         // Kiểm tra nếu đã có trong giỏ thì tăng số lượng
@@ -217,17 +230,15 @@ public class CartController {
                     discountAmount = BigDecimal.valueOf(0);
                     salePrice = originalPrice;
                 }
-
-//                BigDecimal percent = BigDecimal.valueOf(numberDiscount).divide(BigDecimal.valueOf(100)); // (1 - percent)
-//                discountAmount = originalPrice.multiply(percent).multiply(BigDecimal.valueOf(cart.getQuantity()));
-//                salePrice = originalPrice.multiply(BigDecimal.ONE.subtract(percent));
             }
-//            int numberDiscount = originalPrice.compareTo(BigDecimal.ZERO) > 0
-//                    ? originalPrice.subtract(salePrice)
-//                    .multiply(BigDecimal.valueOf(100))
-//                    .divide(originalPrice, 0, RoundingMode.HALF_UP)
-//                    .intValue()
-//                    : 0;
+
+            int QuantityOfProductVariant = 0;
+            List<ProductVariantDTO> productVariantDTOS = productVariantService.getVariantsByProductId(product.getId());
+            for(ProductVariantDTO productVariantDTO : productVariantDTOS) {
+                if(productVariantDTO.getColorName().equalsIgnoreCase(color) && productVariantDTO.getSizeName().equalsIgnoreCase(size)) {
+                    QuantityOfProductVariant = productVariantDTO.getQuantity();
+                }
+            }
 
             int quantity = cart.getQuantity();
             BigDecimal total = salePrice.multiply(BigDecimal.valueOf(quantity));
@@ -244,6 +255,7 @@ public class CartController {
             itemMap.put("discountAmount", discountAmount);
             itemMap.put("numberDiscount", numberDiscount);
             itemMap.put("quantity", quantity);
+            itemMap.put("QuantityOfProductVariant", QuantityOfProductVariant) ;
             itemMap.put("total", total);
 
             return itemMap;

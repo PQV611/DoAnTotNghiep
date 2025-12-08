@@ -61,18 +61,39 @@ public class OrderController {
 
     @PutMapping("/{id}/approve")
     public ResponseEntity<?> approveOrder(@PathVariable Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        Order order = orderOpt.get();
+
+        if(order.getStatus() != 1){
+            return ResponseEntity.badRequest().body("Vui lòng tải lại trang để cập nhật trạng thái mới !");
+        }
+
         orderService.updateOrderStatus(id, 2);
         return ResponseEntity.ok(Map.of("message", "Đã phê duyệt đơn hàng"));
     }
 
     @PutMapping("/{id}/deliver")
     public ResponseEntity<?> deliverOrder(@PathVariable Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        Order order = orderOpt.get();
+
+        if(order.getStatus() != 2){
+            return ResponseEntity.badRequest().body("Vui lòng tải lại trang để cập nhật trạng thái mới !");
+        }
+
         orderService.updateOrderStatus(id, 3);
         return ResponseEntity.ok(Map.of("message", "Giao hàng thành công"));
     }
 
     @PutMapping("/{id}/cancel")
     public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        Order order = orderOpt.get();
+
+        if(order.getStatus() != 1){
+            return ResponseEntity.badRequest().body("Vui lòng tải lại trang để cập nhật trạng thái mới !");
+        }
+
         orderService.updateOrderStatus(id, 4);
         return ResponseEntity.ok(Map.of("message", "Đơn hàng đã bị huỷ"));
     }
@@ -174,6 +195,11 @@ public class OrderController {
         if (orderOpt.isEmpty()) return ResponseEntity.notFound().build();
 
         Order order = orderOpt.get();
+
+        if(order.getStatus() != 1) {
+            return ResponseEntity.badRequest().body("Vui lòng tải lại trang để cập nhật trạng thái mới !");
+        }
+
         order.setStatus(4); // Đã huỷ
         orderRepository.save(order);
         return ResponseEntity.ok(Map.of("message", "Đơn hàng đã được huỷ"));
@@ -185,6 +211,11 @@ public class OrderController {
         if (orderOpt.isEmpty()) return ResponseEntity.notFound().build();
 
         Order order = orderOpt.get();
+
+        if(order.getStatus() != 2) {
+            return ResponseEntity.badRequest().body("Vui lòng tải lại trang để cập nhật trạng thái mới !");
+        }
+
         order.setStatus(3); // Giao hàng thành công
         orderRepository.save(order);
         return ResponseEntity.ok(Map.of("message", "Đã xác nhận đã nhận hàng"));

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface ProductDetail {
   id: number;
   nameProduct: string;
+  description: string;
   code: string;
   rating: number;
   originalPrice: number;
@@ -13,8 +14,17 @@ export interface ProductDetail {
   numberDiscount: number;
   colors: string[]; // ví dụ: ['#ffffff', '#000000']
   sizes: string[];  // ví dụ: ['S', 'M', 'L']
+  variants: ProductVariant[];
   mainImage: string;
   imageList: string[];
+}
+
+export interface ProductVariant {
+  colorId: number;
+  colorName: string;
+  sizeId: number;
+  sizeName: string;
+  quantity: number;
 }
 
 @Injectable({

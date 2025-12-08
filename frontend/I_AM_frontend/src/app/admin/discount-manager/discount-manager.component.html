@@ -16,7 +16,7 @@
     </select>
 
     <!-- chọn số lượng sản phẩm / trang -->
-    <select [(ngModel)]="pageSize" (change)="loadDiscounts(0)">
+    <select title="123" [(ngModel)]="pageSize" (change)="loadDiscounts(0)">
       <option [value]="6">6 / trang</option>
       <option [value]="10">10 / trang</option>
       <option [value]="20">20 / trang</option>
@@ -55,7 +55,7 @@
         </td>
         <td>
           <!-- *ngIf="getStatus(item) !== 'Hết hạn'" -->
-          <button class="btn btn-edit" (click)="editDiscount(item)" ><i class="bi bi-pencil-square"></i> Sửa</button>
+          <button class="btn btn-edit" *ngIf="getStatus(item) !== 'Hết hạn'" (click)="editDiscount(item)" ><i class="bi bi-pencil-square"></i> Sửa</button>
           <button class="btn btn-delete" (click)="confirmRemoveDiscount(item)"><i  class="bi bi-trash3"></i> Xoá</button>
         </td>
       </tr>

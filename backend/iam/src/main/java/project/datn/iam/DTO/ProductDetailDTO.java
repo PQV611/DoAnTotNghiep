@@ -13,6 +13,7 @@ import java.util.List;
 public class ProductDetailDTO {
     private Long idProduct ;
     private String nameProduct;
+    private String description ;
     private String code;
     private double rating; // Số sao đánh giá
     private BigDecimal originalPrice;
@@ -21,6 +22,7 @@ public class ProductDetailDTO {
     private int numberDiscount;
     private List<String> colors;
     private List<String> sizes;
+    private List<ProductVariantDTO> productVariants;
     private String mainImage;
     private List<String> imageList;
 }

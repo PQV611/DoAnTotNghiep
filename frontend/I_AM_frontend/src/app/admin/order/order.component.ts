@@ -68,24 +68,54 @@ showAlert(message: string) {
   }
 
   approveOrder(order: any): void {
-    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/approve`, {}).subscribe(() => {
-      this.showAlert('Phê duyệt đơn hàng thành công');
-      this.loadOrders();
-    });
+    // this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/approve`, {}).subscribe(() => {
+    //   this.showAlert('Phê duyệt đơn hàng thành công');
+    //   this.loadOrders();
+    // });
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/approve`, {}).subscribe({
+      next: () => {
+        this.showAlert('Phê duyệt đơn hàng thành công');
+        this.loadOrders();
+      },
+      error: (err) => {
+        console.error('Lỗi khi phê duyệt đơn hàng:', err);
+        this.showAlert(err.error);
+      }
+    })
   }
 
   rejectOrder(order: any): void {
-    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/cancel`, {}).subscribe(() => {
-      this.showAlert('Huỷ đơn hàng thành công');
-      this.loadOrders();
-    });
+    // this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/cancel`, {}).subscribe(() => {
+    //   this.showAlert('Huỷ đơn hàng thành công');
+    //   this.loadOrders();
+    // });
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/cancel`, {}).subscribe({
+      next: () => {
+        this.showAlert('Huỷ đơn hàng thành công');
+        this.loadOrders();
+      },
+      error: (err) => {
+        console.error('Lỗi khi huỷ đơn hàng:', err);
+        this.showAlert(err.error);
+      }
+    })
   }
 
   markAsDelivered(order: any): void {
-    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/deliver`, {}).subscribe(() => {
-      this.showAlert('Đánh dấu đã giao hàng thành công');
-      this.loadOrders();
-    });
+    // this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/deliver`, {}).subscribe(() => {
+    //   this.showAlert('Đánh dấu đã giao hàng thành công');
+    //   this.loadOrders();
+    // });
+    this.http.put(`http://localhost:8080/admin/order/${order.idOrder}/deliver`, {}).subscribe({
+      next: () => {
+        this.showAlert('Đánh dấu đã giao hàng thành công');
+        this.loadOrders();
+      },
+      error: (err) => {
+        console.error('Lỗi khi đánh dấu giao hàng:', err);
+        this.showAlert(err.error);
+      }
+    })
   }
 
   viewDetail(order: any): void {

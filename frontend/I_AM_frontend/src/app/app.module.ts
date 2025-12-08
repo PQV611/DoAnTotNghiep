@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { TokenInterceptor } from './helpder/token.interceptor';
 import { NgChartsModule } from 'ng2-charts';
+import { MessageChatComponent } from './message/message-chat/message-chat.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { NgChartsModule } from 'ng2-charts';
     DiscountManagerComponent,
     OrderComponent,
     AccountComponent,
-    DashboardComponent
+    DashboardComponent,
+    MessageChatComponent
   ],
   imports: [
     BrowserModule,
